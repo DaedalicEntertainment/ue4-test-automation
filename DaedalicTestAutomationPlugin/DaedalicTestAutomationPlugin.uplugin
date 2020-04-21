@@ -1,0 +1,30 @@
+{
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "0.1.0",
+  "FriendlyName": "Daedalic Test Automation Plugin",
+  "Description": "Facilitates setting up integration test suits with Gauntlet.",
+  "Category": "Daedalic Entertainment",
+  "CreatedBy": "Daedalic Entertainment GmbH",
+  "CreatedByURL": "https://www.daedalic.com/",
+  "DocsURL": "",
+  "MarketplaceURL": "",
+  "SupportURL": "",
+  "EnabledByDefault": false,
+  "CanContainContent": false,
+  "IsBetaVersion": false,
+  "Installed": false,
+  "Modules": [
+    {
+      "Name": "DaedalicTestAutomationPlugin",
+      "Type": "Developer",
+      "LoadingPhase": "Default"
+    }
+  ],
+  "Plugins": [
+    {
+      "Name": "Gauntlet",
+      "Enabled": true
+    }
+  ]
+}
