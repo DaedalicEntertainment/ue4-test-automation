@@ -9,6 +9,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDaeGauntletTestActorTestSuccessfulS
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDaeGauntletTestActorTestFailedSignature,
                                             ADaeGauntletTestActor*, Test);
 
+/** Single automated test to be run as part of a test suite. */
 UCLASS()
 class DAEDALICTESTAUTOMATIONPLUGIN_API ADaeGauntletTestActor : public AActor
 {
