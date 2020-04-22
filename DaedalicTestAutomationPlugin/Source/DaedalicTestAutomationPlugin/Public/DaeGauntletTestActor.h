@@ -25,13 +25,25 @@ public:
 
     /** Finishes the current test as failure. */
     UFUNCTION(BlueprintCallable)
-    void AssertFail();
+    void AssertFail(const FString& What);
+
+    /** Expects the specified value to be true. */
+    UFUNCTION(BlueprintCallable)
+    void AssertTrue(const FString& What, bool bValue);
+
+    /** Expects the specified value to be false. */
+    UFUNCTION(BlueprintCallable)
+    void AssertFalse(const FString& What, bool bValue);
+
+    /** Expects the specified vectors to be (nearly) equal. */
+    UFUNCTION(BlueprintCallable, meta = (DisplayName = "Assert Equals (Vector)"))
+    void AssertEqualsVector(const FString& What, const FVector& Actual, const FVector& Expected);
 
     /** Event when this test has finished successfully. */
     virtual void NotifyOnTestSuccessful();
 
     /** Event when this test has failed. */
-    virtual void NotifyOnTestFailed();
+    virtual void NotifyOnTestFailed(const FString& Message);
 
     /** Event when this test should set up. */
     virtual void NotifyOnArrange();
@@ -61,6 +73,8 @@ public:
     FDaeGauntletTestActorTestFailedSignature OnTestFailed;
 
 private:
+    static const FString ErrorMessageFormat;
+
     /** Whether this test has finished executing (either with success or failure). */
     bool bHasResult;
 };

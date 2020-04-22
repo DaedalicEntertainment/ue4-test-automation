@@ -1,6 +1,9 @@
 #include "DaeGauntletTestActor.h"
 #include "DaeTestLogCategory.h"
 
+const FString ADaeGauntletTestActor::ErrorMessageFormat =
+    TEXT("Assertion failed - {0} - Expected: {1}, but was: {2}");
+
 void ADaeGauntletTestActor::RunTest()
 {
     bHasResult = false;
@@ -28,9 +31,38 @@ void ADaeGauntletTestActor::FinishAct()
     }
 }
 
-void ADaeGauntletTestActor::AssertFail()
+void ADaeGauntletTestActor::AssertFail(const FString& What)
 {
-    NotifyOnTestFailed();
+    NotifyOnTestFailed(What);
+}
+
+void ADaeGauntletTestActor::AssertTrue(const FString& What, bool bValue)
+{
+    if (!bValue)
+    {
+        FString Message = FString::Format(*ErrorMessageFormat, {What, TEXT("True"), TEXT("False")});
+        NotifyOnTestFailed(Message);
+    }
+}
+
+void ADaeGauntletTestActor::AssertFalse(const FString& What, bool bValue)
+{
+    if (bValue)
+    {
+        FString Message = FString::Format(*ErrorMessageFormat, {What, TEXT("False"), TEXT("True")});
+        NotifyOnTestFailed(Message);
+    }
+}
+
+void ADaeGauntletTestActor::AssertEqualsVector(const FString& What, const FVector& Actual,
+                                               const FVector& Expected)
+{
+    if (!Actual.Equals(Expected))
+    {
+        FString Message =
+            FString::Format(*ErrorMessageFormat, {What, Expected.ToString(), Actual.ToString()});
+        NotifyOnTestFailed(Message);
+    }
 }
 
 void ADaeGauntletTestActor::NotifyOnTestSuccessful()
@@ -45,7 +77,7 @@ void ADaeGauntletTestActor::NotifyOnTestSuccessful()
     OnTestSuccessful.Broadcast(this);
 }
 
-void ADaeGauntletTestActor::NotifyOnTestFailed()
+void ADaeGauntletTestActor::NotifyOnTestFailed(const FString& Message)
 {
     if (bHasResult)
     {
@@ -53,6 +85,8 @@ void ADaeGauntletTestActor::NotifyOnTestFailed()
     }
 
     bHasResult = true;
+
+    UE_LOG(LogDaeTest, Error, TEXT("%s"), *Message);
 
     OnTestFailed.Broadcast(this);
 }
