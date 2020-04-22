@@ -54,7 +54,14 @@ UObject* UDaeGauntletTestActorBlueprintFactory::FactoryCreateNew(UClass* Class, 
     {
         int32 NodePositionY = 0;
         FKismetEditorUtilities::AddDefaultEventNode(Blueprint, EdGraph,
-                                                    FName(TEXT("ReceiveOnTestStarted")),
+                                                    FName(TEXT("ReceiveOnArrange")),
+                                                    ADaeGauntletTestActor::StaticClass(),
+                                                    NodePositionY);
+        FKismetEditorUtilities::AddDefaultEventNode(Blueprint, EdGraph, FName(TEXT("ReceiveOnAct")),
+                                                    ADaeGauntletTestActor::StaticClass(),
+                                                    NodePositionY);
+        FKismetEditorUtilities::AddDefaultEventNode(Blueprint, EdGraph,
+                                                    FName(TEXT("ReceiveOnAssert")),
                                                     ADaeGauntletTestActor::StaticClass(),
                                                     NodePositionY);
     }
