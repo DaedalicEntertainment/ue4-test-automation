@@ -1,10 +1,10 @@
-#include "DaeGauntletTestActor.h"
+#include "DaeTestActor.h"
 #include "DaeTestLogCategory.h"
 
-const FString ADaeGauntletTestActor::ErrorMessageFormat =
+const FString ADaeTestActor::ErrorMessageFormat =
     TEXT("Assertion failed - {0} - Expected: {1}, but was: {2}");
 
-void ADaeGauntletTestActor::RunTest()
+void ADaeTestActor::RunTest()
 {
     bHasResult = false;
 
@@ -12,7 +12,7 @@ void ADaeGauntletTestActor::RunTest()
     NotifyOnAct();
 }
 
-void ADaeGauntletTestActor::FinishAct()
+void ADaeTestActor::FinishAct()
 {
     if (bHasResult)
     {
@@ -31,12 +31,12 @@ void ADaeGauntletTestActor::FinishAct()
     }
 }
 
-void ADaeGauntletTestActor::AssertFail(const FString& What)
+void ADaeTestActor::AssertFail(const FString& What)
 {
     NotifyOnTestFailed(What);
 }
 
-void ADaeGauntletTestActor::AssertTrue(const FString& What, bool bValue)
+void ADaeTestActor::AssertTrue(const FString& What, bool bValue)
 {
     if (!bValue)
     {
@@ -45,7 +45,7 @@ void ADaeGauntletTestActor::AssertTrue(const FString& What, bool bValue)
     }
 }
 
-void ADaeGauntletTestActor::AssertFalse(const FString& What, bool bValue)
+void ADaeTestActor::AssertFalse(const FString& What, bool bValue)
 {
     if (bValue)
     {
@@ -54,8 +54,8 @@ void ADaeGauntletTestActor::AssertFalse(const FString& What, bool bValue)
     }
 }
 
-void ADaeGauntletTestActor::AssertEqualsVector(const FString& What, const FVector& Actual,
-                                               const FVector& Expected)
+void ADaeTestActor::AssertEqualsVector(const FString& What, const FVector& Actual,
+                                       const FVector& Expected)
 {
     if (!Actual.Equals(Expected))
     {
@@ -65,7 +65,7 @@ void ADaeGauntletTestActor::AssertEqualsVector(const FString& What, const FVecto
     }
 }
 
-void ADaeGauntletTestActor::NotifyOnTestSuccessful()
+void ADaeTestActor::NotifyOnTestSuccessful()
 {
     if (bHasResult)
     {
@@ -77,7 +77,7 @@ void ADaeGauntletTestActor::NotifyOnTestSuccessful()
     OnTestSuccessful.Broadcast(this);
 }
 
-void ADaeGauntletTestActor::NotifyOnTestFailed(const FString& Message)
+void ADaeTestActor::NotifyOnTestFailed(const FString& Message)
 {
     if (bHasResult)
     {
@@ -91,22 +91,22 @@ void ADaeGauntletTestActor::NotifyOnTestFailed(const FString& Message)
     OnTestFailed.Broadcast(this);
 }
 
-void ADaeGauntletTestActor::NotifyOnArrange()
+void ADaeTestActor::NotifyOnArrange()
 {
     ReceiveOnArrange();
 }
 
-void ADaeGauntletTestActor::NotifyOnAct()
+void ADaeTestActor::NotifyOnAct()
 {
     ReceiveOnAct();
 }
 
-void ADaeGauntletTestActor::NotifyOnAssert()
+void ADaeTestActor::NotifyOnAssert()
 {
     ReceiveOnAssert();
 }
 
-void ADaeGauntletTestActor::ReceiveOnAct_Implementation()
+void ADaeTestActor::ReceiveOnAct_Implementation()
 {
     FinishAct();
 }

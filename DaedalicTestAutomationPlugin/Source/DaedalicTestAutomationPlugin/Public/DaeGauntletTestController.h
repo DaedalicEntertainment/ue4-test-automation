@@ -4,7 +4,7 @@
 #include <GauntletTestController.h>
 #include "DaeGauntletTestController.generated.h"
 
-class ADaeGauntletTestSuiteActor;
+class ADaeTestSuiteActor;
 
 /** Controller for automated tests run by Gauntlet. */
 UCLASS()
@@ -17,8 +17,8 @@ public:
 
 private:
     UFUNCTION()
-    void OnTestSuiteSuccessful(ADaeGauntletTestSuiteActor* TestSuite);
+    void OnTestSuiteSuccessful(ADaeTestSuiteActor* TestSuite);
 
     UFUNCTION()
-    void OnTestSuiteFailed(ADaeGauntletTestSuiteActor* TestSuite);
+    void OnTestSuiteFailed(ADaeTestSuiteActor* TestSuite);
 };

@@ -1,6 +1,6 @@
 #include "DaeGauntletTestController.h"
-#include "DaeGauntletTestSuiteActor.h"
 #include "DaeTestLogCategory.h"
+#include "DaeTestSuiteActor.h"
 #include <EngineUtils.h>
 
 void UDaeGauntletTestController::OnPostMapChange(UWorld* World)
@@ -9,9 +9,9 @@ void UDaeGauntletTestController::OnPostMapChange(UWorld* World)
            *World->GetName());
 
     // Find test suite.
-    ADaeGauntletTestSuiteActor* TestSuite = nullptr;
+    ADaeTestSuiteActor* TestSuite = nullptr;
 
-    for (TActorIterator<ADaeGauntletTestSuiteActor> ActorIt(World); ActorIt; ++ActorIt)
+    for (TActorIterator<ADaeTestSuiteActor> ActorIt(World); ActorIt; ++ActorIt)
     {
         TestSuite = *ActorIt;
     }
@@ -32,12 +32,12 @@ void UDaeGauntletTestController::OnPostMapChange(UWorld* World)
     TestSuite->RunAllTests();
 }
 
-void UDaeGauntletTestController::OnTestSuiteSuccessful(ADaeGauntletTestSuiteActor* TestSuite)
+void UDaeGauntletTestController::OnTestSuiteSuccessful(ADaeTestSuiteActor* TestSuite)
 {
     EndTest(0);
 }
 
-void UDaeGauntletTestController::OnTestSuiteFailed(ADaeGauntletTestSuiteActor* TestSuite)
+void UDaeGauntletTestController::OnTestSuiteFailed(ADaeTestSuiteActor* TestSuite)
 {
     EndTest(1);
 }

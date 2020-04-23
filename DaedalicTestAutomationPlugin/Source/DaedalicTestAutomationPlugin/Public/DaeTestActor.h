@@ -2,16 +2,15 @@
 
 #include <CoreMinimal.h>
 #include <GameFramework/Actor.h>
-#include "DaeGauntletTestActor.generated.h"
+#include "DaeTestActor.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDaeGauntletTestActorTestSuccessfulSignature,
-                                            ADaeGauntletTestActor*, Test);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDaeGauntletTestActorTestFailedSignature,
-                                            ADaeGauntletTestActor*, Test);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDaeTestActorTestSuccessfulSignature, ADaeTestActor*,
+                                            Test);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDaeTestActorTestFailedSignature, ADaeTestActor*, Test);
 
 /** Single automated test to be run as part of a test suite. */
 UCLASS()
-class DAEDALICTESTAUTOMATIONPLUGIN_API ADaeGauntletTestActor : public AActor
+class DAEDALICTESTAUTOMATIONPLUGIN_API ADaeTestActor : public AActor
 {
     GENERATED_BODY()
 
@@ -67,10 +66,10 @@ public:
     void ReceiveOnAssert();
 
     /** Event when this test has finished successfully. */
-    FDaeGauntletTestActorTestSuccessfulSignature OnTestSuccessful;
+    FDaeTestActorTestSuccessfulSignature OnTestSuccessful;
 
     /** Event when this test has failed. */
-    FDaeGauntletTestActorTestFailedSignature OnTestFailed;
+    FDaeTestActorTestFailedSignature OnTestFailed;
 
 private:
     static const FString ErrorMessageFormat;

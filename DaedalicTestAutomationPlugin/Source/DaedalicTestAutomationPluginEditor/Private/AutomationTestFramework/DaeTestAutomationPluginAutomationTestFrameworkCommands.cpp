@@ -1,5 +1,5 @@
 #include "DaeTestAutomationPluginAutomationTestFrameworkCommands.h"
-#include "DaeGauntletTestSuiteActor.h"
+#include "DaeTestSuiteActor.h"
 #include <EngineUtils.h>
 #include <Editor/UnrealEdEngine.h>
 
@@ -17,7 +17,7 @@ bool FDaeTestAutomationPluginWaitForEndOfTestSuite::Update()
 
     if (!Context.CurrentTestSuite)
     {
-        for (TActorIterator<ADaeGauntletTestSuiteActor> Iter(GEditor->PlayWorld); Iter; ++Iter)
+        for (TActorIterator<ADaeTestSuiteActor> Iter(GEditor->PlayWorld); Iter; ++Iter)
         {
             Context.CurrentTestSuite = *Iter;
         }

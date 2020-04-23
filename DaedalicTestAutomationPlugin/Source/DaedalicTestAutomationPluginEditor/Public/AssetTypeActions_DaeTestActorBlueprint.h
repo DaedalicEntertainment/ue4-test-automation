@@ -8,10 +8,10 @@
 class UFactory;
 
 /** Asset action for creating new test actor blueprints with special initial blueprint graphs. */
-class FAssetTypeActions_DaeGauntletTestActorBlueprint : public FAssetTypeActions_Blueprint
+class FAssetTypeActions_DaeTestActorBlueprint : public FAssetTypeActions_Blueprint
 {
 public:
-    FAssetTypeActions_DaeGauntletTestActorBlueprint(EAssetTypeCategories::Type InAssetTypeCategory);
+    FAssetTypeActions_DaeTestActorBlueprint(EAssetTypeCategories::Type InAssetTypeCategory);
 
     // IAssetTypeActions Implementation
     virtual FText GetName() const override;

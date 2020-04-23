@@ -51,7 +51,7 @@ void FDaedalicTestAutomationPluginEditor::StartupModule()
                                                            "Test Automation"));
 
     TSharedRef<IAssetTypeActions> TestActorBlueprintAction = MakeShareable(
-        new FAssetTypeActions_DaeGauntletTestActorBlueprint(DaedalicTestAutomationAssetCategory));
+        new FAssetTypeActions_DaeTestActorBlueprint(DaedalicTestAutomationAssetCategory));
     RegisterAssetTypeAction(AssetTools, TestActorBlueprintAction);
 
     // Register settings.
@@ -66,7 +66,7 @@ void FDaedalicTestAutomationPluginEditor::StartupModule()
                       "DaeTestAutomationPluginEditorSettings.DisplayName",
                       "Daedalic Test Automation Plugin"),
             NSLOCTEXT("DaedalicTestAutomationPlugin",
-                      "AssetTypeActions_DaeGauntletTestActorBlueprint.Description",
+                      "AssetTypeActions_DaeTestActorBlueprint.Description",
                       "Configure the discovery of automated tests."),
             TestAutomationPluginEditorSettings);
 

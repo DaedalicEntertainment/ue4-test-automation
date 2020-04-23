@@ -1,6 +1,6 @@
-#include "DaeGauntletTestActorBlueprintFactory.h"
-#include "DaeGauntletTestActor.h"
-#include "DaeGauntletTestActorBlueprint.h"
+#include "DaeTestActorBlueprintFactory.h"
+#include "DaeTestActor.h"
+#include "DaeTestActorBlueprint.h"
 #include <BlueprintEditorSettings.h>
 #include <EdGraphSchema_K2.h>
 #include <EdGraph/EdGraph.h>
@@ -9,25 +9,24 @@
 #include <Kismet2/BlueprintEditorUtils.h>
 #include <Kismet2/KismetEditorUtilities.h>
 
-UDaeGauntletTestActorBlueprintFactory::UDaeGauntletTestActorBlueprintFactory(
+UDaeTestActorBlueprintFactory::UDaeTestActorBlueprintFactory(
     const FObjectInitializer& ObjectInitializer /*= FObjectInitializer::Get()*/)
     : Super(ObjectInitializer)
 {
     bCreateNew = true;
     bEditAfterNew = true;
-    SupportedClass = UDaeGauntletTestActorBlueprint::StaticClass();
+    SupportedClass = UDaeTestActorBlueprint::StaticClass();
 }
 
-UObject* UDaeGauntletTestActorBlueprintFactory::FactoryCreateNew(UClass* Class, UObject* InParent,
-                                                                 FName Name, EObjectFlags Flags,
-                                                                 UObject* Context,
-                                                                 FFeedbackContext* Warn)
+UObject* UDaeTestActorBlueprintFactory::FactoryCreateNew(UClass* Class, UObject* InParent,
+                                                         FName Name, EObjectFlags Flags,
+                                                         UObject* Context, FFeedbackContext* Warn)
 {
     // Create blueprint asset.
     UBlueprint* Blueprint =
-        FKismetEditorUtilities::CreateBlueprint(ADaeGauntletTestActor::StaticClass(), InParent,
-                                                Name, BPTYPE_Normal,
-                                                UDaeGauntletTestActorBlueprint::StaticClass(),
+        FKismetEditorUtilities::CreateBlueprint(ADaeTestActor::StaticClass(), InParent, Name,
+                                                BPTYPE_Normal,
+                                                UDaeTestActorBlueprint::StaticClass(),
                                                 UBlueprintGeneratedClass::StaticClass());
 
     if (!IsValid(Blueprint))
@@ -55,15 +54,12 @@ UObject* UDaeGauntletTestActorBlueprintFactory::FactoryCreateNew(UClass* Class, 
         int32 NodePositionY = 0;
         FKismetEditorUtilities::AddDefaultEventNode(Blueprint, EdGraph,
                                                     FName(TEXT("ReceiveOnArrange")),
-                                                    ADaeGauntletTestActor::StaticClass(),
-                                                    NodePositionY);
+                                                    ADaeTestActor::StaticClass(), NodePositionY);
         FKismetEditorUtilities::AddDefaultEventNode(Blueprint, EdGraph, FName(TEXT("ReceiveOnAct")),
-                                                    ADaeGauntletTestActor::StaticClass(),
-                                                    NodePositionY);
+                                                    ADaeTestActor::StaticClass(), NodePositionY);
         FKismetEditorUtilities::AddDefaultEventNode(Blueprint, EdGraph,
                                                     FName(TEXT("ReceiveOnAssert")),
-                                                    ADaeGauntletTestActor::StaticClass(),
-                                                    NodePositionY);
+                                                    ADaeTestActor::StaticClass(), NodePositionY);
     }
 
     return Blueprint;

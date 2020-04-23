@@ -2,16 +2,16 @@
 
 #include <CoreMinimal.h>
 #include <Factories/Factory.h>
-#include "DaeGauntletTestActorBlueprintFactory.generated.h"
+#include "DaeTestActorBlueprintFactory.generated.h"
 
 /** Factory for creating new test actor blueprints with special initial blueprint graphs. */
 UCLASS(HideCategories = Object, MinimalAPI)
-class UDaeGauntletTestActorBlueprintFactory : public UFactory
+class UDaeTestActorBlueprintFactory : public UFactory
 {
     GENERATED_BODY()
 
 public:
-    UDaeGauntletTestActorBlueprintFactory(
+    UDaeTestActorBlueprintFactory(
         const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
     //~ Begin UFactory Interface

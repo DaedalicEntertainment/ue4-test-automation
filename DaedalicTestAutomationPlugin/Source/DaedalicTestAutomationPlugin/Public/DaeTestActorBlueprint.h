@@ -2,11 +2,11 @@
 
 #include <CoreMinimal.h>
 #include <Engine/Blueprint.h>
-#include "DaeGauntletTestActorBlueprint.generated.h"
+#include "DaeTestActorBlueprint.generated.h"
 
 /** Single automated test to be run as part of a test suite. */
 UCLASS(BlueprintType)
-class DAEDALICTESTAUTOMATIONPLUGIN_API UDaeGauntletTestActorBlueprint : public UBlueprint
+class DAEDALICTESTAUTOMATIONPLUGIN_API UDaeTestActorBlueprint : public UBlueprint
 {
     GENERATED_BODY()
 
