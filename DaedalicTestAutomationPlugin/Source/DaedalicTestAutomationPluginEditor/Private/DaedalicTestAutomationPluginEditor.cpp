@@ -1,10 +1,17 @@
 // Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
+#include "AutomationTestFramework/DaeTestAutomationPluginAutomationTestFrameworkIntegration.h"
+#include "DaeTestAutomationPluginEditorSettings.h"
+#include "DaedalicTestAutomationPluginEditorClasses.h"
 #include "IDaedalicTestAutomationPluginEditor.h"
 #include <AssetToolsModule.h>
 #include <CoreMinimal.h>
 #include <IAssetTypeActions.h>
+#include <ISettingsModule.h>
+#include <ISettingsSection.h>
 #include <Modules/ModuleManager.h>
+
+#define LOCTEXT_NAMESPACE "DaedalicTestAutomationPlugin"
 
 class FDaedalicTestAutomationPluginEditor : public IDaedalicTestAutomationPluginEditor
 {
@@ -20,8 +27,13 @@ private:
     /** Asset type actions registered by this module. */
     TArray<TSharedPtr<IAssetTypeActions>> AssetTypeActions;
 
+    /** Integration with the Unreal Automation Test Framework. */
+    FDaeTestAutomationPluginAutomationTestFrameworkIntegration AutomationTestFrameworkIntegration;
+
     void RegisterAssetTypeAction(class IAssetTools& AssetTools,
                                  TSharedRef<IAssetTypeActions> Action);
+
+    void OnTestMapPathChanged(const FString& NewTestMapPath);
 };
 
 IMPLEMENT_MODULE(FDaedalicTestAutomationPluginEditor, DaedalicTestAutomationPluginEditor)
@@ -41,6 +53,28 @@ void FDaedalicTestAutomationPluginEditor::StartupModule()
     TSharedRef<IAssetTypeActions> TestActorBlueprintAction = MakeShareable(
         new FAssetTypeActions_DaeGauntletTestActorBlueprint(DaedalicTestAutomationAssetCategory));
     RegisterAssetTypeAction(AssetTools, TestActorBlueprintAction);
+
+    // Register settings.
+    if (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings"))
+    {
+        UDaeTestAutomationPluginEditorSettings* TestAutomationPluginEditorSettings =
+            GetMutableDefault<UDaeTestAutomationPluginEditorSettings>();
+
+        ISettingsSectionPtr SettingsSection = SettingsModule->RegisterSettings(
+            "Editor", "Plugins", "DaedalicTestAutomationPlugin",
+            NSLOCTEXT("DaedalicTestAutomationPlugin",
+                      "DaeTestAutomationPluginEditorSettings.DisplayName",
+                      "Daedalic Test Automation Plugin"),
+            NSLOCTEXT("DaedalicTestAutomationPlugin",
+                      "AssetTypeActions_DaeGauntletTestActorBlueprint.Description",
+                      "Configure the discovery of automated tests."),
+            TestAutomationPluginEditorSettings);
+
+        TestAutomationPluginEditorSettings->OnTestMapPathChanged.AddRaw(
+            this, &FDaedalicTestAutomationPluginEditor::OnTestMapPathChanged);
+
+        OnTestMapPathChanged(TestAutomationPluginEditorSettings->TestMapPath);
+    }
 }
 
 void FDaedalicTestAutomationPluginEditor::ShutdownModule()
@@ -60,6 +94,12 @@ void FDaedalicTestAutomationPluginEditor::ShutdownModule()
     }
 
     AssetTypeActions.Empty();
+
+    // Unregister settings.
+    if (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings"))
+    {
+        SettingsModule->UnregisterSettings("Editor", "Plugins", "DaedalicTestAutomationPlugin");
+    }
 }
 
 void FDaedalicTestAutomationPluginEditor::RegisterAssetTypeAction(
@@ -68,3 +108,11 @@ void FDaedalicTestAutomationPluginEditor::RegisterAssetTypeAction(
     AssetTools.RegisterAssetTypeActions(Action);
     AssetTypeActions.Add(Action);
 }
+
+void FDaedalicTestAutomationPluginEditor::OnTestMapPathChanged(const FString& NewTestMapPath)
+{
+    // Discover tests.
+    AutomationTestFrameworkIntegration.SetTestMapPath(NewTestMapPath);
+}
+
+#undef LOCTEXT_NAMESPACE

@@ -5,6 +5,7 @@ ADaeGauntletTestSuiteActor::ADaeGauntletTestSuiteActor(
     const FObjectInitializer& ObjectInitializer /*= FObjectInitializer::Get()*/)
 {
     bRunInPIE = true;
+    TestIndex = -1;
 }
 
 void ADaeGauntletTestSuiteActor::BeginPlay()
@@ -24,6 +25,11 @@ void ADaeGauntletTestSuiteActor::RunAllTests()
 
     TestIndex = -1;
     RunNextTest();
+}
+
+bool ADaeGauntletTestSuiteActor::IsRunning() const
+{
+    return Tests.IsValidIndex(TestIndex);
 }
 
 void ADaeGauntletTestSuiteActor::RunNextTest()
@@ -75,6 +81,8 @@ void ADaeGauntletTestSuiteActor::OnTestFailed(ADaeGauntletTestActor* Test)
 {
     UE_LOG(LogDaeTest, Error, TEXT("ADaeGauntletTestSuiteActor::TestFailed - Test: %s"),
            *Test->GetName());
+
+    TestIndex = -1;
 
     OnTestSuiteFailed.Broadcast(this);
 }

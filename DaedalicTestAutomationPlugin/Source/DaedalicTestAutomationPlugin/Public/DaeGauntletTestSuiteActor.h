@@ -26,6 +26,9 @@ public:
     /** Runs all tests of this suite, in order. */
     void RunAllTests();
 
+    /** Whether this test suite is currently running. */
+    bool IsRunning() const;
+
     /** Event when this test suite has successfully finished all tests. */
     FDaeGauntletTestSuiteActorTestSuiteSuccessfulSignature OnTestSuiteSuccessful;
 
