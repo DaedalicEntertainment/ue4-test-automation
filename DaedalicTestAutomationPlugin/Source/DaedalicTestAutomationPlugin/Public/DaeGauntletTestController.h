@@ -13,9 +13,16 @@ class DAEDALICTESTAUTOMATIONPLUGIN_API UDaeGauntletTestController : public UGaun
     GENERATED_BODY()
 
 public:
+    virtual void OnInit() override;
     virtual void OnPostMapChange(UWorld* World) override;
+    virtual void OnTick(float TimeDelta) override;
 
 private:
+    TArray<FName> MapNames;
+    int32 MapIndex;
+
+    void LoadNextTestMap();
+
     UFUNCTION()
     void OnTestSuiteSuccessful(ADaeTestSuiteActor* TestSuite);
 

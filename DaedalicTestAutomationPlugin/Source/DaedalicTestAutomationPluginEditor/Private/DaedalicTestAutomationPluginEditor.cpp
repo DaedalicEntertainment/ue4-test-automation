@@ -1,7 +1,7 @@
 // Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
 #include "AutomationTestFramework/DaeTestAutomationPluginAutomationTestFrameworkIntegration.h"
-#include "DaeTestAutomationPluginEditorSettings.h"
+#include "DaeTestAutomationPluginSettings.h"
 #include "DaedalicTestAutomationPluginEditorClasses.h"
 #include "IDaedalicTestAutomationPluginEditor.h"
 #include <AssetToolsModule.h>
@@ -57,23 +57,22 @@ void FDaedalicTestAutomationPluginEditor::StartupModule()
     // Register settings.
     if (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings"))
     {
-        UDaeTestAutomationPluginEditorSettings* TestAutomationPluginEditorSettings =
-            GetMutableDefault<UDaeTestAutomationPluginEditorSettings>();
+        UDaeTestAutomationPluginSettings* TestAutomationPluginSettings =
+            GetMutableDefault<UDaeTestAutomationPluginSettings>();
 
         ISettingsSectionPtr SettingsSection = SettingsModule->RegisterSettings(
             "Editor", "Plugins", "DaedalicTestAutomationPlugin",
-            NSLOCTEXT("DaedalicTestAutomationPlugin",
-                      "DaeTestAutomationPluginEditorSettings.DisplayName",
+            NSLOCTEXT("DaedalicTestAutomationPlugin", "DaeTestAutomationPluginSettings.DisplayName",
                       "Daedalic Test Automation Plugin"),
             NSLOCTEXT("DaedalicTestAutomationPlugin",
                       "AssetTypeActions_DaeTestActorBlueprint.Description",
                       "Configure the discovery of automated tests."),
-            TestAutomationPluginEditorSettings);
+            TestAutomationPluginSettings);
 
-        TestAutomationPluginEditorSettings->OnTestMapPathChanged.AddRaw(
+        TestAutomationPluginSettings->OnTestMapPathChanged.AddRaw(
             this, &FDaedalicTestAutomationPluginEditor::OnTestMapPathChanged);
 
-        OnTestMapPathChanged(TestAutomationPluginEditorSettings->TestMapPath);
+        OnTestMapPathChanged(TestAutomationPluginSettings->TestMapPath);
     }
 }
 

@@ -1,12 +1,11 @@
-#include "DaeTestAutomationPluginEditorSettings.h"
-#include "DaeTestEditorLogCategory.h"
+#include "DaeTestAutomationPluginSettings.h"
 
-UDaeTestAutomationPluginEditorSettings::UDaeTestAutomationPluginEditorSettings()
+UDaeTestAutomationPluginSettings::UDaeTestAutomationPluginSettings()
     : TestMapPath(TEXT("Maps/AutomatedTests"))
 {
 }
 
-void UDaeTestAutomationPluginEditorSettings::PostEditChangeProperty(
+void UDaeTestAutomationPluginSettings::PostEditChangeProperty(
     struct FPropertyChangedEvent& PropertyChangedEvent)
 {
     if (PropertyChangedEvent.GetPropertyName() == TEXT("TestMapPath"))
