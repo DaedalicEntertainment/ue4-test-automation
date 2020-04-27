@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DaeTestSuiteResult.h"
 #include <CoreMinimal.h>
 #include <GauntletTestController.h>
 #include "DaeGauntletTestController.generated.h"
@@ -20,12 +21,12 @@ public:
 private:
     TArray<FName> MapNames;
     int32 MapIndex;
+    TArray<FDaeTestSuiteResult> Results;
 
     void LoadNextTestMap();
 
     UFUNCTION()
-    void OnTestSuiteSuccessful(ADaeTestSuiteActor* TestSuite);
+    void OnTestSuiteFinished(ADaeTestSuiteActor* TestSuite);
 
-    UFUNCTION()
-    void OnTestSuiteFailed(ADaeTestSuiteActor* TestSuite);
+    FString ParseCommandLineOption(const FString& Key);
 };

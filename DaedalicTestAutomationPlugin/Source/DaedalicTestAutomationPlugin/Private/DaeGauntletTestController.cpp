@@ -1,12 +1,14 @@
 #include "DaeGauntletTestController.h"
 #include "Kismet/GameplayStatics.h"
 #include "DaeGauntletStates.h"
+#include "DaeJUnitReportWriter.h"
 #include "DaeTestAutomationPluginSettings.h"
 #include "DaeTestLogCategory.h"
 #include "DaeTestSuiteActor.h"
 #include <AssetRegistryModule.h>
 #include <EngineUtils.h>
 #include <Engine/AssetManager.h>
+#include <Misc/FileHelper.h>
 
 void UDaeGauntletTestController::OnInit()
 {
@@ -114,9 +116,9 @@ void UDaeGauntletTestController::OnTick(float TimeDelta)
         GetGauntlet()->BroadcastStateChange(FDaeGauntletStates::Running);
 
         TestSuite->OnTestSuiteSuccessful.AddDynamic(
-            this, &UDaeGauntletTestController::OnTestSuiteSuccessful);
+            this, &UDaeGauntletTestController::OnTestSuiteFinished);
         TestSuite->OnTestSuiteFailed.AddDynamic(this,
-                                                &UDaeGauntletTestController::OnTestSuiteFailed);
+                                                &UDaeGauntletTestController::OnTestSuiteFinished);
 
         TestSuite->RunAllTests();
     }
@@ -130,7 +132,31 @@ void UDaeGauntletTestController::LoadNextTestMap()
         UE_LOG(LogDaeTest, Log,
                TEXT("UDaeGauntletTestController::LoadNextTestMap - All tests finished."));
 
+        // Write final test report.
+        FDaeJUnitReportWriter JUnitReportWriter;
+        FString TestReport =
+            JUnitReportWriter.CreateReport(TEXT("DaeGauntletTestController"), Results);
+        UE_LOG(LogDaeTest, Log, TEXT("Test report:\r\n%s"), *TestReport);
+
+        FString JUnitReportPath = ParseCommandLineOption(TEXT("JUnitReportPath"));
+
+        if (!JUnitReportPath.IsEmpty())
+        {
+            UE_LOG(LogDaeTest, Log, TEXT("Writing test report to: %s"), *JUnitReportPath);
+            FFileHelper::SaveStringToFile(TestReport, *JUnitReportPath);
+        }
+
+        // Finish Gauntlet.
         GetGauntlet()->BroadcastStateChange(FDaeGauntletStates::Finished);
+
+        for (const FDaeTestSuiteResult& Result : Results)
+        {
+            if (Result.NumFailedTests() > 0)
+            {
+                EndTest(1);
+                return;
+            }
+        }
 
         EndTest(0);
         return;
@@ -141,12 +167,15 @@ void UDaeGauntletTestController::LoadNextTestMap()
     GetGauntlet()->BroadcastStateChange(FDaeGauntletStates::LoadingNextMap);
 }
 
-void UDaeGauntletTestController::OnTestSuiteSuccessful(ADaeTestSuiteActor* TestSuite)
+void UDaeGauntletTestController::OnTestSuiteFinished(ADaeTestSuiteActor* TestSuite)
 {
+    Results.Add(TestSuite->GetResult());
     LoadNextTestMap();
 }
 
-void UDaeGauntletTestController::OnTestSuiteFailed(ADaeTestSuiteActor* TestSuite)
+FString UDaeGauntletTestController::ParseCommandLineOption(const FString& Key)
 {
-    LoadNextTestMap();
+    FString Value;
+    FParse::Value(FCommandLine::Get(), *Key, Value);
+    return Value.Mid(1);
 }

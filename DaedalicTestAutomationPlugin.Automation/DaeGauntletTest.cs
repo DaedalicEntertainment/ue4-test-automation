@@ -1,18 +1,16 @@
-﻿using EpicGame;
-using Gauntlet;
-using UE4Game;
+﻿using Gauntlet;
 
 namespace DaedalicTestAutomationPlugin.Automation
 {
-    public class DaeGauntletTest : UnrealTestNode<EpicGameTestConfig>
+    public class DaeGauntletTest : UnrealTestNode<DaeTestConfig>
     {
         public DaeGauntletTest(UnrealTestContext InContext) : base(InContext)
         {
         }
 
-        public override EpicGameTestConfig GetConfiguration()
+        public override DaeTestConfig GetConfiguration()
         {
-            EpicGameTestConfig Config = base.GetConfiguration();
+            DaeTestConfig Config = base.GetConfiguration();
 
             // Start a single instance of the game.
             UnrealTestRole ClientRole = Config.RequireRole(UnrealTargetRole.Client);

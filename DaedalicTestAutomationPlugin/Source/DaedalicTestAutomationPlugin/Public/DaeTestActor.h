@@ -6,7 +6,8 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDaeTestActorTestSuccessfulSignature, ADaeTestActor*,
                                             Test);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDaeTestActorTestFailedSignature, ADaeTestActor*, Test);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDaeTestActorTestFailedSignature, ADaeTestActor*, Test,
+                                             const FString&, FailureMessage);
 
 /** Single automated test to be run as part of a test suite. */
 UCLASS()
