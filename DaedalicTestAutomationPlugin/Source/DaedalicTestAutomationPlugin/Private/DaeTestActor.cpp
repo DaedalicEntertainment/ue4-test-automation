@@ -88,7 +88,7 @@ void ADaeTestActor::NotifyOnTestFailed(const FString& Message)
 
     UE_LOG(LogDaeTest, Error, TEXT("%s"), *Message);
 
-    OnTestFailed.Broadcast(this);
+    OnTestFailed.Broadcast(this, Message);
 }
 
 void ADaeTestActor::NotifyOnArrange()

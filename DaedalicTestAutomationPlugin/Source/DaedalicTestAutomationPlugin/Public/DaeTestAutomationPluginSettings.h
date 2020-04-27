@@ -2,14 +2,14 @@
 
 #include <CoreMinimal.h>
 #include <UObject/Object.h>
-#include "DaeTestAutomationPluginEditorSettings.generated.h"
+#include "DaeTestAutomationPluginSettings.generated.h"
 
-DECLARE_MULTICAST_DELEGATE_OneParam(
-    FDaeTestAutomationPluginEditorSettingsTestMapPathChangedSignature, const FString&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FDaeTestAutomationPluginSettingsTestMapPathChangedSignature,
+                                    const FString&);
 
 /** Custom settings for this plugin. */
 UCLASS(config = EditorPerProjectUserSettings)
-class UDaeTestAutomationPluginEditorSettings : public UObject
+class DAEDALICTESTAUTOMATIONPLUGIN_API UDaeTestAutomationPluginSettings : public UObject
 {
     GENERATED_BODY()
 
@@ -18,10 +18,10 @@ public:
     UPROPERTY(config, EditAnywhere)
     FString TestMapPath;
 
-    UDaeTestAutomationPluginEditorSettings();
+    UDaeTestAutomationPluginSettings();
 
     virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 
     /** Event when the path to look for test maps in has changed. */
-    FDaeTestAutomationPluginEditorSettingsTestMapPathChangedSignature OnTestMapPathChanged;
+    FDaeTestAutomationPluginSettingsTestMapPathChangedSignature OnTestMapPathChanged;
 };

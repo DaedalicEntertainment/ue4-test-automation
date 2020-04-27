@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DaeTestSuiteResult.h"
 #include <CoreMinimal.h>
 #include <GauntletTestController.h>
 #include "DaeGauntletTestController.generated.h"
@@ -13,12 +14,19 @@ class DAEDALICTESTAUTOMATIONPLUGIN_API UDaeGauntletTestController : public UGaun
     GENERATED_BODY()
 
 public:
+    virtual void OnInit() override;
     virtual void OnPostMapChange(UWorld* World) override;
+    virtual void OnTick(float TimeDelta) override;
 
 private:
-    UFUNCTION()
-    void OnTestSuiteSuccessful(ADaeTestSuiteActor* TestSuite);
+    TArray<FName> MapNames;
+    int32 MapIndex;
+    TArray<FDaeTestSuiteResult> Results;
+
+    void LoadNextTestMap();
 
     UFUNCTION()
-    void OnTestSuiteFailed(ADaeTestSuiteActor* TestSuite);
+    void OnTestSuiteFinished(ADaeTestSuiteActor* TestSuite);
+
+    FString ParseCommandLineOption(const FString& Key);
 };
