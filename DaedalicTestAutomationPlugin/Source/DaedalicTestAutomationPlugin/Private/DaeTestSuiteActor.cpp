@@ -1,4 +1,5 @@
 #include "DaeTestSuiteActor.h"
+#include "DaeTestActor.h"
 #include "DaeTestLogCategory.h"
 
 ADaeTestSuiteActor::ADaeTestSuiteActor(
@@ -30,7 +31,20 @@ void ADaeTestSuiteActor::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
 
+    if (!IsRunning())
+    {
+        return;
+    }
+
     TestTimeSeconds += DeltaSeconds;
+
+    if (TestTimeSeconds >= GetCurrentTest()->GetTimeoutInSeconds())
+    {
+        // Timed out.
+        const FString& ErrorMessage = FString::Printf(TEXT("Timed out after %f seconds"),
+                                                      GetCurrentTest()->GetTimeoutInSeconds());
+        OnTestFailed(GetCurrentTest(), ErrorMessage);
+    }
 }
 
 void ADaeTestSuiteActor::RunAllTests()
@@ -43,7 +57,12 @@ void ADaeTestSuiteActor::RunAllTests()
 
 bool ADaeTestSuiteActor::IsRunning() const
 {
-    return Tests.IsValidIndex(TestIndex);
+    return IsValid(GetCurrentTest());
+}
+
+ADaeTestActor* ADaeTestSuiteActor::GetCurrentTest() const
+{
+    return Tests.IsValidIndex(TestIndex) ? Tests[TestIndex] : nullptr;
 }
 
 FDaeTestSuiteResult ADaeTestSuiteActor::GetResult() const
@@ -99,6 +118,12 @@ void ADaeTestSuiteActor::RunNextTest()
 
 void ADaeTestSuiteActor::OnTestSuccessful(ADaeTestActor* Test)
 {
+    if (Test != GetCurrentTest())
+    {
+        // Prevent tests from reporting multiple results.
+        return;
+    }
+
     UE_LOG(LogDaeTest, Log, TEXT("ADaeTestSuiteActor::TestSuccessful - Test: %s"),
            *Test->GetName());
 
@@ -112,6 +137,12 @@ void ADaeTestSuiteActor::OnTestSuccessful(ADaeTestActor* Test)
 
 void ADaeTestSuiteActor::OnTestFailed(ADaeTestActor* Test, const FString& FailureMessage)
 {
+    if (Test != GetCurrentTest())
+    {
+        // Prevent tests from reporting multiple results.
+        return;
+    }
+
     UE_LOG(LogDaeTest, Error, TEXT("ADaeTestSuiteActor::TestFailed - Test: %s, FailureMessage: %s"),
            *Test->GetName(), *FailureMessage);
 

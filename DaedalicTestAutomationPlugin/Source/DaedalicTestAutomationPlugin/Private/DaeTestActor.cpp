@@ -4,6 +4,13 @@
 const FString ADaeTestActor::ErrorMessageFormat =
     TEXT("Assertion failed - {0} - Expected: {1}, but was: {2}");
 
+ADaeTestActor::ADaeTestActor(
+    const FObjectInitializer& ObjectInitializer /*= FObjectInitializer::Get()*/)
+    : Super(ObjectInitializer)
+{
+    TimeoutInSeconds = 30.0f;
+}
+
 void ADaeTestActor::RunTest()
 {
     bHasResult = false;
@@ -63,6 +70,11 @@ void ADaeTestActor::AssertEqualsVector(const FString& What, const FVector& Actua
             FString::Format(*ErrorMessageFormat, {What, Expected.ToString(), Actual.ToString()});
         NotifyOnTestFailed(Message);
     }
+}
+
+float ADaeTestActor::GetTimeoutInSeconds() const
+{
+    return TimeoutInSeconds;
 }
 
 void ADaeTestActor::NotifyOnTestSuccessful()

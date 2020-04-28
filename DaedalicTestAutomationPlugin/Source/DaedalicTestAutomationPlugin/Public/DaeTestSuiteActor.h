@@ -30,6 +30,9 @@ public:
     /** Whether this test suite is currently running. */
     bool IsRunning() const;
 
+    /** Gets the test that is currently running. */
+    ADaeTestActor* GetCurrentTest() const;
+
     /** Results of the whole test suite. */
     FDaeTestSuiteResult GetResult() const;
 

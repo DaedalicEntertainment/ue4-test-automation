@@ -16,6 +16,8 @@ class DAEDALICTESTAUTOMATIONPLUGIN_API ADaeTestActor : public AActor
     GENERATED_BODY()
 
 public:
+    ADaeTestActor(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
     /** Starts executing this test. */
     void RunTest();
 
@@ -38,6 +40,9 @@ public:
     /** Expects the specified vectors to be (nearly) equal. */
     UFUNCTION(BlueprintCallable, meta = (DisplayName = "Assert Equals (Vector)"))
     void AssertEqualsVector(const FString& What, const FVector& Actual, const FVector& Expected);
+
+    /** Gets how long this test is allowed to run before it fails automatically, in seconds. */
+    float GetTimeoutInSeconds() const;
 
     /** Event when this test has finished successfully. */
     virtual void NotifyOnTestSuccessful();
@@ -74,6 +79,10 @@ public:
 
 private:
     static const FString ErrorMessageFormat;
+
+    /** How long this test is allowed to run before it fails automatically, in seconds. */
+    UPROPERTY(EditAnywhere)
+    float TimeoutInSeconds;
 
     /** Whether this test has finished executing (either with success or failure). */
     bool bHasResult;
