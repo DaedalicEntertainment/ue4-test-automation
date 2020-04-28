@@ -72,13 +72,13 @@ FDaeTestSuiteResult ADaeTestSuiteActor::GetResult() const
 
 void ADaeTestSuiteActor::RunNextTest()
 {
-    // Unregister events.
-    if (Tests.IsValidIndex(TestIndex))
-    {
-        ADaeTestActor* Test = Tests[TestIndex];
+    ADaeTestActor* CurrentTest = GetCurrentTest();
 
-        Test->OnTestSuccessful.RemoveDynamic(this, &ADaeTestSuiteActor::OnTestSuccessful);
-        Test->OnTestFailed.RemoveDynamic(this, &ADaeTestSuiteActor::OnTestFailed);
+    // Unregister events.
+    if (IsValid(CurrentTest))
+    {
+        CurrentTest->OnTestSuccessful.RemoveDynamic(this, &ADaeTestSuiteActor::OnTestSuccessful);
+        CurrentTest->OnTestFailed.RemoveDynamic(this, &ADaeTestSuiteActor::OnTestFailed);
     }
 
     // Prepare next test.
@@ -106,14 +106,26 @@ void ADaeTestSuiteActor::RunNextTest()
 
     ADaeTestActor* Test = Tests[TestIndex];
 
-    UE_LOG(LogDaeTest, Log, TEXT("ADaeTestSuiteActor::RunNextTest - Test: %s"), *Test->GetName());
+    if (IsValid(Test))
+    {
+        UE_LOG(LogDaeTest, Log, TEXT("ADaeTestSuiteActor::RunNextTest - Test: %s"),
+               *Test->GetName());
 
-    // Register events.
-    Test->OnTestSuccessful.AddDynamic(this, &ADaeTestSuiteActor::OnTestSuccessful);
-    Test->OnTestFailed.AddDynamic(this, &ADaeTestSuiteActor::OnTestFailed);
+        // Register events.
+        Test->OnTestSuccessful.AddDynamic(this, &ADaeTestSuiteActor::OnTestSuccessful);
+        Test->OnTestFailed.AddDynamic(this, &ADaeTestSuiteActor::OnTestFailed);
 
-    // Run test.
-    Test->RunTest();
+        // Run test.
+        Test->RunTest();
+    }
+    else
+    {
+        UE_LOG(LogDaeTest, Error,
+               TEXT("ADaeTestSuiteActor::RunNextTest - %s has invalid test at index %i, skipping."),
+               *GetName(), TestIndex);
+
+        RunNextTest();
+    }
 }
 
 void ADaeTestSuiteActor::OnTestSuccessful(ADaeTestActor* Test)
