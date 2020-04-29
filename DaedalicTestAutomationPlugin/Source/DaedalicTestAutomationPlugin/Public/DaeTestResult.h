@@ -10,6 +10,9 @@ public:
     /** (Optional) Why the test failed. */
     FString FailureMessage;
 
+    /** (Optional) Why the test was skipped. */
+    FString SkipReason;
+
     /** Time the test ran, in seconds. */
     float TimeSeconds;
 
@@ -17,5 +20,11 @@ public:
     FDaeTestResult(FString InTestName, float InTimeSeconds);
 
     /** Whether the test finished without failure, or not. */
-    bool IsSuccessful() const;
+    bool WasSuccessful() const;
+
+    /** Whether the test has failed. */
+    bool HasFailed() const;
+
+    /** Whether this test has been skipped instead of being run. */
+    bool WasSkipped() const;
 };

@@ -27,6 +27,9 @@ public:
     /** How many tests of the test suite have failed. */
     int32 NumFailedTests() const;
 
+    /** How many tests of the test suite have been skipped instead of being run. */
+    int32 NumSkippedTests() const;
+
     /** Combined time all tests ran, in seconds. */
     float GetTotalTimeSeconds() const;
 };

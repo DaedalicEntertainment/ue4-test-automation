@@ -8,6 +8,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDaeTestActorTestSuccessfulSignature
                                             Test);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDaeTestActorTestFailedSignature, ADaeTestActor*, Test,
                                              const FString&, FailureMessage);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDaeTestActorTestSkippedSignature, ADaeTestActor*,
+                                             Test, const FString&, SkipReason);
 
 /** Single automated test to be run as part of a test suite. */
 UCLASS()
@@ -50,6 +52,9 @@ public:
     /** Event when this test has failed. */
     virtual void NotifyOnTestFailed(const FString& Message);
 
+    /** Event when this test has been skipped. */
+    virtual void NotifyOnTestSkipped();
+
     /** Event when this test should set up. */
     virtual void NotifyOnArrange();
 
@@ -77,12 +82,19 @@ public:
     /** Event when this test has failed. */
     FDaeTestActorTestFailedSignature OnTestFailed;
 
+    /** Event when this test has been skipped. */
+    FDaeTestActorTestSkippedSignature OnTestSkipped;
+
 private:
     static const FString ErrorMessageFormat;
 
     /** How long this test is allowed to run before it fails automatically, in seconds. */
     UPROPERTY(EditAnywhere)
     float TimeoutInSeconds;
+
+    /** Reason for skipping this test. Test will be skipped if this is not empty. Useful for temporarily disabling unstable tests. */
+    UPROPERTY(EditAnywhere)
+    FString SkipReason;
 
     /** Whether this test has finished executing (either with success or failure). */
     bool bHasResult;

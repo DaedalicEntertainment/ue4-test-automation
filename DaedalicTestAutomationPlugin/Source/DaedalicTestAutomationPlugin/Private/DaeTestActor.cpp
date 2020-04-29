@@ -15,6 +15,12 @@ void ADaeTestActor::RunTest()
 {
     bHasResult = false;
 
+    if (!SkipReason.IsEmpty())
+    {
+        NotifyOnTestSkipped();
+        return;
+    }
+
     NotifyOnArrange();
     NotifyOnAct();
 }
@@ -101,6 +107,18 @@ void ADaeTestActor::NotifyOnTestFailed(const FString& Message)
     UE_LOG(LogDaeTest, Error, TEXT("%s"), *Message);
 
     OnTestFailed.Broadcast(this, Message);
+}
+
+void ADaeTestActor::NotifyOnTestSkipped()
+{
+    if (bHasResult)
+    {
+        return;
+    }
+
+    bHasResult = true;
+
+    OnTestSkipped.Broadcast(this, SkipReason);
 }
 
 void ADaeTestActor::NotifyOnArrange()

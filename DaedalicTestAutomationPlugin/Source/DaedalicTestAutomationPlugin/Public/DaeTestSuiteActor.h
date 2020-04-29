@@ -68,4 +68,7 @@ private:
 
     UFUNCTION()
     void OnTestFailed(ADaeTestActor* Test, const FString& FailureMessage);
+
+    UFUNCTION()
+    void OnTestSkipped(ADaeTestActor* Test, const FString& SkipReason);
 };

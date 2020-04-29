@@ -79,6 +79,7 @@ void ADaeTestSuiteActor::RunNextTest()
     {
         CurrentTest->OnTestSuccessful.RemoveDynamic(this, &ADaeTestSuiteActor::OnTestSuccessful);
         CurrentTest->OnTestFailed.RemoveDynamic(this, &ADaeTestSuiteActor::OnTestFailed);
+        CurrentTest->OnTestSkipped.RemoveDynamic(this, &ADaeTestSuiteActor::OnTestSkipped);
     }
 
     // Prepare next test.
@@ -114,6 +115,7 @@ void ADaeTestSuiteActor::RunNextTest()
         // Register events.
         Test->OnTestSuccessful.AddDynamic(this, &ADaeTestSuiteActor::OnTestSuccessful);
         Test->OnTestFailed.AddDynamic(this, &ADaeTestSuiteActor::OnTestFailed);
+        Test->OnTestSkipped.AddDynamic(this, &ADaeTestSuiteActor::OnTestSkipped);
 
         // Run test.
         Test->RunTest();
@@ -136,7 +138,7 @@ void ADaeTestSuiteActor::OnTestSuccessful(ADaeTestActor* Test)
         return;
     }
 
-    UE_LOG(LogDaeTest, Log, TEXT("ADaeTestSuiteActor::TestSuccessful - Test: %s"),
+    UE_LOG(LogDaeTest, Log, TEXT("ADaeTestSuiteActor::OnTestSuccessful - Test: %s"),
            *Test->GetName());
 
     // Store result.
@@ -155,12 +157,33 @@ void ADaeTestSuiteActor::OnTestFailed(ADaeTestActor* Test, const FString& Failur
         return;
     }
 
-    UE_LOG(LogDaeTest, Error, TEXT("ADaeTestSuiteActor::TestFailed - Test: %s, FailureMessage: %s"),
+    UE_LOG(LogDaeTest, Error,
+           TEXT("ADaeTestSuiteActor::OnTestFailed - Test: %s, FailureMessage: %s"),
            *Test->GetName(), *FailureMessage);
 
     // Store result.
     FDaeTestResult TestResult(Test->GetName(), TestTimeSeconds);
     TestResult.FailureMessage = FailureMessage;
+    Result.TestResults.Add(TestResult);
+
+    // Run next test
+    RunNextTest();
+}
+
+void ADaeTestSuiteActor::OnTestSkipped(ADaeTestActor* Test, const FString& SkipReason)
+{
+    if (Test != GetCurrentTest())
+    {
+        // Prevent tests from reporting multiple results.
+        return;
+    }
+
+    UE_LOG(LogDaeTest, Log, TEXT("ADaeTestSuiteActor::OnTestSkipped - Test: %s, SkipReason: %s"),
+           *Test->GetName(), *SkipReason);
+
+    // Store result.
+    FDaeTestResult TestResult(Test->GetName(), TestTimeSeconds);
+    TestResult.SkipReason = SkipReason;
     Result.TestResults.Add(TestResult);
 
     // Run next test

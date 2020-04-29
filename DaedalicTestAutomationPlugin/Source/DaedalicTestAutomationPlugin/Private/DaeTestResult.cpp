@@ -11,7 +11,17 @@ FDaeTestResult::FDaeTestResult(FString InTestName, float InTimeSeconds)
 {
 }
 
-bool FDaeTestResult::IsSuccessful() const
+bool FDaeTestResult::WasSuccessful() const
 {
-    return FailureMessage.IsEmpty();
+    return !HasFailed() && !WasSkipped();
+}
+
+bool FDaeTestResult::HasFailed() const
+{
+    return !FailureMessage.IsEmpty();
+}
+
+bool FDaeTestResult::WasSkipped() const
+{
+    return !SkipReason.IsEmpty();
 }

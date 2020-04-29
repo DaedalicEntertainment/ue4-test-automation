@@ -7,22 +7,37 @@ int32 FDaeTestSuiteResult::NumTotalTests() const
 
 int32 FDaeTestSuiteResult::NumSuccessfulTests() const
 {
-    int32 SuccessfulTests = 0;
-
-    for (const FDaeTestResult& TestResult : TestResults)
-    {
-        if (TestResult.IsSuccessful())
-        {
-            ++SuccessfulTests;
-        }
-    }
-
-    return SuccessfulTests;
+    return NumTotalTests() - NumFailedTests() - NumSkippedTests();
 }
 
 int32 FDaeTestSuiteResult::NumFailedTests() const
 {
-    return NumTotalTests() - NumSuccessfulTests();
+    int32 FailedTests = 0;
+
+    for (const FDaeTestResult& TestResult : TestResults)
+    {
+        if (TestResult.HasFailed())
+        {
+            ++FailedTests;
+        }
+    }
+
+    return FailedTests;
+}
+
+int32 FDaeTestSuiteResult::NumSkippedTests() const
+{
+    int32 SkippedTests = 0;
+
+    for (const FDaeTestResult& TestResult : TestResults)
+    {
+        if (TestResult.WasSkipped())
+        {
+            ++SkippedTests;
+        }
+    }
+
+    return SkippedTests;
 }
 
 float FDaeTestSuiteResult::GetTotalTimeSeconds() const

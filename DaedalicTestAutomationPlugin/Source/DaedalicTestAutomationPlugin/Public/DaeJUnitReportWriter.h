@@ -10,6 +10,7 @@ public:
 private:
     int32 NumTotalTests(const TArray<FDaeTestSuiteResult>& TestSuites) const;
     int32 NumFailedTests(const TArray<FDaeTestSuiteResult>& TestSuites) const;
+    int32 NumSkippedTests(const TArray<FDaeTestSuiteResult>& TestSuites) const;
     float GetTotalTimeSeconds(const TArray<FDaeTestSuiteResult>& TestSuites) const;
     FString GetTimestamp(const TArray<FDaeTestSuiteResult>& TestSuites) const;
 };

@@ -11,7 +11,7 @@ FString FDaeJUnitReportWriter::CreateReport(const FString& Name,
     XmlString += TEXT("<testsuite");
     XmlString += FString::Printf(TEXT(" name=\"%s\""), *Name);
     XmlString += FString::Printf(TEXT(" tests=\"%d\""), NumTotalTests(TestSuites));
-    XmlString += FString::Printf(TEXT(" skipped=\"0\""));
+    XmlString += FString::Printf(TEXT(" skipped=\"%d\""), NumSkippedTests(TestSuites));
     XmlString += FString::Printf(TEXT(" failures=\"%d\""), NumFailedTests(TestSuites));
     XmlString += FString::Printf(TEXT(" errors=\"0\""));
     XmlString += FString::Printf(TEXT(" time=\"%f\""), GetTotalTimeSeconds(TestSuites));
@@ -31,11 +31,17 @@ FString FDaeJUnitReportWriter::CreateReport(const FString& Name,
             XmlString += FString::Printf(TEXT(" time=\"%f\""), TestResult.TimeSeconds);
             XmlString += TEXT(">") LINE_TERMINATOR;
 
-            if (!TestResult.IsSuccessful())
+            if (TestResult.HasFailed())
             {
                 XmlString +=
                     FString::Printf(TEXT("        <failure type=\"Assertion failed\">%s</failure>"),
                                     *TestResult.FailureMessage)
+                    + LINE_TERMINATOR;
+            }
+            else if (TestResult.WasSkipped())
+            {
+                XmlString +=
+                    FString::Printf(TEXT("        <skipped>%s</failure>"), *TestResult.SkipReason)
                     + LINE_TERMINATOR;
             }
 
@@ -70,6 +76,18 @@ int32 FDaeJUnitReportWriter::NumFailedTests(const TArray<FDaeTestSuiteResult>& T
     }
 
     return FailedTests;
+}
+
+int32 FDaeJUnitReportWriter::NumSkippedTests(const TArray<FDaeTestSuiteResult>& TestSuites) const
+{
+    int32 SkippedTests = 0;
+
+    for (const FDaeTestSuiteResult& TestSuite : TestSuites)
+    {
+        SkippedTests += TestSuite.NumSkippedTests();
+    }
+
+    return SkippedTests;
 }
 
 float FDaeJUnitReportWriter::GetTotalTimeSeconds(const TArray<FDaeTestSuiteResult>& TestSuites) const
