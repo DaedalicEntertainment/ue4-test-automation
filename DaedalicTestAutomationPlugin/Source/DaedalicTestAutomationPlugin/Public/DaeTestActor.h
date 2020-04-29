@@ -11,6 +11,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDaeTestActorTestFailedSignature, A
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDaeTestActorTestSkippedSignature, ADaeTestActor*,
                                              Test, const FString&, SkipReason);
 
+class ADaeTestTriggerBox;
+
 /** Single automated test to be run as part of a test suite. */
 UCLASS()
 class DAEDALICTESTAUTOMATIONPLUGIN_API ADaeTestActor : public AActor
@@ -46,6 +48,10 @@ public:
     /** Expects the specified value to be false. */
     UFUNCTION(BlueprintCallable)
     void AssertFalse(const FString& What, bool bValue);
+
+    /** Expects the specified trigger box to be triggered. */
+    UFUNCTION(BlueprintCallable)
+    void AssertWasTriggered(ADaeTestTriggerBox* TestTriggerBox);
 
     /** Expects the specified vectors to be (nearly) equal. */
     UFUNCTION(BlueprintCallable, meta = (DisplayName = "Assert Equals (Vector)"))

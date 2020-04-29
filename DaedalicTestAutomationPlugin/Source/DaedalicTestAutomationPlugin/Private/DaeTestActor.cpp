@@ -1,5 +1,6 @@
 #include "DaeTestActor.h"
 #include "DaeTestLogCategory.h"
+#include "DaeTestTriggerBox.h"
 #include <InputCoreTypes.h>
 #include <GameFramework/InputSettings.h>
 #include <GameFramework/PlayerController.h>
@@ -106,6 +107,24 @@ void ADaeTestActor::AssertFalse(const FString& What, bool bValue)
     {
         FString Message = FString::Format(*ErrorMessageFormat, {What, TEXT("False"), TEXT("True")});
         NotifyOnTestFailed(Message);
+    }
+}
+
+void ADaeTestActor::AssertWasTriggered(ADaeTestTriggerBox* TestTriggerBox)
+{
+    if (!IsValid(TestTriggerBox))
+    {
+        NotifyOnTestFailed(TEXT("Invalid test trigger box in assertion"));
+        return;
+    }
+
+    if (!TestTriggerBox->WasTriggered())
+    {
+        FString Message =
+            FString::Format(TEXT("Assertion failed - Trigger box {0} wasn't triggered"),
+                            {*TestTriggerBox->GetName()});
+        NotifyOnTestFailed(Message);
+        return;
     }
 }
 
