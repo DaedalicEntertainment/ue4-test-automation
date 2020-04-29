@@ -1,5 +1,9 @@
 #include "DaeTestActor.h"
 #include "DaeTestLogCategory.h"
+#include <InputCoreTypes.h>
+#include <GameFramework/InputSettings.h>
+#include <GameFramework/PlayerController.h>
+#include <GameFramework/PlayerInput.h>
 
 const FString ADaeTestActor::ErrorMessageFormat =
     TEXT("Assertion failed - {0} - Expected: {1}, but was: {2}");
@@ -42,6 +46,44 @@ void ADaeTestActor::FinishAct()
     {
         NotifyOnTestSuccessful();
     }
+}
+
+void ADaeTestActor::ApplyInputAction(const FName& ActionName)
+{
+    APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this, 0);
+
+    const UInputSettings* InputSettings = GetDefault<UInputSettings>();
+
+    for (const FInputActionKeyMapping& Mapping : InputSettings->GetActionMappings())
+    {
+        if (Mapping.ActionName == ActionName)
+        {
+            PlayerController->InputKey(Mapping.Key, EInputEvent::IE_Pressed, 0.0f, false);
+            return;
+        }
+    }
+
+    UE_LOG(LogDaeTest, Error, TEXT("%s - Input action not found: %s"), *GetName(),
+           *ActionName.ToString());
+}
+
+void ADaeTestActor::ApplyInputAxis(const FName& AxisName, float AxisValue /*= 1.0f*/)
+{
+    APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this, 0);
+
+    const UInputSettings* InputSettings = GetDefault<UInputSettings>();
+
+    for (const FInputAxisKeyMapping& Mapping : InputSettings->GetAxisMappings())
+    {
+        if (Mapping.AxisName == AxisName)
+        {
+            PlayerController->InputAxis(Mapping.Key, AxisValue, 0.0f, 1, false);
+            return;
+        }
+    }
+
+    UE_LOG(LogDaeTest, Error, TEXT("%s - Input axis not found: %s"), *GetName(),
+           *AxisName.ToString());
 }
 
 void ADaeTestActor::AssertFail(const FString& What)

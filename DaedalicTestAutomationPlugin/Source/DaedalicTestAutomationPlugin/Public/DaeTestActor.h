@@ -27,6 +27,14 @@ public:
     UFUNCTION(BlueprintCallable)
     void FinishAct();
 
+    /** Applies the input action with the specified name once. */
+    UFUNCTION(BlueprintCallable)
+    void ApplyInputAction(const FName& ActionName);
+
+    /** Applies the input axis with the specified name. Pass AxisValue 0.0f to reset the input axis. */
+    UFUNCTION(BlueprintCallable)
+    void ApplyInputAxis(const FName& AxisName, float AxisValue = 1.0f);
+
     /** Finishes the current test as failure. */
     UFUNCTION(BlueprintCallable)
     void AssertFail(const FString& What);
