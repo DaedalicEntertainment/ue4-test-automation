@@ -45,7 +45,7 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertWasTriggered(UObject* Context
     {
         FString Message =
             FString::Format(TEXT("Assertion failed - Trigger box {0} wasn't triggered"),
-                            {*TestTriggerBox->GetName()});
+                            {TestTriggerBox->GetName()});
         OnTestFailed(Context, Message);
         return;
     }
