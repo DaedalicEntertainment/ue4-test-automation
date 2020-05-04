@@ -53,7 +53,7 @@ bool FDaeTestAutomationPluginAutomationTestFrameworkTest::RunTest(const FString&
     FDaeTestAutomationPluginAutomationTestFrameworkTestContext Context;
 
     ADD_LATENT_AUTOMATION_COMMAND(FEditorLoadMap(MapName));
-    ADD_LATENT_AUTOMATION_COMMAND(FStartPIECommand(true));
+    ADD_LATENT_AUTOMATION_COMMAND(FStartPIECommand(false));
     ADD_LATENT_AUTOMATION_COMMAND(FDaeTestAutomationPluginWaitForEndOfTestSuite(Context));
     ADD_LATENT_AUTOMATION_COMMAND(FEndPlayMapCommand());
 
