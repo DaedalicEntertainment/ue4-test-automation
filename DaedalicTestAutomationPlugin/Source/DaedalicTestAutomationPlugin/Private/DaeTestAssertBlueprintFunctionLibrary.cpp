@@ -2,6 +2,7 @@
 #include "DaeTestActor.h"
 #include "DaeTestLogCategory.h"
 #include "DaeTestTriggerBox.h"
+#include <Blueprint/UserWidget.h>
 #include <Kismet/KismetMathLibrary.h>
 
 const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormat =
@@ -75,6 +76,36 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertInRangeFloat(UObject* Context
             TEXT("Assertion failed - {0} - Expected: between {1} and {2}, but was: {3}"),
             {What, MinInclusive, MaxInclusive, Value});
         OnTestFailed(Context, Message);
+    }
+}
+
+void UDaeTestAssertBlueprintFunctionLibrary::AssertWidgetIsVisible(UObject* Context,
+                                                                   const FString& What,
+                                                                   UUserWidget* Widget)
+{
+    if (!IsValid(Widget))
+    {
+        FString Message =
+            FString::Format(TEXT("Assertion failed - {0} - Widget is not valid"), {What});
+        OnTestFailed(Context, Message);
+        return;
+    }
+
+    if (!Widget->IsInViewport())
+    {
+        FString Message = FString::Format(
+            TEXT("Assertion failed - {0} - Widget hasn't been added to the viewport"), {What});
+        OnTestFailed(Context, Message);
+        return;
+    }
+
+    if (!Widget->IsVisible())
+    {
+        FString Message = FString::Format(TEXT("Assertion failed - {0} - Widget isn't visible, hit "
+                                               "test visible or self hit test visible"),
+                                          {What});
+        OnTestFailed(Context, Message);
+        return;
     }
 }
 

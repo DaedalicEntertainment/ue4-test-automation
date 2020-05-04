@@ -27,7 +27,8 @@ namespace UnrealBuildTool.Rules
                     "CoreUObject",
                     "Engine",
                     "InputCore",
-                    "Gauntlet"
+                    "Gauntlet",
+                    "UMG"
                 }
 				);
 

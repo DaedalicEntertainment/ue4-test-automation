@@ -4,6 +4,7 @@
 #include <Kismet/BlueprintFunctionLibrary.h>
 #include "DaeTestAssertBlueprintFunctionLibrary.generated.h"
 
+class UUserWidget;
 class ADaeTestTriggerBox;
 
 /** Utility functions for asserting state in automated tests. */
@@ -41,6 +42,10 @@ public:
                                          DisplayName = "Assert In Range (Float)"))
     static void AssertInRangeFloat(UObject* Context, const FString& What, float Value,
                                    float MinInclusive, float MaxInclusive);
+
+    /** Expects the specified widget to be valid and visible. */
+    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context"))
+    static void AssertWidgetIsVisible(UObject* Context, const FString& What, UUserWidget* Widget);
 
 private:
     static const FString ErrorMessageFormat;
