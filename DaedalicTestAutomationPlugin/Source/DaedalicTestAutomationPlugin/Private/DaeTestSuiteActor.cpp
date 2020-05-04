@@ -19,12 +19,6 @@ void ADaeTestSuiteActor::BeginPlay()
     Result.MapName = GetWorld()->GetMapName();
     Result.TestSuiteName = GetName();
     Result.Timestamp = FDateTime::UtcNow();
-
-    // Check if we should run all tests immediately.
-    if (bRunInPIE && GetWorld()->IsPlayInEditor())
-    {
-        RunAllTests();
-    }
 }
 
 void ADaeTestSuiteActor::Tick(float DeltaSeconds)
@@ -33,6 +27,13 @@ void ADaeTestSuiteActor::Tick(float DeltaSeconds)
 
     if (!IsRunning())
     {
+        // Check if we should run all tests immediately.
+        // Happening in first Tick to make sure all actors have begun play.
+        if (bRunInPIE && GetWorld()->IsPlayInEditor() && TestIndex < 0)
+        {
+            RunAllTests();
+        }
+
         return;
     }
 
