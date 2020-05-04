@@ -5,8 +5,9 @@
 #include <GameFramework/PlayerInput.h>
 #include <Kismet/GameplayStatics.h>
 
-void UDaeTestInputBlueprintFunctionLibrary::ApplyInputAction(UObject* Context,
-                                                             const FName& ActionName)
+void UDaeTestInputBlueprintFunctionLibrary::ApplyInputAction(
+    UObject* Context, const FName& ActionName,
+    EInputEvent InputEventType /*= EInputEvent::IE_Pressed*/)
 {
     APlayerController* PlayerController = UGameplayStatics::GetPlayerController(Context, 0);
 
@@ -16,7 +17,7 @@ void UDaeTestInputBlueprintFunctionLibrary::ApplyInputAction(UObject* Context,
     {
         if (Mapping.ActionName == ActionName)
         {
-            PlayerController->InputKey(Mapping.Key, EInputEvent::IE_Pressed, 0.0f, false);
+            PlayerController->InputKey(Mapping.Key, InputEventType, 0.0f, false);
             return;
         }
     }

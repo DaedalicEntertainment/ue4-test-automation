@@ -14,7 +14,8 @@ class DAEDALICTESTAUTOMATIONPLUGIN_API UDaeTestInputBlueprintFunctionLibrary
 public:
     /** Applies the input action with the specified name once. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context"))
-    static void ApplyInputAction(UObject* Context, const FName& ActionName);
+    static void ApplyInputAction(UObject* Context, const FName& ActionName,
+                                 EInputEvent InputEventType = EInputEvent::IE_Pressed);
 
     /** Applies the input axis with the specified name. Pass AxisValue 0.0f to reset the input axis. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context"))
