@@ -27,6 +27,14 @@ public:
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context"))
     static void AssertFalse(UObject* Context, const FString& What, bool bValue);
 
+    /** Expects the specified object to be valid. */
+    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context"))
+    static void AssertValid(UObject* Context, const FString& What, UObject* Object);
+
+    /** Expects the specified object not to be valid. */
+    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context"))
+    static void AssertInvalid(UObject* Context, const FString& What, UObject* Object);
+
     /** Expects the specified trigger box to be triggered. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context"))
     static void AssertWasTriggered(UObject* Context, ADaeTestTriggerBox* TestTriggerBox);

@@ -33,6 +33,32 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertFalse(UObject* Context, const
     }
 }
 
+void UDaeTestAssertBlueprintFunctionLibrary::AssertValid(UObject* Context, const FString& What,
+                                                         UObject* Object)
+{
+    if (!IsValid(Object))
+    {
+        FString Message =
+            FString::Format(TEXT("Assertion failed - {0} - Expected: valid, but was: invalid"),
+                            {What});
+        OnTestFailed(Context, Message);
+        return;
+    }
+}
+
+void UDaeTestAssertBlueprintFunctionLibrary::AssertInvalid(UObject* Context, const FString& What,
+                                                           UObject* Object)
+{
+    if (IsValid(Object))
+    {
+        FString Message =
+            FString::Format(TEXT("Assertion failed - {0} - Expected: invalid, but was: valid"),
+                            {What});
+        OnTestFailed(Context, Message);
+        return;
+    }
+}
+
 void UDaeTestAssertBlueprintFunctionLibrary::AssertWasTriggered(UObject* Context,
                                                                 ADaeTestTriggerBox* TestTriggerBox)
 {
