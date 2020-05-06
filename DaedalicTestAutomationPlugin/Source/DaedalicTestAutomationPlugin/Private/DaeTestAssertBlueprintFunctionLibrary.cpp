@@ -3,7 +3,11 @@
 #include "DaeTestLogCategory.h"
 #include "DaeTestTriggerBox.h"
 #include <Blueprint/UserWidget.h>
+#include <Components/Image.h>
+#include <Components/RichTextBlock.h>
+#include <Components/TextBlock.h>
 #include <Kismet/KismetMathLibrary.h>
+#include <Styling/SlateBrush.h>
 
 const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormat =
     TEXT("Assertion failed - {0} - Expected: {1}, but was: {2}");
@@ -129,6 +133,67 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertWidgetIsVisible(UObject* Cont
     {
         FString Message = FString::Format(TEXT("Assertion failed - {0} - Widget isn't visible, hit "
                                                "test visible or self hit test visible"),
+                                          {What});
+        OnTestFailed(Context, Message);
+        return;
+    }
+}
+
+void UDaeTestAssertBlueprintFunctionLibrary::AssertTextIsSet(UObject* Context, const FString& What,
+                                                             UTextBlock* TextBlock)
+{
+    if (!IsValid(TextBlock))
+    {
+        FString Message =
+            FString::Format(TEXT("Assertion failed - {0} - Text block is not valid"), {What});
+        OnTestFailed(Context, Message);
+        return;
+    }
+
+    if (TextBlock->GetText().IsEmpty())
+    {
+        FString Message = FString::Format(TEXT("Assertion failed - {0} - Text is empty"), {What});
+        OnTestFailed(Context, Message);
+        return;
+    }
+}
+
+void UDaeTestAssertBlueprintFunctionLibrary::AssertRichTextIsSet(UObject* Context,
+                                                                 const FString& What,
+                                                                 URichTextBlock* RichTextBlock)
+{
+    if (!IsValid(RichTextBlock))
+    {
+        FString Message =
+            FString::Format(TEXT("Assertion failed - {0} - Rich text block is not valid"), {What});
+        OnTestFailed(Context, Message);
+        return;
+    }
+
+    if (RichTextBlock->GetText().IsEmpty())
+    {
+        FString Message =
+            FString::Format(TEXT("Assertion failed - {0} - Rich text is empty"), {What});
+        OnTestFailed(Context, Message);
+        return;
+    }
+}
+
+void UDaeTestAssertBlueprintFunctionLibrary::AssertImageIsSet(UObject* Context, const FString& What,
+                                                              UImage* Image)
+{
+    if (!IsValid(Image))
+    {
+        FString Message =
+            FString::Format(TEXT("Assertion failed - {0} - Image is not valid"), {What});
+        OnTestFailed(Context, Message);
+        return;
+    }
+
+    if (!IsValid(Image->Brush.GetResourceObject()))
+    {
+        FString Message = FString::Format(TEXT("Assertion failed - {0} - Image brush has no "
+                                               "resource object (e.g. texture or material)"),
                                           {What});
         OnTestFailed(Context, Message);
         return;

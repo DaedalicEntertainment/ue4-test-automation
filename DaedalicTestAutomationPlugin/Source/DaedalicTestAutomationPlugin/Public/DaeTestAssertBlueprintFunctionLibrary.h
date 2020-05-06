@@ -4,7 +4,11 @@
 #include <Kismet/BlueprintFunctionLibrary.h>
 #include "DaeTestAssertBlueprintFunctionLibrary.generated.h"
 
+class UImage;
+class URichTextBlock;
+class UTextBlock;
 class UUserWidget;
+
 class ADaeTestTriggerBox;
 
 /** Utility functions for asserting state in automated tests. */
@@ -54,6 +58,19 @@ public:
     /** Expects the specified widget to be valid and visible. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context"))
     static void AssertWidgetIsVisible(UObject* Context, const FString& What, UUserWidget* Widget);
+
+    /** Expects the specified text not to be empty. */
+    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context"))
+    static void AssertTextIsSet(UObject* Context, const FString& What, UTextBlock* TextBlock);
+
+    /** Expects the specified rich text not to be empty. */
+    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context"))
+    static void AssertRichTextIsSet(UObject* Context, const FString& What,
+                                    URichTextBlock* RichTextBlock);
+
+    /** Expects the specified image to be set up to use a texture or material. */
+    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context"))
+    static void AssertImageIsSet(UObject* Context, const FString& What, UImage* Image);
 
 private:
     static const FString ErrorMessageFormat;
