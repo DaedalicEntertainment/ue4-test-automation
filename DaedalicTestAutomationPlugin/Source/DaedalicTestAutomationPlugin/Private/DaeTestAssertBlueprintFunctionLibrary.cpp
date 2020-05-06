@@ -121,7 +121,7 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertWidgetIsVisible(UObject* Cont
         return;
     }
 
-    if (!Widget->IsInViewport())
+    if (!Widget->IsInViewport() && !IsValid(Widget->GetParent()))
     {
         FString Message = FString::Format(
             TEXT("Assertion failed - {0} - Widget hasn't been added to the viewport"), {What});
