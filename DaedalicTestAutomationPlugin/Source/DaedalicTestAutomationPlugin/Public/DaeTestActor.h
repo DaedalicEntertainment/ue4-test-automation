@@ -4,12 +4,16 @@
 #include <GameFramework/Actor.h>
 #include "DaeTestActor.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDaeTestActorTestSuccessfulSignature, ADaeTestActor*,
-                                            Test);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDaeTestActorTestFailedSignature, ADaeTestActor*, Test,
-                                             const FString&, FailureMessage);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDaeTestActorTestSkippedSignature, ADaeTestActor*,
-                                             Test, const FString&, SkipReason);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDaeTestActorTestSuccessfulSignature, ADaeTestActor*,
+                                             Test, UObject*, Parameter);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FDaeTestActorTestFailedSignature, ADaeTestActor*,
+                                               Test, UObject*, Parameter, const FString&,
+                                               FailureMessage);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FDaeTestActorTestSkippedSignature, ADaeTestActor*,
+                                               Test, UObject*, Parameter, const FString&,
+                                               SkipReason);
+
+class ADaeTestParameterProviderActor;
 
 /** Single automated test to be run as part of a test suite. */
 UCLASS()
@@ -20,8 +24,11 @@ class DAEDALICTESTAUTOMATIONPLUGIN_API ADaeTestActor : public AActor
 public:
     ADaeTestActor(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
+    /** Applies additional providers for appending parameters for this test. */
+    void ApplyParameterProviders();
+
     /** Starts executing this test. */
-    void RunTest();
+    void RunTest(UObject* TestParameter);
 
     /** Finishes execution of this test, automatically following up with the Assert step. */
     UFUNCTION(BlueprintCallable)
@@ -29,6 +36,13 @@ public:
 
     /** Gets how long this test is allowed to run before it fails automatically, in seconds. */
     float GetTimeoutInSeconds() const;
+
+    /** Gets the parameters to run this test with, one per run.  */
+    TArray<UObject*> GetParameters() const;
+
+    /** Gets the parameter for the current test run. */
+    UFUNCTION(BlueprintPure)
+    UObject* GetCurrentParameter() const;
 
     /** Event when this test has finished successfully. */
     virtual void NotifyOnTestSuccessful();
@@ -40,25 +54,25 @@ public:
     virtual void NotifyOnTestSkipped();
 
     /** Event when this test should set up. */
-    virtual void NotifyOnArrange();
+    virtual void NotifyOnArrange(UObject* Parameter);
 
     /** Event when this test should execute. */
-    virtual void NotifyOnAct();
+    virtual void NotifyOnAct(UObject* Parameter);
 
     /** Event when this test should check the results. */
-    virtual void NotifyOnAssert();
+    virtual void NotifyOnAssert(UObject* Parameter);
 
     /** Event when this test should set up. This is NOT a latent event. */
     UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "Arrange"))
-    void ReceiveOnArrange();
+    void ReceiveOnArrange(UObject* Parameter);
 
     /** Event when this test should execute. This is a latent event: You need to call FinishAct when you're finished. */
     UFUNCTION(BlueprintNativeEvent, meta = (DisplayName = "Act"))
-    void ReceiveOnAct();
+    void ReceiveOnAct(UObject* Parameter);
 
     /** Event when this test should check the results. This is NOT a latent event. */
     UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "Assert"))
-    void ReceiveOnAssert();
+    void ReceiveOnAssert(UObject* Parameter);
 
     /** Event when this test has finished successfully. */
     FDaeTestActorTestSuccessfulSignature OnTestSuccessful;
@@ -77,6 +91,18 @@ private:
     /** Reason for skipping this test. Test will be skipped if this is not empty. Useful for temporarily disabling unstable tests. */
     UPROPERTY(EditAnywhere)
     FString SkipReason;
+
+    /** Parameterizes this test, running it multiple times, once per specified parameter.  */
+    UPROPERTY(EditAnywhere)
+    TArray<UObject*> Parameters;
+
+    /** Additional providers for appending parameters for this test. Applied exactly once before the first test run. */
+    UPROPERTY(EditAnywhere)
+    TArray<ADaeTestParameterProviderActor*> ParameterProviders;
+
+    /** Parameter for the current test run. */
+    UPROPERTY()
+    UObject* CurrentParameter;
 
     /** Whether this test has finished executing (either with success or failure). */
     bool bHasResult;

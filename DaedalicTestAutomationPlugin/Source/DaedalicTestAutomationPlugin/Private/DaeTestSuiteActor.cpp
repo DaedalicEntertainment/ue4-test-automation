@@ -57,7 +57,10 @@ void ADaeTestSuiteActor::RunAllTests()
            *GetName());
 
     NotifyOnBeforeAll();
+
     TestIndex = -1;
+    TestParameterIndex = -1;
+
     RunNextTest();
 }
 
@@ -69,6 +72,41 @@ bool ADaeTestSuiteActor::IsRunning() const
 ADaeTestActor* ADaeTestSuiteActor::GetCurrentTest() const
 {
     return Tests.IsValidIndex(TestIndex) ? Tests[TestIndex] : nullptr;
+}
+
+UObject* ADaeTestSuiteActor::GetCurrentTestParameter() const
+{
+    ADaeTestActor* Test = GetCurrentTest();
+
+    if (!IsValid(Test))
+    {
+        return nullptr;
+    }
+
+    TArray<UObject*> TestParameters = Test->GetParameters();
+    return TestParameters.IsValidIndex(TestParameterIndex) ? TestParameters[TestParameterIndex]
+                                                           : nullptr;
+}
+
+FString ADaeTestSuiteActor::GetCurrentTestName() const
+{
+    ADaeTestActor* Test = GetCurrentTest();
+
+    if (!IsValid(Test))
+    {
+        return FString();
+    }
+
+    FString TestName = Test->GetName();
+
+    UObject* Parameter = GetCurrentTestParameter();
+
+    if (IsValid(Parameter))
+    {
+        TestName += TEXT(" - ") + Parameter->GetName();
+    }
+
+    return TestName;
 }
 
 FDaeTestSuiteResult ADaeTestSuiteActor::GetResult() const
@@ -108,8 +146,26 @@ void ADaeTestSuiteActor::RunNextTest()
         CurrentTest->OnTestSkipped.RemoveDynamic(this, &ADaeTestSuiteActor::OnTestSkipped);
     }
 
-    // Prepare next test.
-    ++TestIndex;
+    // Prepare test run with next parameter.
+    ++TestParameterIndex;
+
+    UObject* CurrentTestParameter = GetCurrentTestParameter();
+
+    if (!IsValid(CurrentTestParameter))
+    {
+        // Prepare next test.
+        ++TestIndex;
+        TestParameterIndex = 0;
+
+        // Apply parameter providers.
+        ADaeTestActor* NextTest = GetCurrentTest();
+
+        if (IsValid(NextTest))
+        {
+            NextTest->ApplyParameterProviders();
+        }
+    }
+
     TestTimeSeconds = 0.0f;
 
     if (!Tests.IsValidIndex(TestIndex))
@@ -133,12 +189,12 @@ void ADaeTestSuiteActor::RunNextTest()
         return;
     }
 
-    ADaeTestActor* Test = Tests[TestIndex];
+    ADaeTestActor* Test = GetCurrentTest();
 
     if (IsValid(Test))
     {
-        UE_LOG(LogDaeTest, Display, TEXT("ADaeTestSuiteActor::RunNextTest - Test: %s"),
-               *Test->GetName());
+        FString TestName = GetCurrentTestName();
+        UE_LOG(LogDaeTest, Display, TEXT("ADaeTestSuiteActor::RunNextTest - Test: %s"), *TestName);
 
         // Register events.
         Test->OnTestSuccessful.AddDynamic(this, &ADaeTestSuiteActor::OnTestSuccessful);
@@ -148,7 +204,8 @@ void ADaeTestSuiteActor::RunNextTest()
         // Run test.
         NotifyOnBeforeEach();
 
-        Test->RunTest();
+        UObject* TestParameter = GetCurrentTestParameter();
+        Test->RunTest(TestParameter);
     }
     else
     {
@@ -160,7 +217,7 @@ void ADaeTestSuiteActor::RunNextTest()
     }
 }
 
-void ADaeTestSuiteActor::OnTestSuccessful(ADaeTestActor* Test)
+void ADaeTestSuiteActor::OnTestSuccessful(ADaeTestActor* Test, UObject* Parameter)
 {
     if (Test != GetCurrentTest())
     {
@@ -168,11 +225,13 @@ void ADaeTestSuiteActor::OnTestSuccessful(ADaeTestActor* Test)
         return;
     }
 
+    FString CurrentTestName = GetCurrentTestName();
+
     UE_LOG(LogDaeTest, Display, TEXT("ADaeTestSuiteActor::OnTestSuccessful - Test: %s"),
-           *Test->GetName());
+           *CurrentTestName);
 
     // Store result.
-    FDaeTestResult TestResult(Test->GetName(), TestTimeSeconds);
+    FDaeTestResult TestResult(CurrentTestName, TestTimeSeconds);
     Result.TestResults.Add(TestResult);
 
     // Run next test.
@@ -181,7 +240,8 @@ void ADaeTestSuiteActor::OnTestSuccessful(ADaeTestActor* Test)
     RunNextTest();
 }
 
-void ADaeTestSuiteActor::OnTestFailed(ADaeTestActor* Test, const FString& FailureMessage)
+void ADaeTestSuiteActor::OnTestFailed(ADaeTestActor* Test, UObject* Parameter,
+                                      const FString& FailureMessage)
 {
     if (Test != GetCurrentTest())
     {
@@ -189,12 +249,14 @@ void ADaeTestSuiteActor::OnTestFailed(ADaeTestActor* Test, const FString& Failur
         return;
     }
 
+    FString CurrentTestName = GetCurrentTestName();
+
     UE_LOG(LogDaeTest, Error,
            TEXT("ADaeTestSuiteActor::OnTestFailed - Test: %s, FailureMessage: %s"),
-           *Test->GetName(), *FailureMessage);
+           *CurrentTestName, *FailureMessage);
 
     // Store result.
-    FDaeTestResult TestResult(Test->GetName(), TestTimeSeconds);
+    FDaeTestResult TestResult(CurrentTestName, TestTimeSeconds);
     TestResult.FailureMessage = FailureMessage;
     Result.TestResults.Add(TestResult);
 
@@ -204,7 +266,8 @@ void ADaeTestSuiteActor::OnTestFailed(ADaeTestActor* Test, const FString& Failur
     RunNextTest();
 }
 
-void ADaeTestSuiteActor::OnTestSkipped(ADaeTestActor* Test, const FString& SkipReason)
+void ADaeTestSuiteActor::OnTestSkipped(ADaeTestActor* Test, UObject* Parameter,
+                                       const FString& SkipReason)
 {
     if (Test != GetCurrentTest())
     {
@@ -212,12 +275,14 @@ void ADaeTestSuiteActor::OnTestSkipped(ADaeTestActor* Test, const FString& SkipR
         return;
     }
 
+    FString CurrentTestName = GetCurrentTestName();
+
     UE_LOG(LogDaeTest, Display,
-           TEXT("ADaeTestSuiteActor::OnTestSkipped - Test: %s, SkipReason: %s"), *Test->GetName(),
+           TEXT("ADaeTestSuiteActor::OnTestSkipped - Test: %s, SkipReason: %s"), *CurrentTestName,
            *SkipReason);
 
     // Store result.
-    FDaeTestResult TestResult(Test->GetName(), TestTimeSeconds);
+    FDaeTestResult TestResult(CurrentTestName, TestTimeSeconds);
     TestResult.SkipReason = SkipReason;
     Result.TestResults.Add(TestResult);
 
