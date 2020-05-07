@@ -13,6 +13,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FDaeTestActorTestSkippedSignature
                                                Test, UObject*, Parameter, const FString&,
                                                SkipReason);
 
+class ADaeTestParameterProviderActor;
+
 /** Single automated test to be run as part of a test suite. */
 UCLASS()
 class DAEDALICTESTAUTOMATIONPLUGIN_API ADaeTestActor : public AActor
@@ -21,6 +23,9 @@ class DAEDALICTESTAUTOMATIONPLUGIN_API ADaeTestActor : public AActor
 
 public:
     ADaeTestActor(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+    /** Applies additional providers for appending parameters for this test. */
+    void ApplyParameterProviders();
 
     /** Starts executing this test. */
     void RunTest(UObject* TestParameter);
@@ -90,6 +95,10 @@ private:
     /** Parameterizes this test, running it multiple times, once per specified parameter.  */
     UPROPERTY(EditAnywhere)
     TArray<UObject*> Parameters;
+
+    /** Additional providers for appending parameters for this test. Applied exactly once before the first test run. */
+    UPROPERTY(EditAnywhere)
+    TArray<ADaeTestParameterProviderActor*> ParameterProviders;
 
     /** Parameter for the current test run. */
     UPROPERTY()

@@ -146,15 +146,24 @@ void ADaeTestSuiteActor::RunNextTest()
         CurrentTest->OnTestSkipped.RemoveDynamic(this, &ADaeTestSuiteActor::OnTestSkipped);
     }
 
-    // Prepare next test.
+    // Prepare test run with next parameter.
     ++TestParameterIndex;
 
     UObject* CurrentTestParameter = GetCurrentTestParameter();
 
     if (!IsValid(CurrentTestParameter))
     {
+        // Prepare next test.
         ++TestIndex;
         TestParameterIndex = 0;
+
+        // Apply parameter providers.
+        ADaeTestActor* NextTest = GetCurrentTest();
+
+        if (IsValid(NextTest))
+        {
+            NextTest->ApplyParameterProviders();
+        }
     }
 
     TestTimeSeconds = 0.0f;

@@ -2,6 +2,7 @@
 
 #include "AutomationTestFramework/DaeTestAutomationPluginAutomationTestFrameworkIntegration.h"
 #include "AssetTypeActions_DaeTestActorBlueprint.h"
+#include "AssetTypeActions_DaeTestParameterProviderActorBlueprint.h"
 #include "AssetTypeActions_DaeTestSuiteActorBlueprint.h"
 #include "DaeTestAutomationPluginSettings.h"
 #include "DaedalicTestAutomationPluginEditorClasses.h"
@@ -59,6 +60,11 @@ void FDaedalicTestAutomationPluginEditor::StartupModule()
     TSharedRef<IAssetTypeActions> TestSuiteActorBlueprintAction = MakeShareable(
         new FAssetTypeActions_DaeTestSuiteActorBlueprint(DaedalicTestAutomationAssetCategory));
     RegisterAssetTypeAction(AssetTools, TestSuiteActorBlueprintAction);
+
+    TSharedRef<IAssetTypeActions> TestParameterProviderActorBlueprintAction =
+        MakeShareable(new FAssetTypeActions_DaeTestParameterProviderActorBlueprint(
+            DaedalicTestAutomationAssetCategory));
+    RegisterAssetTypeAction(AssetTools, TestParameterProviderActorBlueprintAction);
 
     // Register settings.
     if (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings"))

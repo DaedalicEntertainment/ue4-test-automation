@@ -1,11 +1,38 @@
 #include "DaeTestActor.h"
 #include "DaeTestLogCategory.h"
+#include "DaeTestParameterProviderActor.h"
 
 ADaeTestActor::ADaeTestActor(
     const FObjectInitializer& ObjectInitializer /*= FObjectInitializer::Get()*/)
     : Super(ObjectInitializer)
 {
     TimeoutInSeconds = 30.0f;
+}
+
+void ADaeTestActor::ApplyParameterProviders()
+{
+    for (int32 Index = 0; Index < ParameterProviders.Num(); ++Index)
+    {
+        ADaeTestParameterProviderActor* Provider = ParameterProviders[Index];
+
+        if (!IsValid(Provider))
+        {
+            UE_LOG(LogDaeTest, Error,
+                   TEXT("ADaeTestActor::ApplyParameterProviders - %s has invalid parameter "
+                        "provider at index %i, skipping."),
+                   *GetName(), Index);
+
+            continue;
+        }
+
+        TArray<UObject*> AdditionalParameters = Provider->GetParameters();
+        Parameters.Append(AdditionalParameters);
+
+        UE_LOG(LogDaeTest, Log,
+               TEXT("ADaeTestActor::ApplyParameterProviders - %s appended %i additional parameters "
+                    "provided by %s."),
+               *GetName(), AdditionalParameters.Num(), *Provider->GetName());
+    }
 }
 
 void ADaeTestActor::RunTest(UObject* TestParameter)
