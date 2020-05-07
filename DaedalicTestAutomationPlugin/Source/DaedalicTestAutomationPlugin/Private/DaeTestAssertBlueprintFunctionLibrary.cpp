@@ -22,13 +22,14 @@ const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatInRange 
 const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatNotInRange =
     TEXT("Assertion failed - {0} - Expected: not between {1} and {2}, but was: {3}");
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertFail(UObject* Context, const FString& What)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertFail(const FString& What,
+                                                        UObject* Context /*= nullptr*/)
 {
     OnTestFailed(Context, What);
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertTrue(UObject* Context, const FString& What,
-                                                        bool bValue)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertTrue(const FString& What, bool bValue,
+                                                        UObject* Context /*= nullptr*/)
 {
     if (!bValue)
     {
@@ -38,8 +39,8 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertTrue(UObject* Context, const 
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertFalse(UObject* Context, const FString& What,
-                                                         bool bValue)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertFalse(const FString& What, bool bValue,
+                                                         UObject* Context /*= nullptr*/)
 {
     if (bValue)
     {
@@ -49,8 +50,8 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertFalse(UObject* Context, const
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertValid(UObject* Context, const FString& What,
-                                                         UObject* Object)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertValid(const FString& What, UObject* Object,
+                                                         UObject* Context /*= nullptr*/)
 {
     if (!IsValid(Object))
     {
@@ -62,8 +63,8 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertValid(UObject* Context, const
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertInvalid(UObject* Context, const FString& What,
-                                                           UObject* Object)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertInvalid(const FString& What, UObject* Object,
+                                                           UObject* Context /*= nullptr*/)
 {
     if (IsValid(Object))
     {
@@ -75,8 +76,8 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertInvalid(UObject* Context, con
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertWasTriggered(UObject* Context,
-                                                                ADaeTestTriggerBox* TestTriggerBox)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertWasTriggered(ADaeTestTriggerBox* TestTriggerBox,
+                                                                UObject* Context /*= nullptr*/)
 {
     if (!IsValid(TestTriggerBox))
     {
@@ -95,7 +96,7 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertWasTriggered(UObject* Context
 }
 
 void UDaeTestAssertBlueprintFunctionLibrary::AssertWasNotTriggered(
-    UObject* Context, ADaeTestTriggerBox* TestTriggerBox)
+    ADaeTestTriggerBox* TestTriggerBox, UObject* Context /*= nullptr*/)
 {
     if (!IsValid(TestTriggerBox))
     {
@@ -112,47 +113,51 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertWasNotTriggered(
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(UObject* Context, const FString& What,
-                                                             uint8 Actual, uint8 Expected)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(const FString& What, uint8 Actual,
+                                                             uint8 Expected,
+                                                             UObject* Context /*= nullptr*/)
 {
     AssertEqual(Context, What, Actual, Expected);
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(UObject* Context,
-                                                                const FString& What, uint8 Actual,
-                                                                uint8 Unexpected)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(const FString& What, uint8 Actual,
+                                                                uint8 Unexpected,
+                                                                UObject* Context /*= nullptr*/)
 {
     AssertNotEqual(Context, What, Actual, Unexpected);
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualInt32(UObject* Context, const FString& What,
-                                                              int32 Actual, int32 Expected)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualInt32(const FString& What, int32 Actual,
+                                                              int32 Expected,
+                                                              UObject* Context /*= nullptr*/)
 {
     AssertEqual(Context, What, Actual, Expected);
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualInt32(UObject* Context,
-                                                                 const FString& What, int32 Actual,
-                                                                 int32 Unexpected)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualInt32(const FString& What, int32 Actual,
+                                                                 int32 Unexpected,
+                                                                 UObject* Context /*= nullptr*/)
 {
     AssertNotEqual(Context, What, Actual, Unexpected);
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualInt64(UObject* Context, const FString& What,
-                                                              int64 Actual, int64 Expected)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualInt64(const FString& What, int64 Actual,
+                                                              int64 Expected,
+                                                              UObject* Context /*= nullptr*/)
 {
     AssertEqual(Context, What, Actual, Expected);
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualInt64(UObject* Context,
-                                                                 const FString& What, int64 Actual,
-                                                                 int64 Unexpected)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualInt64(const FString& What, int64 Actual,
+                                                                 int64 Unexpected,
+                                                                 UObject* Context /*= nullptr*/)
 {
     AssertNotEqual(Context, What, Actual, Unexpected);
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualFloat(UObject* Context, const FString& What,
-                                                              float Actual, float Expected)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualFloat(const FString& What, float Actual,
+                                                              float Expected,
+                                                              UObject* Context /*= nullptr*/)
 {
     if (!FMath::IsNearlyEqual(Actual, Expected))
     {
@@ -161,9 +166,9 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualFloat(UObject* Context, 
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualFloat(UObject* Context,
-                                                                 const FString& What, float Actual,
-                                                                 float Unexpected)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualFloat(const FString& What, float Actual,
+                                                                 float Unexpected,
+                                                                 UObject* Context /*= nullptr*/)
 {
     if (FMath::IsNearlyEqual(Actual, Unexpected))
     {
@@ -172,9 +177,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualFloat(UObject* Contex
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualName(UObject* Context, const FString& What,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualName(const FString& What,
                                                              const FName& Actual,
-                                                             const FName& Expected)
+                                                             const FName& Expected,
+                                                             UObject* Context /*= nullptr*/)
 {
     if (!Actual.IsEqual(Expected))
     {
@@ -184,10 +190,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualName(UObject* Context, c
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualName(UObject* Context,
-                                                                const FString& What,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualName(const FString& What,
                                                                 const FName& Actual,
-                                                                const FName& Unexpected)
+                                                                const FName& Unexpected,
+                                                                UObject* Context /*= nullptr*/)
 {
     if (Actual.IsEqual(Unexpected))
     {
@@ -197,10 +203,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualName(UObject* Context
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualString(UObject* Context,
-                                                               const FString& What,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualString(const FString& What,
                                                                const FString& Actual,
-                                                               const FString& Expected)
+                                                               const FString& Expected,
+                                                               UObject* Context /*= nullptr*/)
 {
     if (!Actual.Equals(Expected))
     {
@@ -209,10 +215,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualString(UObject* Context,
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualString(UObject* Context,
-                                                                  const FString& What,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualString(const FString& What,
                                                                   const FString& Actual,
-                                                                  const FString& Unexpected)
+                                                                  const FString& Unexpected,
+                                                                  UObject* Context /*= nullptr*/)
 {
     if (Actual.Equals(Unexpected))
     {
@@ -221,9 +227,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualString(UObject* Conte
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualText(UObject* Context, const FString& What,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualText(const FString& What,
                                                              const FText& Actual,
-                                                             const FText& Expected)
+                                                             const FText& Expected,
+                                                             UObject* Context /*= nullptr*/)
 {
     if (!Actual.EqualTo(Expected))
     {
@@ -233,10 +240,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualText(UObject* Context, c
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualText(UObject* Context,
-                                                                const FString& What,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualText(const FString& What,
                                                                 const FText& Actual,
-                                                                const FText& Unexpected)
+                                                                const FText& Unexpected,
+                                                                UObject* Context /*= nullptr*/)
 {
     if (Actual.EqualTo(Unexpected))
     {
@@ -246,10 +253,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualText(UObject* Context
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualVector(UObject* Context,
-                                                               const FString& What,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualVector(const FString& What,
                                                                const FVector& Actual,
-                                                               const FVector& Expected)
+                                                               const FVector& Expected,
+                                                               UObject* Context /*= nullptr*/)
 {
     if (!Actual.Equals(Expected))
     {
@@ -259,10 +266,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualVector(UObject* Context,
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualVector(UObject* Context,
-                                                                  const FString& What,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualVector(const FString& What,
                                                                   const FVector& Actual,
-                                                                  const FVector& Unexpected)
+                                                                  const FVector& Unexpected,
+                                                                  UObject* Context /*= nullptr*/)
 {
     if (Actual.Equals(Unexpected))
     {
@@ -272,10 +279,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualVector(UObject* Conte
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualRotator(UObject* Context,
-                                                                const FString& What,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualRotator(const FString& What,
                                                                 const FRotator& Actual,
-                                                                const FRotator& Expected)
+                                                                const FRotator& Expected,
+                                                                UObject* Context /*= nullptr*/)
 {
     if (!Actual.Equals(Expected))
     {
@@ -285,10 +292,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualRotator(UObject* Context
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualRotator(UObject* Context,
-                                                                   const FString& What,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualRotator(const FString& What,
                                                                    const FRotator& Actual,
-                                                                   const FRotator& Unexpected)
+                                                                   const FRotator& Unexpected,
+                                                                   UObject* Context /*= nullptr*/)
 {
     if (Actual.Equals(Unexpected))
     {
@@ -298,10 +305,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualRotator(UObject* Cont
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualTransform(UObject* Context,
-                                                                  const FString& What,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualTransform(const FString& What,
                                                                   const FTransform& Actual,
-                                                                  const FTransform& Expected)
+                                                                  const FTransform& Expected,
+                                                                  UObject* Context /*= nullptr*/)
 {
     if (!Actual.Equals(Expected))
     {
@@ -311,10 +318,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualTransform(UObject* Conte
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualTransform(UObject* Context,
-                                                                     const FString& What,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualTransform(const FString& What,
                                                                      const FTransform& Actual,
-                                                                     const FTransform& Unexpected)
+                                                                     const FTransform& Unexpected,
+                                                                     UObject* Context /*= nullptr*/)
 {
     if (Actual.Equals(Unexpected))
     {
@@ -324,26 +331,26 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualTransform(UObject* Co
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertInRangeByte(UObject* Context,
-                                                               const FString& What, uint8 Value,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertInRangeByte(const FString& What, uint8 Value,
                                                                uint8 MinInclusive,
-                                                               uint8 MaxInclusive)
+                                                               uint8 MaxInclusive,
+                                                               UObject* Context /*= nullptr*/)
 {
-    AssertInRangeInt32(Context, What, Value, MinInclusive, MaxInclusive);
+    AssertInRangeInt32(What, Value, MinInclusive, MaxInclusive, Context);
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotInRangeByte(UObject* Context,
-                                                                  const FString& What, uint8 Value,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotInRangeByte(const FString& What, uint8 Value,
                                                                   uint8 MinInclusive,
-                                                                  uint8 MaxInclusive)
+                                                                  uint8 MaxInclusive,
+                                                                  UObject* Context /*= nullptr*/)
 {
-    AssertNotInRangeInt32(Context, What, Value, MinInclusive, MaxInclusive);
+    AssertNotInRangeInt32(What, Value, MinInclusive, MaxInclusive, Context);
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertInRangeInt32(UObject* Context,
-                                                                const FString& What, int32 Value,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertInRangeInt32(const FString& What, int32 Value,
                                                                 int32 MinInclusive,
-                                                                int32 MaxInclusive)
+                                                                int32 MaxInclusive,
+                                                                UObject* Context /*= nullptr*/)
 {
     if (!UKismetMathLibrary::InRange_IntInt(Value, MinInclusive, MaxInclusive))
     {
@@ -353,10 +360,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertInRangeInt32(UObject* Context
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotInRangeInt32(UObject* Context,
-                                                                   const FString& What, int32 Value,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotInRangeInt32(const FString& What, int32 Value,
                                                                    int32 MinInclusive,
-                                                                   int32 MaxInclusive)
+                                                                   int32 MaxInclusive,
+                                                                   UObject* Context /*= nullptr*/)
 {
     if (UKismetMathLibrary::InRange_IntInt(Value, MinInclusive, MaxInclusive))
     {
@@ -366,10 +373,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotInRangeInt32(UObject* Cont
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertInRangeInt64(UObject* Context,
-                                                                const FString& What, int64 Value,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertInRangeInt64(const FString& What, int64 Value,
                                                                 int64 MinInclusive,
-                                                                int64 MaxInclusive)
+                                                                int64 MaxInclusive,
+                                                                UObject* Context /*= nullptr*/)
 {
     if (!UKismetMathLibrary::InRange_Int64Int64(Value, MinInclusive, MaxInclusive))
     {
@@ -379,10 +386,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertInRangeInt64(UObject* Context
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotInRangeInt64(UObject* Context,
-                                                                   const FString& What, int64 Value,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotInRangeInt64(const FString& What, int64 Value,
                                                                    int64 MinInclusive,
-                                                                   int64 MaxInclusive)
+                                                                   int64 MaxInclusive,
+                                                                   UObject* Context /*= nullptr*/)
 {
     if (UKismetMathLibrary::InRange_Int64Int64(Value, MinInclusive, MaxInclusive))
     {
@@ -392,10 +399,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotInRangeInt64(UObject* Cont
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertInRangeFloat(UObject* Context,
-                                                                const FString& What, float Value,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertInRangeFloat(const FString& What, float Value,
                                                                 float MinInclusive,
-                                                                float MaxInclusive)
+                                                                float MaxInclusive,
+                                                                UObject* Context /*= nullptr*/)
 {
     if (!UKismetMathLibrary::InRange_FloatFloat(Value, MinInclusive, MaxInclusive))
     {
@@ -405,10 +412,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertInRangeFloat(UObject* Context
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotInRangeFloat(UObject* Context,
-                                                                   const FString& What, float Value,
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotInRangeFloat(const FString& What, float Value,
                                                                    float MinInclusive,
-                                                                   float MaxInclusive)
+                                                                   float MaxInclusive,
+                                                                   UObject* Context /*= nullptr*/)
 {
     if (UKismetMathLibrary::InRange_FloatFloat(Value, MinInclusive, MaxInclusive))
     {
@@ -418,9 +425,9 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotInRangeFloat(UObject* Cont
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertWidgetIsVisible(UObject* Context,
-                                                                   const FString& What,
-                                                                   UUserWidget* Widget)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertWidgetIsVisible(const FString& What,
+                                                                   UUserWidget* Widget,
+                                                                   UObject* Context /*= nullptr*/)
 {
     if (!IsValid(Widget))
     {
@@ -448,8 +455,9 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertWidgetIsVisible(UObject* Cont
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertTextIsSet(UObject* Context, const FString& What,
-                                                             UTextBlock* TextBlock)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertTextIsSet(const FString& What,
+                                                             UTextBlock* TextBlock,
+                                                             UObject* Context /*= nullptr*/)
 {
     if (!IsValid(TextBlock))
     {
@@ -467,9 +475,9 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertTextIsSet(UObject* Context, c
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertRichTextIsSet(UObject* Context,
-                                                                 const FString& What,
-                                                                 URichTextBlock* RichTextBlock)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertRichTextIsSet(const FString& What,
+                                                                 URichTextBlock* RichTextBlock,
+                                                                 UObject* Context /*= nullptr*/)
 {
     if (!IsValid(RichTextBlock))
     {
@@ -488,8 +496,8 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertRichTextIsSet(UObject* Contex
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertImageIsSet(UObject* Context, const FString& What,
-                                                              UImage* Image)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertImageIsSet(const FString& What, UImage* Image,
+                                                              UObject* Context /*= nullptr*/)
 {
     if (!IsValid(Image))
     {
