@@ -8,8 +8,9 @@ ADaeTestActor::ADaeTestActor(
     TimeoutInSeconds = 30.0f;
 }
 
-void ADaeTestActor::RunTest()
+void ADaeTestActor::RunTest(UObject* TestParameter)
 {
+    CurrentParameter = TestParameter;
     bHasResult = false;
 
     if (!SkipReason.IsEmpty())
@@ -18,8 +19,8 @@ void ADaeTestActor::RunTest()
         return;
     }
 
-    NotifyOnArrange();
-    NotifyOnAct();
+    NotifyOnArrange(CurrentParameter);
+    NotifyOnAct(CurrentParameter);
 }
 
 void ADaeTestActor::FinishAct()
@@ -33,7 +34,7 @@ void ADaeTestActor::FinishAct()
         return;
     }
 
-    NotifyOnAssert();
+    NotifyOnAssert(CurrentParameter);
 
     if (!bHasResult)
     {
@@ -46,6 +47,16 @@ float ADaeTestActor::GetTimeoutInSeconds() const
     return TimeoutInSeconds;
 }
 
+TArray<UObject*> ADaeTestActor::GetParameters() const
+{
+    return Parameters;
+}
+
+UObject* ADaeTestActor::GetCurrentParameter() const
+{
+    return CurrentParameter;
+}
+
 void ADaeTestActor::NotifyOnTestSuccessful()
 {
     if (bHasResult)
@@ -55,7 +66,7 @@ void ADaeTestActor::NotifyOnTestSuccessful()
 
     bHasResult = true;
 
-    OnTestSuccessful.Broadcast(this);
+    OnTestSuccessful.Broadcast(this, CurrentParameter);
 }
 
 void ADaeTestActor::NotifyOnTestFailed(const FString& Message)
@@ -69,7 +80,7 @@ void ADaeTestActor::NotifyOnTestFailed(const FString& Message)
 
     UE_LOG(LogDaeTest, Error, TEXT("%s"), *Message);
 
-    OnTestFailed.Broadcast(this, Message);
+    OnTestFailed.Broadcast(this, CurrentParameter, Message);
 }
 
 void ADaeTestActor::NotifyOnTestSkipped()
@@ -81,25 +92,25 @@ void ADaeTestActor::NotifyOnTestSkipped()
 
     bHasResult = true;
 
-    OnTestSkipped.Broadcast(this, SkipReason);
+    OnTestSkipped.Broadcast(this, CurrentParameter, SkipReason);
 }
 
-void ADaeTestActor::NotifyOnArrange()
+void ADaeTestActor::NotifyOnArrange(UObject* Parameter)
 {
-    ReceiveOnArrange();
+    ReceiveOnArrange(Parameter);
 }
 
-void ADaeTestActor::NotifyOnAct()
+void ADaeTestActor::NotifyOnAct(UObject* Parameter)
 {
-    ReceiveOnAct();
+    ReceiveOnAct(Parameter);
 }
 
-void ADaeTestActor::NotifyOnAssert()
+void ADaeTestActor::NotifyOnAssert(UObject* Parameter)
 {
-    ReceiveOnAssert();
+    ReceiveOnAssert(Parameter);
 }
 
-void ADaeTestActor::ReceiveOnAct_Implementation()
+void ADaeTestActor::ReceiveOnAct_Implementation(UObject* Parameter)
 {
     FinishAct();
 }

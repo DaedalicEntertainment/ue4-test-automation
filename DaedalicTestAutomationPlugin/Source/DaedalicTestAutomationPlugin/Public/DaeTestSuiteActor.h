@@ -33,6 +33,12 @@ public:
     /** Gets the test that is currently running. */
     ADaeTestActor* GetCurrentTest() const;
 
+    /** Gets the parameter for the current test run. */
+    UObject* GetCurrentTestParameter() const;
+
+    /** Gets the name of the current test. */
+    FString GetCurrentTestName() const;
+
     /** Results of the whole test suite. */
     FDaeTestSuiteResult GetResult() const;
 
@@ -82,6 +88,9 @@ private:
     /** Index of the current test. */
     int32 TestIndex;
 
+    /** Index of the current parameter the current test is run with. */
+    int32 TestParameterIndex;
+
     /** Time the current test has been running, in seconds. */
     float TestTimeSeconds;
 
@@ -92,11 +101,11 @@ private:
     void RunNextTest();
 
     UFUNCTION()
-    void OnTestSuccessful(ADaeTestActor* Test);
+    void OnTestSuccessful(ADaeTestActor* Test, UObject* Parameter);
 
     UFUNCTION()
-    void OnTestFailed(ADaeTestActor* Test, const FString& FailureMessage);
+    void OnTestFailed(ADaeTestActor* Test, UObject* Parameter, const FString& FailureMessage);
 
     UFUNCTION()
-    void OnTestSkipped(ADaeTestActor* Test, const FString& SkipReason);
+    void OnTestSkipped(ADaeTestActor* Test, UObject* Parameter, const FString& SkipReason);
 };
