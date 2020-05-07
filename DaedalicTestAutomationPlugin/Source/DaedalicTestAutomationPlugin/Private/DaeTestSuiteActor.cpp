@@ -39,12 +39,15 @@ void ADaeTestSuiteActor::Tick(float DeltaSeconds)
 
     TestTimeSeconds += DeltaSeconds;
 
-    if (TestTimeSeconds >= GetCurrentTest()->GetTimeoutInSeconds())
+    ADaeTestActor* CurrentTest = GetCurrentTest();
+
+    if (TestTimeSeconds >= CurrentTest->GetTimeoutInSeconds())
     {
-        // Timed out.
-        const FString& ErrorMessage = FString::Printf(TEXT("Timed out after %f seconds"),
-                                                      GetCurrentTest()->GetTimeoutInSeconds());
-        OnTestFailed(GetCurrentTest(), ErrorMessage);
+        // Enough waiting. Let's see the results.
+        UE_LOG(LogDaeTest, Warning, TEXT("Timed out after %f seconds"),
+               CurrentTest->GetTimeoutInSeconds());
+
+        CurrentTest->FinishAct();
     }
 }
 
