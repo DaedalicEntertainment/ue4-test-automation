@@ -36,6 +36,34 @@ public:
     /** Results of the whole test suite. */
     FDaeTestSuiteResult GetResult() const;
 
+    /** Event when this test suite should set up. */
+    virtual void NotifyOnBeforeAll();
+
+    /** Event when this test suite has finished all tests. */
+    virtual void NotifyOnAfterAll();
+
+    /** Event when this test suite should set up for the next test. */
+    virtual void NotifyOnBeforeEach();
+
+    /** Event when this test suite should has finished a test. */
+    virtual void NotifyOnAfterEach();
+
+    /** Event when this test suite should set up. This is NOT a latent event. */
+    UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "BeforeAll"))
+    void ReceiveOnBeforeAll();
+
+    /** Event when this test suite has finished all tests. This is NOT a latent event. */
+    UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "AfterAll"))
+    void ReceiveOnAfterAll();
+
+    /** Event when this test suite should set up for the next test. This is NOT a latent event. */
+    UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "BeforeEach"))
+    void ReceiveOnBeforeEach();
+
+    /** Event when this test suite should has finished a test. This is NOT a latent event. */
+    UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "AfterEach"))
+    void ReceiveOnAfterEach();
+
     /** Event when this test suite has successfully finished all tests. */
     FDaeTestSuiteActorTestSuiteSuccessfulSignature OnTestSuiteSuccessful;
 

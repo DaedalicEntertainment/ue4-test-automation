@@ -49,6 +49,7 @@ UObject* UDaeTestActorBlueprintFactory::FactoryCreateNew(UClass* Class, UObject*
     EdGraph->bAllowDeletion = false;
 
     UBlueprintEditorSettings* Settings = GetMutableDefault<UBlueprintEditorSettings>();
+
     if (Settings && Settings->bSpawnDefaultBlueprintNodes)
     {
         int32 NodePositionY = 0;

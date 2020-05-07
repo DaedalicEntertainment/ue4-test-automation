@@ -56,6 +56,7 @@ void ADaeTestSuiteActor::RunAllTests()
     UE_LOG(LogDaeTest, Display, TEXT("ADaeTestSuiteActor::RunAllTests - Test Suite: %s"),
            *GetName());
 
+    NotifyOnBeforeAll();
     TestIndex = -1;
     RunNextTest();
 }
@@ -73,6 +74,26 @@ ADaeTestActor* ADaeTestSuiteActor::GetCurrentTest() const
 FDaeTestSuiteResult ADaeTestSuiteActor::GetResult() const
 {
     return Result;
+}
+
+void ADaeTestSuiteActor::NotifyOnBeforeAll()
+{
+    ReceiveOnBeforeAll();
+}
+
+void ADaeTestSuiteActor::NotifyOnAfterAll()
+{
+    ReceiveOnAfterAll();
+}
+
+void ADaeTestSuiteActor::NotifyOnBeforeEach()
+{
+    ReceiveOnBeforeEach();
+}
+
+void ADaeTestSuiteActor::NotifyOnAfterEach()
+{
+    ReceiveOnAfterEach();
 }
 
 void ADaeTestSuiteActor::RunNextTest()
@@ -95,6 +116,8 @@ void ADaeTestSuiteActor::RunNextTest()
     {
         // All tests finished.
         UE_LOG(LogDaeTest, Display, TEXT("ADaeTestSuiteActor::RunNextTest - All tests finished."));
+
+        NotifyOnAfterAll();
 
         // Check if any test failed.
         for (const FDaeTestResult& TestResult : Result.TestResults)
@@ -123,6 +146,8 @@ void ADaeTestSuiteActor::RunNextTest()
         Test->OnTestSkipped.AddDynamic(this, &ADaeTestSuiteActor::OnTestSkipped);
 
         // Run test.
+        NotifyOnBeforeEach();
+
         Test->RunTest();
     }
     else
@@ -151,6 +176,8 @@ void ADaeTestSuiteActor::OnTestSuccessful(ADaeTestActor* Test)
     Result.TestResults.Add(TestResult);
 
     // Run next test.
+    NotifyOnAfterEach();
+
     RunNextTest();
 }
 
@@ -171,7 +198,9 @@ void ADaeTestSuiteActor::OnTestFailed(ADaeTestActor* Test, const FString& Failur
     TestResult.FailureMessage = FailureMessage;
     Result.TestResults.Add(TestResult);
 
-    // Run next test
+    // Run next test.
+    NotifyOnAfterEach();
+
     RunNextTest();
 }
 
@@ -192,6 +221,6 @@ void ADaeTestSuiteActor::OnTestSkipped(ADaeTestActor* Test, const FString& SkipR
     TestResult.SkipReason = SkipReason;
     Result.TestResults.Add(TestResult);
 
-    // Run next test
+    // Run next test.
     RunNextTest();
 }

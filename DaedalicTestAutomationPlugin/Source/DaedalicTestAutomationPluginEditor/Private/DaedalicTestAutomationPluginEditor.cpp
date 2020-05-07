@@ -1,6 +1,8 @@
 // Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
 #include "AutomationTestFramework/DaeTestAutomationPluginAutomationTestFrameworkIntegration.h"
+#include "AssetTypeActions_DaeTestActorBlueprint.h"
+#include "AssetTypeActions_DaeTestSuiteActorBlueprint.h"
 #include "DaeTestAutomationPluginSettings.h"
 #include "DaedalicTestAutomationPluginEditorClasses.h"
 #include "IDaedalicTestAutomationPluginEditor.h"
@@ -54,6 +56,10 @@ void FDaedalicTestAutomationPluginEditor::StartupModule()
         new FAssetTypeActions_DaeTestActorBlueprint(DaedalicTestAutomationAssetCategory));
     RegisterAssetTypeAction(AssetTools, TestActorBlueprintAction);
 
+    TSharedRef<IAssetTypeActions> TestSuiteActorBlueprintAction = MakeShareable(
+        new FAssetTypeActions_DaeTestSuiteActorBlueprint(DaedalicTestAutomationAssetCategory));
+    RegisterAssetTypeAction(AssetTools, TestSuiteActorBlueprintAction);
+
     // Register settings.
     if (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings"))
     {
@@ -64,8 +70,7 @@ void FDaedalicTestAutomationPluginEditor::StartupModule()
             "Editor", "Plugins", "DaedalicTestAutomationPlugin",
             NSLOCTEXT("DaedalicTestAutomationPlugin", "DaeTestAutomationPluginSettings.DisplayName",
                       "Daedalic Test Automation Plugin"),
-            NSLOCTEXT("DaedalicTestAutomationPlugin",
-                      "AssetTypeActions_DaeTestActorBlueprint.Description",
+            NSLOCTEXT("DaedalicTestAutomationPlugin", "DaeTestAutomationPluginSettings.Description",
                       "Configure the discovery of automated tests."),
             TestAutomationPluginSettings);
 
