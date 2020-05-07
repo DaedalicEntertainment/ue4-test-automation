@@ -50,7 +50,8 @@ void ADaeTestSuiteActor::Tick(float DeltaSeconds)
 
 void ADaeTestSuiteActor::RunAllTests()
 {
-    UE_LOG(LogDaeTest, Log, TEXT("ADaeTestSuiteActor::RunAllTests - Test Suite: %s"), *GetName());
+    UE_LOG(LogDaeTest, Display, TEXT("ADaeTestSuiteActor::RunAllTests - Test Suite: %s"),
+           *GetName());
 
     TestIndex = -1;
     RunNextTest();
@@ -90,7 +91,7 @@ void ADaeTestSuiteActor::RunNextTest()
     if (!Tests.IsValidIndex(TestIndex))
     {
         // All tests finished.
-        UE_LOG(LogDaeTest, Log, TEXT("ADaeTestSuiteActor::RunNextTest - All tests finished."));
+        UE_LOG(LogDaeTest, Display, TEXT("ADaeTestSuiteActor::RunNextTest - All tests finished."));
 
         // Check if any test failed.
         for (const FDaeTestResult& TestResult : Result.TestResults)
@@ -110,7 +111,7 @@ void ADaeTestSuiteActor::RunNextTest()
 
     if (IsValid(Test))
     {
-        UE_LOG(LogDaeTest, Log, TEXT("ADaeTestSuiteActor::RunNextTest - Test: %s"),
+        UE_LOG(LogDaeTest, Display, TEXT("ADaeTestSuiteActor::RunNextTest - Test: %s"),
                *Test->GetName());
 
         // Register events.
@@ -139,7 +140,7 @@ void ADaeTestSuiteActor::OnTestSuccessful(ADaeTestActor* Test)
         return;
     }
 
-    UE_LOG(LogDaeTest, Log, TEXT("ADaeTestSuiteActor::OnTestSuccessful - Test: %s"),
+    UE_LOG(LogDaeTest, Display, TEXT("ADaeTestSuiteActor::OnTestSuccessful - Test: %s"),
            *Test->GetName());
 
     // Store result.
@@ -179,8 +180,9 @@ void ADaeTestSuiteActor::OnTestSkipped(ADaeTestActor* Test, const FString& SkipR
         return;
     }
 
-    UE_LOG(LogDaeTest, Log, TEXT("ADaeTestSuiteActor::OnTestSkipped - Test: %s, SkipReason: %s"),
-           *Test->GetName(), *SkipReason);
+    UE_LOG(LogDaeTest, Display,
+           TEXT("ADaeTestSuiteActor::OnTestSkipped - Test: %s, SkipReason: %s"), *Test->GetName(),
+           *SkipReason);
 
     // Store result.
     FDaeTestResult TestResult(Test->GetName(), TestTimeSeconds);

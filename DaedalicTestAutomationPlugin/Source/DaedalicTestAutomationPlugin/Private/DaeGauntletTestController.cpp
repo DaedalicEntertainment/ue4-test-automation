@@ -18,7 +18,7 @@ void UDaeGauntletTestController::OnInit()
     const UDaeTestAutomationPluginSettings* TestAutomationPluginSettings =
         GetDefault<UDaeTestAutomationPluginSettings>();
 
-    UE_LOG(LogDaeTest, Log, TEXT("Discovering tests from: %s"),
+    UE_LOG(LogDaeTest, Display, TEXT("Discovering tests from: %s"),
            *TestAutomationPluginSettings->TestMapPath);
 
     // Build list of tests (based on FAutomationEditorCommonUtils::CollectTestsByClass).
@@ -43,7 +43,7 @@ void UDaeGauntletTestController::OnInit()
             FName MapName = AssetData.AssetName;
             MapNames.Add(MapName);
 
-            UE_LOG(LogDaeTest, Log, TEXT("Discovered test: %s"), *MapName.ToString());
+            UE_LOG(LogDaeTest, Display, TEXT("Discovered test: %s"), *MapName.ToString());
         }
     }
 
@@ -87,7 +87,7 @@ void UDaeGauntletTestController::OnTick(float TimeDelta)
     }
     else if (GetCurrentState() == FDaeGauntletStates::LoadingNextMap)
     {
-        UE_LOG(LogDaeTest, Log, TEXT("FDaeGauntletStates::LoadingNextMap - Loading map: %s"),
+        UE_LOG(LogDaeTest, Display, TEXT("FDaeGauntletStates::LoadingNextMap - Loading map: %s"),
                *MapNames[MapIndex].ToString());
 
         UGameplayStatics::OpenLevel(this, MapNames[MapIndex]);
@@ -129,7 +129,7 @@ void UDaeGauntletTestController::LoadNextTestMap()
     if (!MapNames.IsValidIndex(MapIndex + 1))
     {
         // All tests finished.
-        UE_LOG(LogDaeTest, Log,
+        UE_LOG(LogDaeTest, Display,
                TEXT("UDaeGauntletTestController::LoadNextTestMap - All tests finished."));
 
         // Write final test report.
@@ -142,7 +142,7 @@ void UDaeGauntletTestController::LoadNextTestMap()
 
         if (!JUnitReportPath.IsEmpty())
         {
-            UE_LOG(LogDaeTest, Log, TEXT("Writing test report to: %s"), *JUnitReportPath);
+            UE_LOG(LogDaeTest, Display, TEXT("Writing test report to: %s"), *JUnitReportPath);
             FFileHelper::SaveStringToFile(TestReport, *JUnitReportPath);
         }
 
