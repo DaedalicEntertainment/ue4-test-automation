@@ -9,6 +9,9 @@ ADaeTestSuiteActor::ADaeTestSuiteActor(
     TestIndex = -1;
 
     PrimaryActorTick.bCanEverTick = true;
+
+    // We need to be able to time out even while gameplay is paused.
+    PrimaryActorTick.bTickEvenWhenPaused = true;
 }
 
 void ADaeTestSuiteActor::BeginPlay()
