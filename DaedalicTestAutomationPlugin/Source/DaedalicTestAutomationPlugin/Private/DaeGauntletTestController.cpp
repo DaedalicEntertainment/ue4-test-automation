@@ -126,7 +126,25 @@ void UDaeGauntletTestController::OnTick(float TimeDelta)
 
 void UDaeGauntletTestController::LoadNextTestMap()
 {
-    if (!MapNames.IsValidIndex(MapIndex + 1))
+    ++MapIndex;
+
+    // Check if we just want to run a single test.
+    FString SingleTestName = ParseCommandLineOption(TEXT("TestName"));
+
+    if (!SingleTestName.IsEmpty())
+    {
+        while (MapNames.IsValidIndex(MapIndex) && MapNames[MapIndex].ToString() != SingleTestName)
+        {
+            ++MapIndex;
+        }
+    }
+
+    if (MapNames.IsValidIndex(MapIndex))
+    {
+        // Load next test map in next tick. This is to avoid invocation list changes during OnPostMapChange.
+        GetGauntlet()->BroadcastStateChange(FDaeGauntletStates::LoadingNextMap);
+    }
+    else
     {
         // All tests finished.
         UE_LOG(LogDaeTest, Display,
@@ -159,12 +177,7 @@ void UDaeGauntletTestController::LoadNextTestMap()
         }
 
         EndTest(0);
-        return;
     }
-
-    // Load next test map in next tick. This is to avoid invocation list changes during OnPostMapChange.
-    ++MapIndex;
-    GetGauntlet()->BroadcastStateChange(FDaeGauntletStates::LoadingNextMap);
 }
 
 void UDaeGauntletTestController::OnTestSuiteFinished(ADaeTestSuiteActor* TestSuite)
