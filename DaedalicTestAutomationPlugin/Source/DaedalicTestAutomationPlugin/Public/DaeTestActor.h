@@ -51,7 +51,10 @@ public:
     virtual void NotifyOnTestFailed(const FString& Message);
 
     /** Event when this test has been skipped. */
-    virtual void NotifyOnTestSkipped();
+    virtual void NotifyOnTestSkipped(const FString& InSkipReason);
+
+    /** Event when this test should verify its preconditions. */
+    virtual void NotifyOnAssume(UObject* Parameter);
 
     /** Event when this test should set up. */
     virtual void NotifyOnArrange(UObject* Parameter);
@@ -61,6 +64,10 @@ public:
 
     /** Event when this test should check the results. */
     virtual void NotifyOnAssert(UObject* Parameter);
+
+    /** Event when this test should verify its preconditions. This is NOT a latent event. */
+    UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "Assume"))
+    void ReceiveOnAssume(UObject* Parameter);
 
     /** Event when this test should set up. This is NOT a latent event. */
     UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "Arrange"))

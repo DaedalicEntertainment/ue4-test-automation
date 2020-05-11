@@ -54,6 +54,9 @@ UObject* UDaeTestActorBlueprintFactory::FactoryCreateNew(UClass* Class, UObject*
     {
         int32 NodePositionY = 0;
         FKismetEditorUtilities::AddDefaultEventNode(Blueprint, EdGraph,
+                                                    FName(TEXT("ReceiveOnAssume")),
+                                                    ADaeTestActor::StaticClass(), NodePositionY);
+        FKismetEditorUtilities::AddDefaultEventNode(Blueprint, EdGraph,
                                                     FName(TEXT("ReceiveOnArrange")),
                                                     ADaeTestActor::StaticClass(), NodePositionY);
         FKismetEditorUtilities::AddDefaultEventNode(Blueprint, EdGraph, FName(TEXT("ReceiveOnAct")),

@@ -42,7 +42,15 @@ void ADaeTestActor::RunTest(UObject* TestParameter)
 
     if (!SkipReason.IsEmpty())
     {
-        NotifyOnTestSkipped();
+        NotifyOnTestSkipped(SkipReason);
+        return;
+    }
+
+    NotifyOnAssume(CurrentParameter);
+
+    if (bHasResult)
+    {
+        // This can happen with failed assumptions, for instance.
         return;
     }
 
@@ -110,7 +118,7 @@ void ADaeTestActor::NotifyOnTestFailed(const FString& Message)
     OnTestFailed.Broadcast(this, CurrentParameter, Message);
 }
 
-void ADaeTestActor::NotifyOnTestSkipped()
+void ADaeTestActor::NotifyOnTestSkipped(const FString& InSkipReason)
 {
     if (bHasResult)
     {
@@ -119,7 +127,12 @@ void ADaeTestActor::NotifyOnTestSkipped()
 
     bHasResult = true;
 
-    OnTestSkipped.Broadcast(this, CurrentParameter, SkipReason);
+    OnTestSkipped.Broadcast(this, CurrentParameter, InSkipReason);
+}
+
+void ADaeTestActor::NotifyOnAssume(UObject* Parameter)
+{
+    ReceiveOnAssume(Parameter);
 }
 
 void ADaeTestActor::NotifyOnArrange(UObject* Parameter)
