@@ -44,22 +44,28 @@ In order to create a new test suite with a single test:
 
 1. Create a new level.
 1. Add a _Dae Gauntlet Test Suite Actor_ to the level.
-1. Create a _Dae Gauntlet Test Actor_ blueprint.
-1. Implement the OnTestStarted event of the test actor.
+1. Create a _Dae Gauntlet Test Actor_ blueprint (e.g. through right-click in Content Browser > Create Advanced Asset > Test Automation > Test Actor Blueprint).
+1. Implement the Arrange, Act and Assert events of the test actor (see below).
 1. Add an instance of the test actor blueprint to the level.
 1. Add the test actor reference to the list of tests of the test suite actor.
 
-The ```DaeGauntletTestActor``` class provides an API for implementing the individual tests. Most notably, you'll have to call TestSuccessful or TestFailed, depending on your test result. More convenience functions for implementing tests will be added in the future.
+Automated tests in the Daedalic Test Automation Plugin are built with the Arrange-Act-Assert pattern in mind:
+
+* In _Arrange_, you should set up your test environment, get references to required actors and components, and prepare everything for the actual test.
+* In _Act_, you should perform the actual action to test. Here, you're allowed to use latent actions, such as delays, to test what you want to test. Because we don't know when you're finished, you have to call _Finish Act_ when you're done.
+* In _Assert_, you should use the built-in assertion framework to verify the results of your tests, e.g. check the state of variables or positions of actors.
+
+If any of the assertions performed in the Assert step fail, the test will be marked as failed.
 
 ![Simple Test Blueprint](Documentation/SimpleTest.png)
 
 You can verify your test suite by entering PIE and filtering your log by the ```LogDaeTest``` log category.
 
 ```
-LogDaeTest: ADaeGauntletTestSuiteActor::RunAllTests - Test Suite: DaeGauntletTestSuiteActor_1
-LogDaeTest: ADaeGauntletTestSuiteActor::RunNextTest - Test: BP_TestAlwaysSuccessful
-LogDaeTest: ADaeGauntletTestSuiteActor::TestSuccessful - Test: BP_TestAlwaysSuccessful
-LogDaeTest: ADaeGauntletTestSuiteActor::RunNextTest - All tests finished.
+LogDaeTest: Display: ADaeTestSuiteActor::RunAllTests - Test Suite: DaeGauntletTestSuiteActor_1
+LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - Test: BP_TestCalculatorAddsNumbers_2
+LogDaeTest: Display: ADaeTestSuiteActor::OnTestSuccessful - Test: BP_TestCalculatorAddsNumbers_2
+LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
 ```
 
 ## Running Tests
