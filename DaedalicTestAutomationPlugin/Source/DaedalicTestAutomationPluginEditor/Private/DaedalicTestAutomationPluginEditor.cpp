@@ -73,7 +73,7 @@ void FDaedalicTestAutomationPluginEditor::StartupModule()
             GetMutableDefault<UDaeTestAutomationPluginSettings>();
 
         ISettingsSectionPtr SettingsSection = SettingsModule->RegisterSettings(
-            "Editor", "Plugins", "DaedalicTestAutomationPlugin",
+            "Project", "Plugins", "DaedalicTestAutomationPlugin",
             NSLOCTEXT("DaedalicTestAutomationPlugin", "DaeTestAutomationPluginSettings.DisplayName",
                       "Daedalic Test Automation Plugin"),
             NSLOCTEXT("DaedalicTestAutomationPlugin", "DaeTestAutomationPluginSettings.Description",
