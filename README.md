@@ -15,9 +15,9 @@ Note that the plugin relies on Gauntlet, and thus currently requires both a sour
 
 1. Clone the repository.
 1. Close the Unreal Editor.
-1. Copy the ```DaedalicTestAutomationPlugin``` folder to the ```Plugins``` folder next to your ```.uproject``` file.
-1. Copy the ```DaedalicTestAutomationPlugin.Automation``` folder to the ```Build/Scripts``` folder next to your ```.uproject``` file.
-1. Right-click your ```.uproject``` file and select _Generate Visual Studio project files_.
+1. Copy the `DaedalicTestAutomationPlugin` folder to the `Plugins` folder next to your `.uproject` file.
+1. Copy the `DaedalicTestAutomationPlugin.Automation` folder to the `Build/Scripts` folder next to your ```.uproject``` file.
+1. Right-click your `.uproject` file and select _Generate Visual Studio project files_.
 1. Build the resulting solution in Visual Studio.
 1. Start the Unreal Editor.
 1. Enable the plugin in Edit > Plugins > Daedalic Entertainment.
@@ -26,11 +26,11 @@ Note that the plugin relies on Gauntlet, and thus currently requires both a sour
 
 Because the Daedalic Test Automation Plugin uses Gauntlet for running automated tests, but we don't want to force you to modify your version of Unreal Engine, we need to know where your source version of the engine can be found on disk.
 
-Set the ```UNREAL_ENGINE_4_PATH``` environment variable to the root folder of your source checkout, e.g. the directory that contains files like ```Setup.bat``` or ```GenerateProjectFiles.bat```. 
+Set the `UNREAL_ENGINE_4_PATH` environment variable to the root folder of your source checkout, e.g. the directory that contains files like `Setup.bat` or `GenerateProjectFiles.bat`. 
 
 Note that you might need to restart your shells and/or Visual Studio in order to have your changes take effect.
 
-If everything is set up correctly, ```DaedalicTestAutomationPlugin.Automation``` will be discovered when generating your project files (because the engine finds it in your Build directory). The project will then use your environment variable to publish its build results to the ```Engine\Binaries\DotNET\AutomationScripts``` folder your engine, where they can be discovered by the Unreal Automation Tool for running Gauntlet.
+If everything is set up correctly, `DaedalicTestAutomationPlugin.Automation` will be discovered when generating your project files (because the engine finds it in your Build directory). The project will then use your environment variable to publish its build results to the `Engine\Binaries\DotNET\AutomationScripts` folder your engine, where they can be discovered by the Unreal Automation Tool for running Gauntlet.
 
 
 ## Creating Tests
@@ -60,7 +60,7 @@ If any of the assertions performed in the Assert step fail, the test will be mar
 
 ![Simple Test Blueprint](Documentation/SimpleTest.png)
 
-You can verify your test suite by entering PIE and filtering your log by the ```LogDaeTest``` log category.
+You can verify your test suite by entering PIE and filtering your log by the `LogDaeTest` log category.
 
 ```
 LogDaeTest: Display: ADaeTestSuiteActor::RunAllTests - Test Suite: DaeGauntletTestSuiteActor_1
@@ -129,7 +129,7 @@ In order to run multiple tests, you can use the Automation window of the session
 
 ![Automation Window](Documentation/AutomationWindow.png)
 
-By default, the plugin will look in your ```Maps/AutomatedTests``` content folder for tests, but you can change that from Edit > Project Settings > Plugins > Daedalic Test Automation Plugin.
+By default, the plugin will look in your `Maps/AutomatedTests` content folder for tests, but you can change that from Edit > Project Settings > Plugins > Daedalic Test Automation Plugin.
 
 ### Gauntlet
 
@@ -152,25 +152,25 @@ RunUnreal
 
 In the command line above:
 
-* ```RunUAT.bat``` starts the Unreal Automation Tool (UAT).
-* ```RunUnreal``` tells the UAT to run Gauntlet.
-* ```-project``` specifies the full path to your Unreal project file.
-* ```-scriptdir``` tells UAT to compile and load your UAT extensions (in this case, at least ```DaedalicTestAutomationPlugin.Automation```).
-* ```-build``` tells Gauntlet to use your editor project instead of a packaged build.
-* ```-test``` tells Gauntlet to use our custom controller (which in turn runs the test suites).
+* `RunUAT.bat` starts the Unreal Automation Tool (UAT).
+* `RunUnreal` tells the UAT to run Gauntlet.
+* `-project` specifies the full path to your Unreal project file.
+* `-scriptdir` tells UAT to compile and load your UAT extensions (in this case, at least `DaedalicTestAutomationPlugin.Automation`).
+* `-build` tells Gauntlet to use your editor project instead of a packaged build.
+* `-test` tells Gauntlet to use our custom controller (which in turn runs the test suites).
 
-This will run all tests the plugin finds in your Test Map Path (see [Automation Window](#automation-window)). Gauntlet will tell you which tests have been run, along with their results. It will also tell you where to find the log files of the test runs (artifacts). You can specify ```-verbose``` as additional parameter to the UAT to get even more feedback.
+This will run all tests the plugin finds in your Test Map Path (see [Automation Window](#automation-window)). Gauntlet will tell you which tests have been run, along with their results. It will also tell you where to find the log files of the test runs (artifacts). You can specify `-verbose` as additional parameter to the UAT to get even more feedback.
 
 Because documentation on Gauntlet is still sparse, you occasionally might want to check back on the original source files to learn about supported parameters and internal workings:
 
-* ```Gauntlet.UnrealBuildSource.ResolveBuildReference``` will tell you more about valid options for the ```-build``` parameter (e.g. running a staged build)
-* ```EpicGame.EpicGameTestConfig``` (and its base classes) is used by our ```DaedalicTestAutomationPlugin.Automation.DaeTestConfig``` and can tell you more about valid options for the ```-test``` parameter.
-* ```Gauntlet.ArgumentWithParams.CreateFromString``` is used for actually parsing the ```-test``` parameter.
+* `Gauntlet.UnrealBuildSource.ResolveBuildReference` will tell you more about valid options for the `-build` parameter (e.g. running a staged build)
+* `EpicGame.EpicGameTestConfig` (and its base classes) is used by our `DaedalicTestAutomationPlugin.Automation.DaeTestConfig` and can tell you more about valid options for the `-test` parameter.
+* `Gauntlet.ArgumentWithParams.CreateFromString` is used for actually parsing the `-test` parameter.
 
-You can also specify additional parameters along with the ```test``` parameter for the test run:
+You can also specify additional parameters along with the `test` parameter for the test run:
 
-* ```JUnitReportPath```: Generates a JUnit XML report to publish with your CI/CD pipeline.
-* ```TestName```: Runs the specified test, only, instead of all tests.
+* `JUnitReportPath`: Generates a JUnit XML report to publish with your CI/CD pipeline.
+* `TestName`: Runs the specified test, only, instead of all tests.
 
 Example:
 
@@ -185,7 +185,7 @@ RunUnreal
 -test="DaedalicTestAutomationPlugin.Automation.DaeGauntletTest(JUnitReportPath=C:\Projects\UnrealGame\Saved\junit-report.xml)"
 ```
 
-When generating JUnit reports, the plugin uses a standardized format (based on ```org.junit.platform.reporting.legacy.xml.XmlReportWriter.writeTestsuite```), allowing you to publish the report just as you would when using JUnit. Here's an example of how the results look like when published with Jenkins:
+When generating JUnit reports, the plugin uses a standardized format (based on `org.junit.platform.reporting.legacy.xml.XmlReportWriter.writeTestsuite`), allowing you to publish the report just as you would when using JUnit. Here's an example of how the results look like when published with Jenkins:
 
 ![Jenkins JUnit Report](Documentation/JUnitReport.png)
 
