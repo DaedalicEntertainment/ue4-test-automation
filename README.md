@@ -6,10 +6,10 @@ The _Daedalic Test Automation Plugin_ facilitates creating integration tests wit
 
 After using the plugin for automating tests of _The Lord of the Rings™: Gollum™_, we decided to share it with the rest of the world. We feel like software testing is far too important not to be supported by automation, and test automation still hasn't fully found its way into game development. We believe that this is party because creating automated tests for games tends to be tedious, and we want to improve on that.
 
+
 ## Setup
 
 Note that the plugin relies on Gauntlet, and thus currently requires both a source version of the engine and a C++ Unreal project.
-
 
 ### Adding The Plugin
 
@@ -31,6 +31,7 @@ Set the ```UNREAL_ENGINE_4_PATH``` environment variable to the root folder of yo
 Note that you might need to restart your shells and/or Visual Studio in order to have your changes take effect.
 
 If everything is set up correctly, ```DaedalicTestAutomationPlugin.Automation``` will be discovered when generating your project files (because the engine finds it in your Build directory). The project will then use your environment variable to publish its build results to the ```Engine\Binaries\DotNET\AutomationScripts``` folder your engine, where they can be discovered by the Unreal Automation Tool for running Gauntlet.
+
 
 ## Creating Tests
 
@@ -67,6 +68,30 @@ LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - Test: BP_TestCalculatorAd
 LogDaeTest: Display: ADaeTestSuiteActor::OnTestSuccessful - Test: BP_TestCalculatorAddsNumbers_2
 LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
 ```
+
+You'll also find a handful of example tests in the Content folder of the plugin.
+
+### Delays
+
+Daedalic Test Automation Plugin comes with additional delay nodes that you might find useful when building your tests. Take a look at [Documentation/Delays.md](Documentation/Delays.md) for more details.
+
+### Test Timeouts
+
+At your _Dae Gauntlet Test Actor_ blueprint (or instance), you can specify a timeout for the test (defaults to 30 seconds).
+
+![Simple Test Blueprint](Documentation/TestTimeouts.png)
+
+If your test times out during the Act stage, we'll execute all assertions immediately instead of waiting for the Act stage to finish. This allows your test to finish with just warnings instead of errors, in case you just set up some wrong delays, for instance. However, if your assertions actually fail after the timeout, the test will be marked as failed as usual.
+
+```
+LogDaeTest: Display: ADaeTestSuiteActor::RunAllTests - Test Suite: DaeGauntletTestSuiteActor_1
+LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - Test: BP_TestMoveForward_2
+LogDaeTest: Warning: Timed out after 5.000000 seconds
+LogDaeTest: Error: Assertion failed - Trigger box DaeTestTriggerBox_1 wasn't triggered
+LogDaeTest: Error: ADaeTestSuiteActor::OnTestFailed - Test: BP_TestMoveForward_2, FailureMessage: Assertion failed - Trigger box DaeTestTriggerBox_1 wasn't triggered
+LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
+```
+
 
 ## Running Tests
 
@@ -141,7 +166,6 @@ When generating JUnit reports, the plugin uses a standardized format (based on `
 ![Running Tests](Documentation/JUnitReport.png)
 
 
-
 ## Development Cycle
 
 We know that using this plugin in production requires you to be completely sure about stability and compatibility. Thus, new releases are created using [Semantic Versioning](http://semver.org/). In short:
@@ -150,6 +174,7 @@ We know that using this plugin in production requires you to be completely sure 
 * MAJOR version increases indicate incompatible API changes.
 * MINOR version increases indicate added functionality in a backwards compatible manner.
 * PATCH version increases indicate backwards compatible bug fixes.
+
 
 ## Bugs & Feature Requests
 
