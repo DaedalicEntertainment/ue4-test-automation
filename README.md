@@ -75,6 +75,14 @@ You'll also find a handful of example tests in the Content folder of the plugin.
 
 Daedalic Test Automation Plugin comes with additional delay nodes that you might find useful when building your tests. Take a look at [Documentation/Delays.md](Documentation/Delays.md) for more details.
 
+### Simulating Input
+
+We provide blueprint nodes for simulating player input, both actions and axes. Actions will be applied once immediately, while axes will be applied until explicitly reset by applying it again. You can use all actions and axes defined in your input mappings (Edit > Project Settings > Engine > Input).
+
+Simulated input is especially helpful when combined with [Delays](#delays):
+
+![Simulating Input](Documentation/SimulatingInput.png)
+
 ### Test Timeouts
 
 At your _Dae Gauntlet Test Actor_ blueprint (or instance), you can specify a timeout for the test (defaults to 30 seconds).
@@ -89,6 +97,22 @@ LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - Test: BP_TestMoveForward_
 LogDaeTest: Warning: Timed out after 5.000000 seconds
 LogDaeTest: Error: Assertion failed - Trigger box DaeTestTriggerBox_1 wasn't triggered
 LogDaeTest: Error: ADaeTestSuiteActor::OnTestFailed - Test: BP_TestMoveForward_2, FailureMessage: Assertion failed - Trigger box DaeTestTriggerBox_1 wasn't triggered
+LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
+```
+
+### Skipping Tests
+
+If you want to temporarily disable a test, you may specify a Skip Reason at your 
+_Dae Gauntlet Test Actor_ blueprint (or instance). Setting the Skip Reason to a non-empty string will cause the test to be skipped with the specified message. We don't provide a way of skipping a test without specifying a reason, because we feel that people should always know why a test is currently disabled.
+
+![Skip Reason](Documentation/SkipReason.png)
+
+Skipped tests will be marked as neither successful nor failed, and will show up explicitly as skipped in test reports.
+
+```
+LogDaeTest: Display: ADaeTestSuiteActor::RunAllTests - Test Suite: DaeGauntletTestSuiteActor_1
+LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - Test: BP_TestClimbLedge
+LogDaeTest: Display: ADaeTestSuiteActor::OnTestSkipped - Test: BP_TestClimbLedge, SkipReason: Does not seem to succeed reliably. Occasionally, we fail to get a hold of the ledge after jumping if done automatically by the test.
 LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
 ```
 
