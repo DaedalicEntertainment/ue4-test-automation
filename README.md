@@ -70,9 +70,21 @@ LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
 
 ## Running Tests
 
+### Play In Editor
+
 You can run each test suite by just entering Play In Editor, if "Run in PIE" is checked for that test suite (default).
 
-In order to run multiple tests, we recommend using Gauntlet, which can be run by passing a specific set of parameters to the Unreal Automation Tool (UAT).
+### Automation Window
+
+In order to run multiple tests, you can use the Automation window of the session frontend of the Unreal Editor (Window > Test Automation). There, your tests will be shown under the category DaedalicTestAutomationPlugin. 
+
+![Running Tests](Documentation/AutomationWindow.png)
+
+By default, the plugin will look in your ```Maps/AutomatedTests``` content folder for tests, but you can change that from Edit > Project Settings > Plugins > Daedalic Test Automation Plugin.
+
+### Gauntlet
+
+In order to run multiple tests from command-line (e.g. as part of your CI/CD pipeline), we recommend using Gauntlet, which can be run by passing a specific set of parameters to the Unreal Automation Tool (UAT).
 
 ![Running Tests](Documentation/RunningTests.png)
 
@@ -86,7 +98,7 @@ RunUnreal
 -platform=Win64
 -configuration=Development
 -build=editor
--test="DaedalicTestAutomationPlugin.Automation.DaeGauntletTest(map=TestMoveForward)"
+-test="DaedalicTestAutomationPlugin.Automation.DaeGauntletTest"
 ```
 
 In the command line above:
@@ -96,15 +108,39 @@ In the command line above:
 * ```-project``` specifies the full path to your Unreal project file.
 * ```-scriptdir``` tells UAT to compile and load your UAT extensions (in this case, at least ```DaedalicTestAutomationPlugin.Automation```).
 * ```-build``` tells Gauntlet to use your editor project instead of a packaged build.
-* ```-test``` tells Gauntlet to use our custom controller (which in turn runs the test suites), and to load the specified map.
+* ```-test``` tells Gauntlet to use our custom controller (which in turn runs the test suites).
+
+This will run all tests the plugin finds in your Test Map Path (see [Automation Window](#automation-window)). Gauntlet will tell you which tests have been run, along with their results. It will also tell you where to find the log files of the test runs (artifacts). You can specify ```-verbose``` as additional parameter to the UAT to get even more feedback.
 
 Because documentation on Gauntlet is still sparse, you occasionally might want to check back on the original source files to learn about supported parameters and internal workings:
 
 * ```Gauntlet.UnrealBuildSource.ResolveBuildReference``` will tell you more about valid options for the ```-build``` parameter (e.g. running a staged build)
-* ```EpicGame.EpicGameTestConfig``` (and its subclasses) is used by our ```DaedalicTestAutomationPlugin.Automation.DaeGauntletTest``` and can tell you more about valid options for the ```-test``` parameter.
+* ```EpicGame.EpicGameTestConfig``` (and its base classes) is used by our ```DaedalicTestAutomationPlugin.Automation.DaeTestConfig``` and can tell you more about valid options for the ```-test``` parameter.
 * ```Gauntlet.ArgumentWithParams.CreateFromString``` is used for actually parsing the ```-test``` parameter.
 
-Gauntlet will tell you which tests have been run, along with their results. It will also tell you where to find the log files of the test runs (artifacts). You can specify ```-verbose``` as additional parameter to the UAT to get even more feedback.
+You can also specify additional parameters along with the ```test``` parameter for the test run:
+
+* ```JUnitReportPath```: Generates a JUnit XML report to publish with your CI/CD pipeline.
+* ```TestName```: Runs the specified test, only, instead of all tests.
+
+Example:
+
+```
+"C:\Projects\UnrealEngine\Engine\Build\BatchFiles\RunUAT.bat"
+RunUnreal
+-project="C:\Projects\UnrealGame\UnrealGame.uproject"
+-scriptdir="C:\Projects\UnrealGame"
+-platform=Win64
+-configuration=Development
+-build=editor
+-test="DaedalicTestAutomationPlugin.Automation.DaeGauntletTest(JUnitReportPath=C:\Projects\UnrealGame\Saved\junit-report.xml)"
+```
+
+When generating JUnit reports, the plugin uses a standardized format (based on ```org.junit.platform.reporting.legacy.xml.XmlReportWriter.writeTestsuite```), allowing you to publish the report just as you would when using JUnit. Here's an example of how the results look like when published with Jenkins:
+
+![Running Tests](Documentation/JUnitReport.png)
+
+
 
 ## Development Cycle
 
