@@ -71,6 +71,10 @@ LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
 
 You'll also find a handful of example tests in the Content folder of the plugin.
 
+### Assertions
+
+There's a whole lot of assertion nodes for use in your automated tests, including equality and range checks for all basic blueprint types, or verifying the state of UMG widgets. Take a look at [Documentation/Assertions.md](Documentation/Assertions.md) for more details.
+
 ### Delays
 
 Daedalic Test Automation Plugin comes with additional delay nodes that you might find useful when building your tests. Take a look at [Documentation/Delays.md](Documentation/Delays.md) for more details.
