@@ -87,7 +87,7 @@ Simulated input is especially helpful when combined with [Delays](#delays):
 
 At your _Dae Gauntlet Test Actor_ blueprint (or instance), you can specify a timeout for the test (defaults to 30 seconds).
 
-![Simple Test Blueprint](Documentation/TestTimeouts.png)
+![Test Timeouts](Documentation/TestTimeouts.png)
 
 If your test times out during the Act stage, we'll execute all assertions immediately instead of waiting for the Act stage to finish. This allows your test to finish with just warnings instead of errors, in case you just set up some wrong delays, for instance. However, if your assertions actually fail after the timeout, the test will be marked as failed as usual.
 
@@ -127,7 +127,7 @@ You can run each test suite by just entering Play In Editor, if "Run in PIE" is 
 
 In order to run multiple tests, you can use the Automation window of the session frontend of the Unreal Editor (Window > Test Automation). There, your tests will be shown under the category DaedalicTestAutomationPlugin. 
 
-![Running Tests](Documentation/AutomationWindow.png)
+![Automation Window](Documentation/AutomationWindow.png)
 
 By default, the plugin will look in your ```Maps/AutomatedTests``` content folder for tests, but you can change that from Edit > Project Settings > Plugins > Daedalic Test Automation Plugin.
 
@@ -187,7 +187,7 @@ RunUnreal
 
 When generating JUnit reports, the plugin uses a standardized format (based on ```org.junit.platform.reporting.legacy.xml.XmlReportWriter.writeTestsuite```), allowing you to publish the report just as you would when using JUnit. Here's an example of how the results look like when published with Jenkins:
 
-![Running Tests](Documentation/JUnitReport.png)
+![Jenkins JUnit Report](Documentation/JUnitReport.png)
 
 
 ## Development Cycle
