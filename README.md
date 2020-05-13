@@ -6,6 +6,10 @@ The _Daedalic Test Automation Plugin_ facilitates creating integration tests wit
 
 After using the plugin for automating tests of _The Lord of the Rings™: Gollum™_, we decided to share it with the rest of the world. We feel like software testing is far too important not to be supported by automation, and test automation still hasn't fully found its way into game development. We believe that this is party because creating automated tests for games tends to be tedious, and we want to improve on that.
 
+Supported Unreal Engine Versions:
+
+* 4.23
+
 
 ## Setup
 
@@ -275,6 +279,9 @@ We know that using this plugin in production requires you to be completely sure 
 * MINOR version increases indicate added functionality in a backwards compatible manner.
 * PATCH version increases indicate backwards compatible bug fixes.
 
+You'll always find all available releases and their respective release notes at:
+
+https://github.com/DaedalicEntertainment/ue4-test-automation/releases
 
 ## Bugs & Feature Requests
 
