@@ -108,6 +108,59 @@ LogDaeTest: Error: ADaeTestSuiteActor::OnTestFailed - Test: BP_TestMoveForward_2
 LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
 ```
 
+### Test Suite Lifecycle
+
+Instead of just adding a default _Dae Test Suite Actor_ to your level, you can create a test suite blueprint instead (e.g. through right-click in Content Browser > Create Advanced Asset > Test Automation > Test Suite Actor Blueprint).
+
+Test suite blueprints allow you to implement the following lifecycle events:
+
+* `BeforeAll`: Executed before running the first test.
+* `BeforeEach`: Executed every time before running a test.
+* `AfterEach`: Executed every time after running a test.
+* `AfterAll`: Executed after running the last test.
+
+After creating your test suite blueprint, you can add instances of that blueprint to your test levels just as you would with the default test suite actor. Then, add test actor references to the list of tests of your test suite as usual.
+
+### Parameterized Tests
+
+In case you want to run the same test multiple times with just slightly different configurations, Daedalic Test Automation Plugin offers parameterized tests. You can specify any number of parameters for your test instance (or blueprint).
+
+In order to provide a consistent test API, these parameters have to be of type UObject, so if you have any other type you want to pass in as parameter, you'll need to wrap them with an UObject. Using UObject parameters also enables you to reference other actors in your test level.
+
+![Parameterized Test](Documentation/ParameterizedTest.png)
+
+The parameter will be passed to all test events, where you can perform your test actions on them:
+
+![Test Parameter](Documentation/TestParameter.png)
+
+The test will be run once for each parameter, and each test run will be treated exactly as if you'd run a non-parameterized test:
+
+* the test time is reset for each parameter
+* BeforeEach and AfterEach are called for each parameter
+* test reports include one test per parameter
+
+```
+LogDaeTest: Display: ADaeTestSuiteActor::RunAllTests - Test Suite: DaeGauntletTestSuiteActor_1
+LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - Test: BP_TestParameterized_TwoParameters - BP_TestParameter1
+LogBlueprintUserMessages: [BP_TestParameterized_TwoParameters] BP_TestParameter1
+LogDaeTest: Display: ADaeTestSuiteActor::OnTestSuccessful - Test: BP_TestParameterized_TwoParameters - BP_TestParameter1
+LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - Test: BP_TestParameterized_TwoParameters - BP_TestParameter2
+LogBlueprintUserMessages: [BP_TestParameterized_TwoParameters] BP_TestParameter2
+LogDaeTest: Display: ADaeTestSuiteActor::OnTestSuccessful - Test: BP_TestParameterized_TwoParameters - BP_TestParameter2
+LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
+```
+
+Sometimes, you'll want to provide the test parameters dynamically, e.g. when you need to convert them to UObjects. Daedalic Test Automation Plugin features _Dae Test Parameter Provider Actors_ for this: You can create parameter provider blueprints (e.g. through right-click in Content Browser > Create Advanced Asset > Test Automation > Test Parameter Provider Actor Blueprint). Then, you can override the `GetParameters` function to provide parameters for your test.
+
+![Parameter Provider Implementation](Documentation/ParameterProviderImplementation01.png)
+![Parameter Provider Implementation](Documentation/ParameterProviderImplementation02.png)
+
+Finally, you'll have to add your provider to your test level, and to your test:
+
+![Parameter Providers](Documentation/ParameterProviders.png)
+
+For each parameterized test, all parameter providers are applied exactly once, before the first run of that test.
+
 ### Skipping Tests
 
 If you want to temporarily disable a test, you may specify a Skip Reason at your 
