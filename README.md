@@ -177,6 +177,21 @@ LogDaeTest: Display: ADaeTestSuiteActor::OnTestSkipped - Test: BP_TestClimbLedge
 LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
 ```
 
+### Assumptions
+
+You can also specify dynamic conditions for skipping a test through _assumptions_. This extends the above test model from Arrange-Act-Assert to Assume-Arrange-Act-Assert: You can make an arbitrary number of assumptions before even arranging up your test (e.g. check the value of some configuration variable or command-line parameter, or check the current runtime platform).
+
+![Assumption](Documentation/Assumption.png)
+
+If any of your assumptions fail, the test will be skipped instead of being marked as failure:
+
+```
+LogDaeTest: Display: ADaeTestSuiteActor::RunAllTests - Test Suite: DaeGauntletTestSuiteActor_1
+LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - Test: BP_TestAssume_2
+LogDaeTest: Display: ADaeTestSuiteActor::OnTestSkipped - Test: BP_TestAssume_2, SkipReason: Assumption failed - Running on XboxOne - Expected: True, but was: False
+LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
+```
+
 
 ## Running Tests
 
