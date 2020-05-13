@@ -83,6 +83,10 @@ Simulated input is especially helpful when combined with [Delays](#delays):
 
 ![Simulating Input](Documentation/SimulatingInput.png)
 
+### Test Trigger Boxes
+
+Daedalic Test Automation Plugin ships with a convenience _Dae Test Trigger Box_ that allows you to set up test delays and assertions more quickly. These trigger boxes will just set a flag when triggered, and write a log. Our built-in [delays](Documentation/Delays.md) and [assertions](Documentation/Assertions.md) will use that flag to check if the box has been triggered.
+
 ### Test Timeouts
 
 At your _Dae Gauntlet Test Actor_ blueprint (or instance), you can specify a timeout for the test (defaults to 30 seconds).
