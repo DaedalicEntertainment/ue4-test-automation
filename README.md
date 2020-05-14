@@ -55,8 +55,8 @@ You'll be using Gauntlet to run one or more test suits, or the Unreal Editor to 
 In order to create a new test suite with a single test:
 
 1. Create a new level.
-1. Add a _Dae Gauntlet Test Suite Actor_ to the level.
-1. Create a _Dae Gauntlet Test Actor_ blueprint (e.g. through right-click in Content Browser > Create Advanced Asset > Test Automation > Test Actor Blueprint).
+1. Add a _Dae Test Suite Actor_ to the level.
+1. Create a _Dae Test Actor_ blueprint (e.g. through right-click in Content Browser > Create Advanced Asset > Test Automation > Test Actor Blueprint).
 1. Implement the Arrange, Act and Assert events of the test actor (see below).
 1. Add an instance of the test actor blueprint to the level.
 1. Add the test actor reference to the list of tests of the test suite actor.
@@ -74,7 +74,7 @@ If any of the assertions performed in the Assert step fail, the test will be mar
 You can verify your test suite by entering PIE and filtering your log by the `LogDaeTest` log category.
 
 ```
-LogDaeTest: Display: ADaeTestSuiteActor::RunAllTests - Test Suite: DaeGauntletTestSuiteActor_1
+LogDaeTest: Display: ADaeTestSuiteActor::RunAllTests - Test Suite: DaeTestSuiteActor_1
 LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - Test: BP_TestCalculatorAddsNumbers_2
 LogDaeTest: Display: ADaeTestSuiteActor::OnTestSuccessful - Test: BP_TestCalculatorAddsNumbers_2
 LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
@@ -111,7 +111,7 @@ At your _Dae Gauntlet Test Actor_ blueprint (or instance), you can specify a _ti
 If your test times out during the Act stage, we'll execute all assertions immediately instead of waiting for the Act stage to finish. This allows your test to finish with just warnings instead of errors, in case you just set up some wrong delays, for instance. However, if your assertions actually fail after the timeout, the test will be marked as failed as usual.
 
 ```
-LogDaeTest: Display: ADaeTestSuiteActor::RunAllTests - Test Suite: DaeGauntletTestSuiteActor_1
+LogDaeTest: Display: ADaeTestSuiteActor::RunAllTests - Test Suite: DaeTestSuiteActor_1
 LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - Test: BP_TestMoveForward_2
 LogDaeTest: Warning: Timed out after 5.000000 seconds
 LogDaeTest: Error: Assertion failed - Trigger box DaeTestTriggerBox_1 wasn't triggered
@@ -151,7 +151,7 @@ The test will be run once for each parameter, and each test run will be treated 
 * test reports include one test per parameter
 
 ```
-LogDaeTest: Display: ADaeTestSuiteActor::RunAllTests - Test Suite: DaeGauntletTestSuiteActor_1
+LogDaeTest: Display: ADaeTestSuiteActor::RunAllTests - Test Suite: DaeTestSuiteActor_1
 LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - Test: BP_TestParameterized_TwoParameters - BP_TestParameter1
 LogBlueprintUserMessages: [BP_TestParameterized_TwoParameters] BP_TestParameter1
 LogDaeTest: Display: ADaeTestSuiteActor::OnTestSuccessful - Test: BP_TestParameterized_TwoParameters - BP_TestParameter1
@@ -175,14 +175,14 @@ For each parameterized test, all parameter providers are applied exactly once, b
 ### Skipping Tests
 
 If you want to temporarily _disable_ a test, you may specify a Skip Reason at your 
-_Dae Gauntlet Test Actor_ blueprint (or instance). Setting the Skip Reason to a non-empty string will cause the test to be skipped with the specified message. We don't provide a way of skipping a test without specifying a reason, because we feel that people should always know why a test is currently disabled.
+_Dae Test Actor_ blueprint (or instance). Setting the Skip Reason to a non-empty string will cause the test to be skipped with the specified message. We don't provide a way of skipping a test without specifying a reason, because we feel that people should always know why a test is currently disabled.
 
 ![Skip Reason](Documentation/SkipReason.png)
 
 Skipped tests will be marked as neither successful nor failed, and will show up explicitly as skipped in test reports.
 
 ```
-LogDaeTest: Display: ADaeTestSuiteActor::RunAllTests - Test Suite: DaeGauntletTestSuiteActor_1
+LogDaeTest: Display: ADaeTestSuiteActor::RunAllTests - Test Suite: DaeTestSuiteActor_1
 LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - Test: BP_TestClimbLedge
 LogDaeTest: Display: ADaeTestSuiteActor::OnTestSkipped - Test: BP_TestClimbLedge, SkipReason: Does not seem to succeed reliably. Occasionally, we fail to get a hold of the ledge after jumping if done automatically by the test.
 LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
@@ -197,7 +197,7 @@ You can also specify dynamic conditions for skipping a test through _assumptions
 If any of your assumptions fail, the test will be skipped instead of being marked as failure:
 
 ```
-LogDaeTest: Display: ADaeTestSuiteActor::RunAllTests - Test Suite: DaeGauntletTestSuiteActor_1
+LogDaeTest: Display: ADaeTestSuiteActor::RunAllTests - Test Suite: DaeTestSuiteActor_1
 LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - Test: BP_TestAssume_2
 LogDaeTest: Display: ADaeTestSuiteActor::OnTestSkipped - Test: BP_TestAssume_2, SkipReason: Assumption failed - Running on XboxOne - Expected: True, but was: False
 LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
