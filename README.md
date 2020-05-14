@@ -84,15 +84,15 @@ You'll also find a handful of example tests in the Content folder of the plugin.
 
 ### Assertions
 
-There's a whole lot of assertion nodes for use in your automated tests, including equality and range checks for all basic blueprint types, or verifying the state of UMG widgets. Take a look at [Documentation/Assertions.md](Documentation/Assertions.md) for more details.
+There's a whole lot of _assertion_ nodes for use in your automated tests, including equality and range checks for all basic blueprint types, or verifying the state of UMG widgets. Take a look at [Documentation/Assertions.md](Documentation/Assertions.md) for more details.
 
 ### Delays
 
-Daedalic Test Automation Plugin comes with additional delay nodes that you might find useful when building your tests. Take a look at [Documentation/Delays.md](Documentation/Delays.md) for more details.
+Daedalic Test Automation Plugin comes with additional _delay_ nodes that you might find useful when building your tests. Take a look at [Documentation/Delays.md](Documentation/Delays.md) for more details.
 
 ### Simulating Input
 
-We provide blueprint nodes for simulating player input, both actions and axes. Actions will be applied once immediately, while axes will be applied until explicitly reset by applying it again. You can use all actions and axes defined in your input mappings (Edit > Project Settings > Engine > Input).
+We provide blueprint nodes for simulating _player input_, both actions and axes. Actions will be applied once immediately, while axes will be applied until explicitly reset by applying it again. You can use all actions and axes defined in your input mappings (Edit > Project Settings > Engine > Input).
 
 Simulated input is especially helpful when combined with [Delays](#delays):
 
@@ -104,7 +104,7 @@ Daedalic Test Automation Plugin ships with a convenience _Dae Test Trigger Box_ 
 
 ### Test Timeouts
 
-At your _Dae Gauntlet Test Actor_ blueprint (or instance), you can specify a timeout for the test (defaults to 30 seconds).
+At your _Dae Gauntlet Test Actor_ blueprint (or instance), you can specify a _timeout_ for the test (defaults to 30 seconds).
 
 ![Test Timeouts](Documentation/TestTimeouts.png)
 
@@ -123,7 +123,7 @@ LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
 
 Instead of just adding a default _Dae Test Suite Actor_ to your level, you can create a test suite blueprint instead (e.g. through right-click in Content Browser > Create Advanced Asset > Test Automation > Test Suite Actor Blueprint).
 
-Test suite blueprints allow you to implement the following lifecycle events:
+Test suite blueprints allow you to implement the following _lifecycle events_:
 
 * `BeforeAll`: Executed before running the first test.
 * `BeforeEach`: Executed every time before running a test.
@@ -134,7 +134,7 @@ After creating your test suite blueprint, you can add instances of that blueprin
 
 ### Parameterized Tests
 
-In case you want to run the same test multiple times with just slightly different configurations, Daedalic Test Automation Plugin offers parameterized tests. You can specify any number of parameters for your test instance (or blueprint).
+In case you want to run the same test multiple times with just slightly different configurations, Daedalic Test Automation Plugin offers _parameterized tests_. You can specify any number of parameters for your test instance (or blueprint).
 
 In order to provide a consistent test API, these parameters have to be of type UObject, so if you have any other type you want to pass in as parameter, you'll need to wrap them with an UObject. Using UObject parameters also enables you to reference other actors in your test level.
 
@@ -174,7 +174,7 @@ For each parameterized test, all parameter providers are applied exactly once, b
 
 ### Skipping Tests
 
-If you want to temporarily disable a test, you may specify a Skip Reason at your 
+If you want to temporarily _disable_ a test, you may specify a Skip Reason at your 
 _Dae Gauntlet Test Actor_ blueprint (or instance). Setting the Skip Reason to a non-empty string will cause the test to be skipped with the specified message. We don't provide a way of skipping a test without specifying a reason, because we feel that people should always know why a test is currently disabled.
 
 ![Skip Reason](Documentation/SkipReason.png)
@@ -208,11 +208,11 @@ LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
 
 ### Play In Editor
 
-You can run each test suite by just entering Play In Editor, if "Run in PIE" is checked for that test suite (default).
+You can run each test suite by just entering _Play In Editor_, if "Run in PIE" is checked for that test suite (default).
 
 ### Automation Window
 
-In order to run multiple tests, you can use the Automation window of the session frontend of the Unreal Editor (Window > Test Automation). There, your tests will be shown under the category DaedalicTestAutomationPlugin. 
+In order to run multiple tests, you can use the _Automation window_ of the session frontend of the Unreal Editor (Window > Test Automation). There, your tests will be shown under the category DaedalicTestAutomationPlugin. 
 
 ![Automation Window](Documentation/AutomationWindow.png)
 
@@ -220,7 +220,7 @@ By default, the plugin will look in your `Maps/AutomatedTests` content folder fo
 
 ### Gauntlet
 
-In order to run multiple tests from command-line (e.g. as part of your CI/CD pipeline), we recommend using Gauntlet, which can be run by passing a specific set of parameters to the Unreal Automation Tool (UAT).
+In order to run multiple tests from command-line (e.g. as part of your CI/CD pipeline), we recommend using _Gauntlet_, which can be run by passing a specific set of parameters to the Unreal Automation Tool (UAT).
 
 ![Running Tests](Documentation/RunningTests.png)
 
