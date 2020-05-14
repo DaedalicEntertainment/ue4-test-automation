@@ -18,6 +18,33 @@ Supported Unreal Engine Versions:
 * 4.23
 
 
+## Contents
+
+1. [Setup](#setup)
+    1. [Adding The Plugin](#adding-the-plugin)
+    1. [Setting Up The Environment](#setting-up-the-environment)
+1. [Creating Tests](#creating-tests)
+    1. [Assertions](#assertions)
+    1. [Delays](#delays)
+    1. [Simulating Input](#simulating-input)
+    1. [Test Trigger Boxes](#test-trigger-boxes)
+    1. [Test Timeouts](#test-timeouts)
+    1. [Test Suite Lifecycle](#test-suite-lifecycle)
+    1. [Parameterized Tests](#parameterized-tests)
+    1. [Skipping Tests](#skipping-tests)
+    1. [Assumptions](#assumptions)
+1. [Running Tests](#running-tests)
+    1. [Play In Editor](#play-in-editor)
+    1. [Automation Window](#automation-window)
+    1. [Gauntlet](#gauntlet)
+1. [Best Practices](#best-practices)
+1. [Bugs, Questions & Feature Requests](#bugs-questions-&-feature-requests)
+1. [Development Cycle](#development-cycle)
+1. [Contributing](#contributing)
+1. [Future Work](#future-work)
+1. [License](#license)
+1. [References](#references)
+
 ## Setup
 
 Note that the plugin relies on Gauntlet, and thus currently requires both a source version of the engine and a C++ Unreal project.
@@ -288,6 +315,17 @@ There are a few best practices we learned when writing tests, and we want to sha
 1. _Don't repeat yourself._ As with all software development, don't copy and paste your test logic. Use BeforeAll/BeforeEach/AfterEach/AfterAll and/or move test logic to function libraries where possible.
 
 
+## Bugs, Questions & Feature Requests
+
+Daedalic Test Automation Plugin is still under heavy development. Whenever you're experiencing issues, missing a feature, or you just don't understand a part of the plugin, after verifying that you are using the [latest version](https://github.com/DaedalicEntertainment/ue4-test-automation/releases) and having checked whether a [similar issue](https://github.com/DaedalicEntertainment/ue4-test-automation/issues) has already been reported, feel free to [open a new issue](https://github.com/DaedalicEntertainment/ue4-test-automation/issues/new). In order to help us resolving your problem as fast as possible, please include the following details in your report:
+
+* Steps to reproduce
+* What happened?
+* What did you expect to happen?
+
+After being able to reproduce the issue, we'll look into fixing it immediately.
+
+
 ## Development Cycle
 
 We know that using this plugin in production requires you to be completely sure about stability and compatibility. Thus, new releases are created using [Semantic Versioning](http://semver.org/). In short:
@@ -300,17 +338,6 @@ We know that using this plugin in production requires you to be completely sure 
 You'll always find all available releases and their respective release notes at:
 
 https://github.com/DaedalicEntertainment/ue4-test-automation/releases
-
-
-## Bugs, Questions & Feature Requests
-
-Daedalic Test Automation Plugin is still under heavy development. Whenever you're experiencing issues, missing a feature, or you just don't understand a part of the plugin, after verifying that you are using the [latest version](https://github.com/DaedalicEntertainment/ue4-test-automation/releases) and having checked whether a [similar issue](https://github.com/DaedalicEntertainment/ue4-test-automation/issues) has already been reported, feel free to [open a new issue](https://github.com/DaedalicEntertainment/ue4-test-automation/issues/new). In order to help us resolving your problem as fast as possible, please include the following details in your report:
-
-* Steps to reproduce
-* What happened?
-* What did you expect to happen?
-
-After being able to reproduce the issue, we'll look into fixing it immediately.
 
 
 ## Contributing

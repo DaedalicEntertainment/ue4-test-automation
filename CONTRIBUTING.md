@@ -37,7 +37,7 @@ Internally, we're using the following checklist when preparing for a new release
 * Create release branch
 * Add examples for new features where appropriate
 * Run all tests
-* Update documentation (README, images)
+* Update documentation (README, images, spelling, table of contents)
 * Increase version number (and engine version, if necessary)
 * Create plugin package
 * Check plugin package in another project
