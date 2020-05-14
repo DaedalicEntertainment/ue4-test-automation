@@ -301,15 +301,21 @@ You'll always find all available releases and their respective release notes at:
 
 https://github.com/DaedalicEntertainment/ue4-test-automation/releases
 
-## Bugs & Feature Requests
 
-Daedalic Test Automation Plugin is still under heavy development. Whenever you're experiencing issues or are missing a feature, after verifying that you are using the [latest version](https://github.com/DaedalicEntertainment/ue4-test-automation/releases) and having checked whether a [similar issue](https://github.com/DaedalicEntertainment/ue4-test-automation/issues) has already been reported, feel free to [open a new issue](https://github.com/DaedalicEntertainment/ue4-test-automation/issues/new). In order to help us resolving your problem as fast as possible, please include the following details in your report:
+## Bugs, Questions & Feature Requests
+
+Daedalic Test Automation Plugin is still under heavy development. Whenever you're experiencing issues, missing a feature, or you just don't understand a part of the plugin, after verifying that you are using the [latest version](https://github.com/DaedalicEntertainment/ue4-test-automation/releases) and having checked whether a [similar issue](https://github.com/DaedalicEntertainment/ue4-test-automation/issues) has already been reported, feel free to [open a new issue](https://github.com/DaedalicEntertainment/ue4-test-automation/issues/new). In order to help us resolving your problem as fast as possible, please include the following details in your report:
 
 * Steps to reproduce
 * What happened?
 * What did you expect to happen?
 
 After being able to reproduce the issue, we'll look into fixing it immediately.
+
+
+## Contributing
+
+You want to contribute to Daedalic Test Automation Plugin? Great! Take a look at [Contributing](CONTRIBUTING.md) to get started right away!
 
 
 ## Future Work
