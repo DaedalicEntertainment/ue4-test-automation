@@ -4,6 +4,13 @@
 
 The _Daedalic Test Automation Plugin_ facilitates creating integration tests with the [Gauntlet Automation Framework](https://docs.unrealengine.com/en-US/Programming/Automation/Gauntlet/index.html) of [Unreal Engine 4](https://www.unrealengine.com).
 
+Automated testing, when applied instead of or in addition to manual testing, provides multiple benefits:
+
+* _Clean code._ Automating tests requires the tested code to be very modular, which improves maintainability in general.
+* _Fast results._ Running automated tests is usually a lot faster than testing manually, and can be performed unattended.
+* _Better coverage._ As a result, we can test more parts of our game when using automated testing than without, allowing manual testers to focus on other parts of the game.
+* _Increased stability_. Being able to run automated tests greatly increases the confidence of the development team when applying bigger changes to the code base, allowing them to catch regressions early (e.g. after optimizing performance).
+
 After using the plugin for automating tests of _The Lord of the Rings™: Gollum™_, we decided to share it with the rest of the world. We feel like software testing is far too important not to be supported by automation, and test automation still hasn't fully found its way into game development. We believe that this is party because creating automated tests for games tends to be tedious, and we want to improve on that.
 
 Supported Unreal Engine Versions:
@@ -270,6 +277,17 @@ When generating JUnit reports, the plugin uses a standardized format (based on `
 ![Jenkins JUnit Report](Documentation/JUnitReport.png)
 
 
+## Best Practices
+
+There are a few best practices we learned when writing tests, and we want to share those with you. We also recommend taking a closer look at the [References](#References) below, which go into more detail.
+
+1. _Keep your tests small._ Large tests that fail don't tell you much about the actual problem, especially when they contain multiple assertions. Try creating multiple small tests instead.
+1. _Mock your dependencies._ Testing complex objects often forces you to violate the previous rule. Consider refactoring the code under test by splitting up your classes, and inject mock objects for dependencies where possible.
+1. _Keep your tests fast._ Slow tests will eventually keep your team from running them. Even integration tests should never take much longer than a few seconds.
+1. _Use meaningful test names._ Good test names can tell you much about the issue at a very first glance. Consider even using a common pattern for all tests, i.e. including the object and function under test, and the assertion you're making.
+1. _Don't repeat yourself._ As with all software development, don't copy and paste your test logic. Use BeforeAll/BeforeEach/AfterEach/AfterAll and/or move test logic to function libraries where possible.
+
+
 ## Development Cycle
 
 We know that using this plugin in production requires you to be completely sure about stability and compatibility. Thus, new releases are created using [Semantic Versioning](http://semver.org/). In short:
@@ -294,6 +312,18 @@ Daedalic Test Automation Plugin is still under heavy development. Whenever you'r
 After being able to reproduce the issue, we'll look into fixing it immediately.
 
 
+## Future Work
+
+While the plugin already serves as solid base for creating automated tests, there's still a lot of things we'd like to add in the future. If you're interested in more details, take a look at the [GitHub milestones](https://github.com/DaedalicEntertainment/ue4-test-automation/milestones).
+
+
 ## License
 
 Daedalic Test Automation Plugin is released under the [MIT License](https://github.com/DaedalicEntertainment/ue4-test-automation/blob/develop/LICENSE).
+
+
+## References
+
+* Masella, Robert. Rare, Ltd. Automated Testing of Gameplay Features in 'Sea of Thieves'. https://www.gdcvault.com/play/1026366/Automated-Testing-of-Gameplay-Features, 2019.
+* Fray, Andrew. Spry Fox. Practical Unit Tests. https://www.gdcvault.com/play/1020353/Practical-Unit, 2014.
+* The JUnit Team. JUnit 5 User Guide. https://junit.org/junit5/docs/current/user-guide, 2020.
