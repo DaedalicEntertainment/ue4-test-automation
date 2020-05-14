@@ -8,7 +8,7 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FDaeTestAutomationPluginSettingsTestMapPathC
                                     const FString&);
 
 /** Custom settings for this plugin. */
-UCLASS(config = EditorPerProjectUserSettings)
+UCLASS(config = Game, defaultconfig)
 class DAEDALICTESTAUTOMATIONPLUGIN_API UDaeTestAutomationPluginSettings : public UObject
 {
     GENERATED_BODY()

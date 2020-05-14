@@ -216,7 +216,7 @@ public:
     static void AssertNotInRangeFloat(float Value, float MinInclusive, float MaxInclusive,
                                       const FString& What, UObject* Context = nullptr);
 
-    /** Expects the specified widget to be valid and visible. */
+    /** Expects the specified widget to be valid and visible (e.g. added to viewport, not hidden or collapsed). */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context"))
     static void AssertWidgetIsVisible(UUserWidget* Widget, const FString& What,
                                       UObject* Context = nullptr);
