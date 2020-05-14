@@ -38,7 +38,7 @@ Supported Unreal Engine Versions:
     1. [Automation Window](#automation-window)
     1. [Gauntlet](#gauntlet)
 1. [Best Practices](#best-practices)
-1. [Bugs, Questions & Feature Requests](#bugs-questions-&-feature-requests)
+1. [Bugs, Questions & Feature Requests](#bugs-questions--feature-requests)
 1. [Development Cycle](#development-cycle)
 1. [Contributing](#contributing)
 1. [Future Work](#future-work)
