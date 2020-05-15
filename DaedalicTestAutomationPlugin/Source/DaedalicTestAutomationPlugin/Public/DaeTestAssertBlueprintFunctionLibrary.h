@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DaeTestComparisonMethod.h"
 #include <CoreMinimal.h>
 #include <Kismet/BlueprintFunctionLibrary.h>
 #include "DaeTestAssertBlueprintFunctionLibrary.generated.h"
@@ -60,6 +61,12 @@ public:
     static void AssertNotEqualByte(uint8 Actual, uint8 Unexpected, const FString& What,
                                    UObject* Context = nullptr);
 
+    /** Compares the specified bytes for order. */
+    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
+                                         DisplayName = "Assert Compare (Byte)"))
+    static void AssertCompareByte(uint8 First, EDaeTestComparisonMethod ShouldBe, uint8 Second,
+                                  const FString& What, UObject* Context = nullptr);
+
     /** Expects the specified 32-bit integers to be equal. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
                                          DisplayName = "Assert Equal (Integer)"))
@@ -71,6 +78,12 @@ public:
                                          DisplayName = "Assert Not Equal (Integer)"))
     static void AssertNotEqualInt32(int32 Actual, int32 Unexpected, const FString& What,
                                     UObject* Context = nullptr);
+
+    /** Compares the specified 32-bit integers for order. */
+    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
+                                         DisplayName = "Assert Compare (Integer)"))
+    static void AssertCompareInt32(int32 First, EDaeTestComparisonMethod ShouldBe, int32 Second,
+                                   const FString& What, UObject* Context = nullptr);
 
     /** Expects the specified 64-bit integers to be equal. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
@@ -84,6 +97,12 @@ public:
     static void AssertNotEqualInt64(int64 Actual, int64 Unexpected, const FString& What,
                                     UObject* Context = nullptr);
 
+    /** Compares the specified 64-bit integers for order. */
+    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
+                                         DisplayName = "Assert Compare (Integer64)"))
+    static void AssertCompareInt64(int64 First, EDaeTestComparisonMethod ShouldBe, int64 Second,
+                                   const FString& What, UObject* Context = nullptr);
+
     /** Expects the specified floats to be (nearly) equal. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
                                          DisplayName = "Assert Equal (Float)"))
@@ -95,6 +114,12 @@ public:
                                          DisplayName = "Assert Not Equal (Float)"))
     static void AssertNotEqualFloat(float Actual, float Unexpected, const FString& What,
                                     UObject* Context = nullptr);
+
+    /** Compares the specified floats for order. */
+    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
+                                         DisplayName = "Assert Compare (Float)"))
+    static void AssertCompareFloat(float First, EDaeTestComparisonMethod ShouldBe, float Second,
+                                   const FString& What, UObject* Context = nullptr);
 
     /** Expects the specified names to be equal. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
@@ -239,6 +264,10 @@ public:
 private:
     static const FString ErrorMessageFormatEqual;
     static const FString ErrorMessageFormatNotEqual;
+    static const FString ErrorMessageFormatLessThan;
+    static const FString ErrorMessageFormatLessThanOrEqualTo;
+    static const FString ErrorMessageFormatGreaterThan;
+    static const FString ErrorMessageFormatGreaterThanOrEqualTo;
     static const FString ErrorMessageFormatInRange;
     static const FString ErrorMessageFormatNotInRange;
 
@@ -262,5 +291,60 @@ private:
             FString Message = FString::Format(*ErrorMessageFormatNotEqual, {What, Unexpected});
             OnTestFailed(Context, Message);
         }
+    }
+
+    template<typename T>
+    static void AssertCompare(UObject* Context, const FString& What, T First,
+                              EDaeTestComparisonMethod ShouldBe, T Second)
+    {
+        bool bFulfilled = false;
+
+        switch (ShouldBe)
+        {
+            case EDaeTestComparisonMethod::LessThan:
+                bFulfilled = First < Second;
+                break;
+
+            case EDaeTestComparisonMethod::LessThanOrEqualTo:
+                bFulfilled = First <= Second;
+                break;
+
+            case EDaeTestComparisonMethod::GreaterThanOrEqualTo:
+                bFulfilled = First >= Second;
+                break;
+
+            case EDaeTestComparisonMethod::GreaterThan:
+                bFulfilled = First > Second;
+                break;
+        }
+
+        if (bFulfilled)
+        {
+            return;
+        }
+
+        FString FormatString;
+
+        switch (ShouldBe)
+        {
+            case EDaeTestComparisonMethod::LessThan:
+                FormatString = ErrorMessageFormatLessThan;
+                break;
+
+            case EDaeTestComparisonMethod::LessThanOrEqualTo:
+                FormatString = ErrorMessageFormatLessThanOrEqualTo;
+                break;
+
+            case EDaeTestComparisonMethod::GreaterThanOrEqualTo:
+                FormatString = ErrorMessageFormatGreaterThanOrEqualTo;
+                break;
+
+            case EDaeTestComparisonMethod::GreaterThan:
+                FormatString = ErrorMessageFormatGreaterThan;
+                break;
+        }
+
+        FString Message = FString::Format(*FormatString, {What, First, Second});
+        OnTestFailed(Context, Message);
     }
 };

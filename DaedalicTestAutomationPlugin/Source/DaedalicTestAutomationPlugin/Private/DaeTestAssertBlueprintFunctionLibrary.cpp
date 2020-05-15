@@ -16,6 +16,18 @@ const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatEqual =
 const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatNotEqual =
     TEXT("Assertion failed - {0} - Was {1}, but should not be.");
 
+const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatLessThan =
+    TEXT("Assertion failed - {0} - Expected: {1} < {2}, but was not.");
+
+const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatLessThanOrEqualTo =
+    TEXT("Assertion failed - {0} - Expected: {1} <= {2}, but was not.");
+
+const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatGreaterThan =
+    TEXT("Assertion failed - {0} - Expected: {1} > {2}, but was not.");
+
+const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatGreaterThanOrEqualTo =
+    TEXT("Assertion failed - {0} - Expected: {1} >= {2}, but was not.");
+
 const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatInRange =
     TEXT("Assertion failed - {0} - Expected: between {1} and {2}, but was: {3}");
 
@@ -126,6 +138,14 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, ui
     AssertNotEqual(Context, What, Actual, Unexpected);
 }
 
+void UDaeTestAssertBlueprintFunctionLibrary::AssertCompareByte(uint8 First,
+                                                               EDaeTestComparisonMethod ShouldBe,
+                                                               uint8 Second, const FString& What,
+                                                               UObject* Context /*= nullptr*/)
+{
+    AssertCompare(Context, What, First, ShouldBe, Second);
+}
+
 void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualInt32(int32 Actual, int32 Expected,
                                                               const FString& What,
                                                               UObject* Context /*= nullptr*/)
@@ -140,6 +160,14 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualInt32(int32 Actual, i
     AssertNotEqual(Context, What, Actual, Unexpected);
 }
 
+void UDaeTestAssertBlueprintFunctionLibrary::AssertCompareInt32(int32 First,
+                                                                EDaeTestComparisonMethod ShouldBe,
+                                                                int32 Second, const FString& What,
+                                                                UObject* Context /*= nullptr*/)
+{
+    AssertCompare(Context, What, First, ShouldBe, Second);
+}
+
 void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualInt64(int64 Actual, int64 Expected,
                                                               const FString& What,
                                                               UObject* Context /*= nullptr*/)
@@ -152,6 +180,14 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualInt64(int64 Actual, i
                                                                  UObject* Context /*= nullptr*/)
 {
     AssertNotEqual(Context, What, Actual, Unexpected);
+}
+
+void UDaeTestAssertBlueprintFunctionLibrary::AssertCompareInt64(int64 First,
+                                                                EDaeTestComparisonMethod ShouldBe,
+                                                                int64 Second, const FString& What,
+                                                                UObject* Context /*= nullptr*/)
+{
+    AssertCompare(Context, What, First, ShouldBe, Second);
 }
 
 void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualFloat(float Actual, float Expected,
@@ -174,6 +210,14 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualFloat(float Actual, f
         FString Message = FString::Format(*ErrorMessageFormatNotEqual, {What, Unexpected});
         OnTestFailed(Context, Message);
     }
+}
+
+void UDaeTestAssertBlueprintFunctionLibrary::AssertCompareFloat(float First,
+                                                                EDaeTestComparisonMethod ShouldBe,
+                                                                float Second, const FString& What,
+                                                                UObject* Context /*= nullptr*/)
+{
+    AssertCompare(Context, What, First, ShouldBe, Second);
 }
 
 void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualName(const FName& Actual,
