@@ -63,8 +63,8 @@ void ADaeTestActor::FinishAct()
     if (bHasResult)
     {
         UE_LOG(LogDaeTest, Warning,
-               TEXT(
-                   "Test %s already has a result. This can happen after a timeout due to delays, but if not, make sure not to call FinishAct more than once."),
+               TEXT("Test %s already has a result. This can happen after a timeout due to delays, "
+                    "but if not, make sure not to call FinishAct more than once."),
                *GetName());
         return;
     }
@@ -82,7 +82,7 @@ float ADaeTestActor::GetTimeoutInSeconds() const
     return TimeoutInSeconds;
 }
 
-TArray<UObject*> ADaeTestActor::GetParameters() const
+TArray<TSoftObjectPtr<UObject>> ADaeTestActor::GetParameters() const
 {
     return Parameters;
 }

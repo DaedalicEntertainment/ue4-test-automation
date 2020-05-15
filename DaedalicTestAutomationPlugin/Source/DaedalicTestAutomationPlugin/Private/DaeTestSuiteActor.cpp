@@ -86,9 +86,21 @@ UObject* ADaeTestSuiteActor::GetCurrentTestParameter() const
         return nullptr;
     }
 
-    TArray<UObject*> TestParameters = Test->GetParameters();
-    return TestParameters.IsValidIndex(TestParameterIndex) ? TestParameters[TestParameterIndex]
-                                                           : nullptr;
+    TArray<TSoftObjectPtr<UObject>> TestParameters = Test->GetParameters();
+
+    if (!TestParameters.IsValidIndex(TestParameterIndex))
+    {
+        return nullptr;
+    }
+
+    TSoftObjectPtr<UObject> Parameter = TestParameters[TestParameterIndex];
+
+    if (!Parameter.IsValid())
+    {
+        return nullptr;
+    }
+
+    return Parameter.LoadSynchronous();
 }
 
 FString ADaeTestSuiteActor::GetCurrentTestName() const

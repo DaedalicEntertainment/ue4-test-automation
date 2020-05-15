@@ -38,7 +38,7 @@ public:
     float GetTimeoutInSeconds() const;
 
     /** Gets the parameters to run this test with, one per run.  */
-    TArray<UObject*> GetParameters() const;
+    TArray<TSoftObjectPtr<UObject>> GetParameters() const;
 
     /** Gets the parameter for the current test run. */
     UFUNCTION(BlueprintPure)
@@ -101,7 +101,7 @@ private:
 
     /** Parameterizes this test, running it multiple times, once per specified parameter.  */
     UPROPERTY(EditAnywhere)
-    TArray<UObject*> Parameters;
+    TArray<TSoftObjectPtr<UObject>> Parameters;
 
     /** Additional providers for appending parameters for this test. Applied exactly once before the first test run. */
     UPROPERTY(EditAnywhere)
