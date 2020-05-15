@@ -178,10 +178,13 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualFloat(float Actual, f
 
 void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualName(const FName& Actual,
                                                              const FName& Expected,
-                                                             const FString& What,
+                                                             bool bIgnoreCase, const FString& What,
                                                              UObject* Context /*= nullptr*/)
 {
-    if (!Actual.IsEqual(Expected))
+    bool bEquals = bIgnoreCase ? Actual.IsEqual(Expected, ENameCase::IgnoreCase)
+                               : Actual.IsEqual(Expected, ENameCase::CaseSensitive);
+
+    if (!bEquals)
     {
         FString Message = FString::Format(*ErrorMessageFormatEqual,
                                           {What, Expected.ToString(), Actual.ToString()});
@@ -191,10 +194,14 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualName(const FName& Actual
 
 void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualName(const FName& Actual,
                                                                 const FName& Unexpected,
+                                                                bool bIgnoreCase,
                                                                 const FString& What,
                                                                 UObject* Context /*= nullptr*/)
 {
-    if (Actual.IsEqual(Unexpected))
+    bool bEquals = bIgnoreCase ? Actual.IsEqual(Unexpected, ENameCase::IgnoreCase)
+                               : Actual.IsEqual(Unexpected, ENameCase::CaseSensitive);
+
+    if (bEquals)
     {
         FString Message =
             FString::Format(*ErrorMessageFormatNotEqual, {What, Unexpected.ToString()});
@@ -204,10 +211,14 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualName(const FName& Act
 
 void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualString(const FString& Actual,
                                                                const FString& Expected,
+                                                               bool bIgnoreCase,
                                                                const FString& What,
                                                                UObject* Context /*= nullptr*/)
 {
-    if (!Actual.Equals(Expected))
+    ESearchCase::Type SearchCase = bIgnoreCase ? ESearchCase::IgnoreCase
+                                               : ESearchCase::CaseSensitive;
+
+    if (!Actual.Equals(Expected, SearchCase))
     {
         FString Message = FString::Format(*ErrorMessageFormatEqual, {What, Expected, Actual});
         OnTestFailed(Context, Message);
@@ -216,10 +227,14 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualString(const FString& Ac
 
 void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualString(const FString& Actual,
                                                                   const FString& Unexpected,
+                                                                  bool bIgnoreCase,
                                                                   const FString& What,
                                                                   UObject* Context /*= nullptr*/)
 {
-    if (Actual.Equals(Unexpected))
+    ESearchCase::Type SearchCase = bIgnoreCase ? ESearchCase::IgnoreCase
+                                               : ESearchCase::CaseSensitive;
+
+    if (Actual.Equals(Unexpected, SearchCase))
     {
         FString Message = FString::Format(*ErrorMessageFormatNotEqual, {What, Unexpected});
         OnTestFailed(Context, Message);
@@ -228,10 +243,12 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualString(const FString&
 
 void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualText(const FText& Actual,
                                                              const FText& Expected,
-                                                             const FString& What,
+                                                             bool bIgnoreCase, const FString& What,
                                                              UObject* Context /*= nullptr*/)
 {
-    if (!Actual.EqualTo(Expected))
+    bool bEquals = bIgnoreCase ? Actual.EqualToCaseIgnored(Expected) : Actual.EqualTo(Expected);
+
+    if (!bEquals)
     {
         FString Message = FString::Format(*ErrorMessageFormatEqual,
                                           {What, Expected.ToString(), Actual.ToString()});
@@ -241,10 +258,13 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualText(const FText& Actual
 
 void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualText(const FText& Actual,
                                                                 const FText& Unexpected,
+                                                                bool bIgnoreCase,
                                                                 const FString& What,
                                                                 UObject* Context /*= nullptr*/)
 {
-    if (Actual.EqualTo(Unexpected))
+    bool bEquals = bIgnoreCase ? Actual.EqualToCaseIgnored(Unexpected) : Actual.EqualTo(Unexpected);
+
+    if (bEquals)
     {
         FString Message =
             FString::Format(*ErrorMessageFormatNotEqual, {What, Unexpected.ToString()});

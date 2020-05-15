@@ -99,37 +99,38 @@ public:
     /** Expects the specified names to be equal. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
                                          DisplayName = "Assert Equal (Name)"))
-    static void AssertEqualName(const FName& Actual, const FName& Expected, const FString& What,
-                                UObject* Context = nullptr);
+    static void AssertEqualName(const FName& Actual, const FName& Expected, bool bIgnoreCase,
+                                const FString& What, UObject* Context = nullptr);
 
     /** Expects the specified names not to be equal. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
                                          DisplayName = "Assert Not Equal (Name)"))
-    static void AssertNotEqualName(const FName& Actual, const FName& Unexpected,
+    static void AssertNotEqualName(const FName& Actual, const FName& Unexpected, bool bIgnoreCase,
                                    const FString& What, UObject* Context = nullptr);
 
     /** Expects the specified strings to be equal. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
                                          DisplayName = "Assert Equal (String)"))
-    static void AssertEqualString(const FString& Actual, const FString& Expected,
+    static void AssertEqualString(const FString& Actual, const FString& Expected, bool bIgnoreCase,
                                   const FString& What, UObject* Context = nullptr);
 
     /** Expects the specified strings not to be equal. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
                                          DisplayName = "Assert Not Equal (String)"))
     static void AssertNotEqualString(const FString& Actual, const FString& Unexpected,
-                                     const FString& What, UObject* Context = nullptr);
+                                     bool bIgnoreCase, const FString& What,
+                                     UObject* Context = nullptr);
 
     /** Expects the specified texts to be equal. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
                                          DisplayName = "Assert Equal (Text)"))
-    static void AssertEqualText(const FText& Actual, const FText& Expected, const FString& What,
-                                UObject* Context = nullptr);
+    static void AssertEqualText(const FText& Actual, const FText& Expected, bool bIgnoreCase,
+                                const FString& What, UObject* Context = nullptr);
 
     /** Expects the specified texts not to be equal. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
                                          DisplayName = "Assert Not Equal (Text)"))
-    static void AssertNotEqualText(const FText& Actual, const FText& Unexpected,
+    static void AssertNotEqualText(const FText& Actual, const FText& Unexpected, bool bIgnoreCase,
                                    const FString& What, UObject* Context = nullptr);
 
     /** Expects the specified vectors to be (nearly) equal. */
