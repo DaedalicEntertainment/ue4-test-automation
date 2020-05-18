@@ -2,7 +2,7 @@
 
 [![license](https://img.shields.io/github/license/DaedalicEntertainment/ue4-test-automation.svg?maxAge=2592000)](https://github.com/DaedalicEntertainment/ue4-test-automation/blob/develop/LICENSE)
 
-The _Daedalic Test Automation Plugin_ facilitates creating integration tests with the [Gauntlet Automation Framework](https://docs.unrealengine.com/en-US/Programming/Automation/Gauntlet/index.html) of [Unreal Engine 4](https://www.unrealengine.com).
+The _Daedalic Test Automation Plugin_ facilitates creating and running integration tests with the [Gauntlet Automation Framework](https://docs.unrealengine.com/en-US/Programming/Automation/Gauntlet/index.html) of [Unreal Engine 4](https://www.unrealengine.com).
 
 Automated testing, when applied instead of or in addition to manual testing, provides multiple benefits:
 
@@ -12,10 +12,6 @@ Automated testing, when applied instead of or in addition to manual testing, pro
 * _Increased stability_. Being able to run automated tests greatly increases the confidence of the development team when applying bigger changes to the code base, allowing them to catch regressions early (e.g. after optimizing performance).
 
 After using the plugin for automating tests of _The Lord of the Rings™: Gollum™_, we decided to share it with the rest of the world. We feel like software testing is far too important not to be supported by automation, and test automation still hasn't fully found its way into game development. We believe that this is party because creating automated tests for games tends to be tedious, and we want to improve on that.
-
-Supported Unreal Engine Versions:
-
-* 4.23
 
 
 ## Contents
@@ -45,9 +41,18 @@ Supported Unreal Engine Versions:
 1. [License](#license)
 1. [References](#references)
 
+
 ## Setup
 
-Note that the plugin relies on Gauntlet, and thus currently requires both a source version of the engine and a C++ Unreal project.
+### Prerequisites
+
+Daedalic Test Automation Plugin currently supports the following Unreal Engine Versions:
+
+* 4.23
+
+Note that you currently have to compile the plugin yourself, and thus need a C++ Unreal project.
+
+If you want to use [Gauntlet](#gauntlet) for running your tests, you'll need a source version of Unreal Engine as well.
 
 ### Adding The Plugin
 
@@ -59,17 +64,6 @@ Note that the plugin relies on Gauntlet, and thus currently requires both a sour
 1. Build the resulting solution in Visual Studio.
 1. Start the Unreal Editor.
 1. Enable the plugin in Edit > Plugins > Daedalic Entertainment.
-
-### Setting Up The Environment
-
-Because the Daedalic Test Automation Plugin uses Gauntlet for running automated tests, but we don't want to force you to modify your version of Unreal Engine, we need to know where your source version of the engine can be found on disk.
-
-Set the `UNREAL_ENGINE_4_PATH` environment variable to the root folder of your source checkout, e.g. the directory that contains files like `Setup.bat` or `GenerateProjectFiles.bat`. 
-
-Note that you might need to restart your shells and/or Visual Studio in order to have your changes take effect.
-
-If everything is set up correctly, `DaedalicTestAutomationPlugin.Automation` will be discovered when generating your project files (because the engine finds it in your Build directory). The project will then use your environment variable to publish its build results to the `Engine\Binaries\DotNET\AutomationScripts` folder your engine, where they can be discovered by the Unreal Automation Tool for running Gauntlet.
-
 
 ## Creating Tests
 
@@ -251,7 +245,15 @@ In order to run multiple tests from command-line (e.g. as part of your CI/CD pip
 
 ![Running Tests](Documentation/RunningTests.png)
 
-Here's an example command line to get started:
+When using Gauntlet for running automated tests, as we don't want to force you to modify your version of Unreal Engine, we need to know where your source version of the engine can be found on disk.
+
+Set the `UNREAL_ENGINE_4_PATH` environment variable to the root folder of your source checkout, e.g. the directory that contains files like `Setup.bat` or `GenerateProjectFiles.bat`. 
+
+Note that you might need to restart your shells and/or Visual Studio in order to have your changes take effect.
+
+If everything is set up correctly, `DaedalicTestAutomationPlugin.Automation` will be discovered when generating your project files (because the engine finds it in your Build directory). The project will then use your environment variable to publish its build results to the `Engine\Binaries\DotNET\AutomationScripts` folder your engine, where they can be discovered by the Unreal Automation Tool for running Gauntlet.
+
+Now, here's an example command line to get started:
 
 ```
 "C:\Projects\UnrealEngine\Engine\Build\BatchFiles\RunUAT.bat"
