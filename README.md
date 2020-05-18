@@ -19,7 +19,6 @@ After using the plugin for automating tests of _The Lord of the Rings™: Gollum
 1. [Setup](#setup)
     1. [Prerequisites](#prerequisites)
     1. [Adding The Plugin](#adding-the-plugin)
-    1. [Setting Up The Environment](#setting-up-the-environment)
 1. [Creating Tests](#creating-tests)
     1. [Assertions](#assertions)
     1. [Delays](#delays)
