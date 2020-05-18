@@ -157,11 +157,11 @@ After creating your test suite blueprint, you can add instances of that blueprin
 
 In case you want to run the same test multiple times with just slightly different configurations, Daedalic Test Automation Plugin offers _parameterized tests_. You can specify any number of parameters for your test instance (or blueprint).
 
-In order to provide a consistent test API, these parameters have to be of type UObject, so if you have any other type you want to pass in as parameter, you'll need to wrap them with an UObject. Using UObject parameters also enables you to reference other actors in your test level.
+In order to provide a consistent test API, these parameters have to be of type UObject, so if you have any other type you want to pass in as parameter, you'll need to wrap them with an UObject. Using UObject parameters also enables you to reference other actors in your test level. We're using soft references to the parameter objects, enabling you to reference actors from other streaming levels as well.
 
 ![Parameterized Test](Documentation/ParameterizedTest.png)
 
-The parameter will be passed to all test events, where you can perform your test actions on them:
+The parameter references will be resolved and passed to all test events, where you can perform your test actions on them:
 
 ![Test Parameter](Documentation/TestParameter.png)
 

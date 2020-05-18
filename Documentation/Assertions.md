@@ -34,9 +34,13 @@ Daedalic Test Automation Plugin comes with the following assertion nodes for use
 | Node | Description |
 | --- | --- |
 | ![Assert Not Equal (Byte)](AssertNotEqualByte.png) | Expects the specified bytes not to be equal. |
+| ![Assert Compare (Byte)](AssertCompareByte.png) | Compares the specified bytes for order. |
 | ![Assert Not Equal (Integer)](AssertNotEqualInteger.png) | Expects the specified 32-bit integers not to be equal. |
+| ![Assert Compare (Integer)](AssertCompareInteger.png) | Compares the specified 32-bit integers for order. |
 | ![Assert Not Equal (Integer64)](AssertNotEqualInteger64.png) | Expects the specified 64-bit integers not to be equal. |
+| ![Assert Compare (Integer64)](AssertCompareInteger64.png) | Compares the specified 64-bit integers for order. |
 | ![Assert Not Equal (Float)](AssertNotEqualFloat.png) | Expects the specified floats not to be equal. |
+| ![Assert Compare (Float)](AssertCompareFloat.png) | Compares the specified floats for order. |
 | ![Assert Not Equal (Name)](AssertNotEqualName.png) | Expects the specified names not to be equal. |
 | ![Assert Not Equal (String)](AssertNotEqualString.png) | Expects the specified strings not to be equal. |
 | ![Assert Not Equal (Text)](AssertNotEqualText.png) | Expects the specified texts not to be equal. |
