@@ -60,10 +60,12 @@ If you want to use [Gauntlet](#gauntlet) for running your tests, you'll need a s
 1. Close the Unreal Editor.
 1. Copy the `DaedalicTestAutomationPlugin` folder to the `Plugins` folder next to your `.uproject` file.
 1. Copy the `DaedalicTestAutomationPlugin.Automation` folder to the `Build/Scripts` folder next to your ```.uproject``` file.
+1. Start the Unreal Editor.
+1. Enable the plugin in Edit > Plugins > Daedalic Entertainment.
+1. Close the Unreal Editor.
 1. Right-click your `.uproject` file and select _Generate Visual Studio project files_.
 1. Build the resulting solution in Visual Studio.
 1. Start the Unreal Editor.
-1. Enable the plugin in Edit > Plugins > Daedalic Entertainment.
 
 ## Creating Tests
 
