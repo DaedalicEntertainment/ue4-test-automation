@@ -56,7 +56,7 @@ If you want to use [Gauntlet](#gauntlet) for running your tests, you'll need a s
 
 ### Adding The Plugin
 
-1. Clone the repository.
+1. [Clone](https://github.com/DaedalicEntertainment/ue4-test-automation) the repository or [download](https://github.com/DaedalicEntertainment/ue4-test-automation/releases) a release.
 1. Close the Unreal Editor.
 1. Copy the `DaedalicTestAutomationPlugin` folder to the `Plugins` folder next to your `.uproject` file.
 1. Copy the `DaedalicTestAutomationPlugin.Automation` folder to the `Build/Scripts` folder next to your ```.uproject``` file.
