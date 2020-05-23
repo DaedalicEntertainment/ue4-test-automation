@@ -3,6 +3,7 @@
 #include "DaeTestComparisonMethod.h"
 #include <CoreMinimal.h>
 #include <Kismet/BlueprintFunctionLibrary.h>
+#include <UObject/TextProperty.h>
 #include "DaeTestAssertBlueprintFunctionLibrary.generated.h"
 
 class UImage;

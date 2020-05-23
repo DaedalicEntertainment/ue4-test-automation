@@ -1,4 +1,6 @@
 #include "DaeTestAssumeBlueprintFunctionLibrary.h"
+#include "DaeTestActor.h"
+#include "DaeTestLogCategory.h"
 
 void UDaeTestAssumeBlueprintFunctionLibrary::AssumeTrue(bool bValue, const FString& What,
                                                         UObject* Context /*= nullptr*/)

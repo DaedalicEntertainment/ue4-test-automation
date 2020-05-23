@@ -1,5 +1,9 @@
 #pragma once
 
+#include <CoreMinimal.h>
+
+#include "DaeTestSuiteResult.h"
+
 /** Writes test reports based on the Apache Ant JUnit report format (based on org.junit.platform.reporting.legacy.xml.XmlReportWriter.writeTestsuite). */
 class DAEDALICTESTAUTOMATIONPLUGIN_API FDaeJUnitReportWriter
 {

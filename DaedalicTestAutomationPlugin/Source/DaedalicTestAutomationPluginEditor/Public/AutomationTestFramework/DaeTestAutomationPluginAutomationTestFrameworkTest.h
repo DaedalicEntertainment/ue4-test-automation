@@ -1,7 +1,7 @@
 #pragma once
 
-#include <AutomationTest.h>
 #include <CoreMinimal.h>
+#include <Misc/AutomationTest.h>
 
 /** Single test to be registered with the Unreal Automation Test Framework. Implementation based on IMPLEMENT_SIMPLE_AUTOMATION_TEST_PRIVATE macro. */
 class FDaeTestAutomationPluginAutomationTestFrameworkTest : FAutomationTestBase

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <CoreMinimal.h>
+
 /** Result set of a single test. */
 class DAEDALICTESTAUTOMATIONPLUGIN_API FDaeTestResult
 {

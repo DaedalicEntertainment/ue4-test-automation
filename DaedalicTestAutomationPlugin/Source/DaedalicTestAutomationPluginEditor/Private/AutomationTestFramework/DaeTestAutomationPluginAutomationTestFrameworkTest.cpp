@@ -1,10 +1,10 @@
-#include "DaeTestAutomationPluginAutomationTestFrameworkTest.h"
-#include "DaeTestAutomationPluginAutomationTestFrameworkCommands.h"
-#include "DaeTestAutomationPluginAutomationTestFrameworkTestContext.h"
+#include "AutomationTestFramework/DaeTestAutomationPluginAutomationTestFrameworkTest.h"
+#include "AutomationTestFramework/DaeTestAutomationPluginAutomationTestFrameworkCommands.h"
+#include "AutomationTestFramework/DaeTestAutomationPluginAutomationTestFrameworkTestContext.h"
 #include "DaeTestEditorLogCategory.h"
-#include <AutomationCommon.h>
-#include <AutomationEditorCommon.h>
 #include <Misc/Paths.h>
+#include <Tests/AutomationCommon.h>
+#include <Tests/AutomationEditorCommon.h>
 
 FDaeTestAutomationPluginAutomationTestFrameworkTest::
     FDaeTestAutomationPluginAutomationTestFrameworkTest(const FString& InMapName)

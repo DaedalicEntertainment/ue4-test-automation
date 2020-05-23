@@ -1,4 +1,5 @@
 #include "DaeTestInputBlueprintFunctionLibrary.h"
+#include "DaeTestLogCategory.h"
 #include <InputCoreTypes.h>
 #include <GameFramework/InputSettings.h>
 #include <GameFramework/PlayerController.h>

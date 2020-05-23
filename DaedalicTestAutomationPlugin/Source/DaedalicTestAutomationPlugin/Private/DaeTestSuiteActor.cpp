@@ -1,6 +1,7 @@
 #include "DaeTestSuiteActor.h"
 #include "DaeTestActor.h"
 #include "DaeTestLogCategory.h"
+#include <Engine/World.h>
 
 ADaeTestSuiteActor::ADaeTestSuiteActor(
     const FObjectInitializer& ObjectInitializer /*= FObjectInitializer::Get()*/)

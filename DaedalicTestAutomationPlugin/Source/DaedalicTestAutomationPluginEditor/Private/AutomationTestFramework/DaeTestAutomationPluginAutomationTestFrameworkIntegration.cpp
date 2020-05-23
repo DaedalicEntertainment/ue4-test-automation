@@ -1,4 +1,4 @@
-#include "DaeTestAutomationPluginAutomationTestFrameworkIntegration.h"
+#include "AutomationTestFramework/DaeTestAutomationPluginAutomationTestFrameworkIntegration.h"
 #include "DaeTestEditorLogCategory.h"
 #include <FileHelpers.h>
 #include <Misc/PackageName.h>

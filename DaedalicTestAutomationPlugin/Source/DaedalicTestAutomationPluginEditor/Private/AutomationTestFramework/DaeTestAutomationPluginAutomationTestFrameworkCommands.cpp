@@ -1,5 +1,6 @@
-#include "DaeTestAutomationPluginAutomationTestFrameworkCommands.h"
+#include "AutomationTestFramework/DaeTestAutomationPluginAutomationTestFrameworkCommands.h"
 #include "DaeTestSuiteActor.h"
+#include <Editor.h>
 #include <EngineUtils.h>
 #include <Editor/UnrealEdEngine.h>
 

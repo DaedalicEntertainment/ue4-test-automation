@@ -1,4 +1,4 @@
-#include "DaeTestAutomationPluginAutomationTestFrameworkTestContext.h"
+#include "AutomationTestFramework/DaeTestAutomationPluginAutomationTestFrameworkTestContext.h"
 
 FDaeTestAutomationPluginAutomationTestFrameworkTestContext::
     FDaeTestAutomationPluginAutomationTestFrameworkTestContext()

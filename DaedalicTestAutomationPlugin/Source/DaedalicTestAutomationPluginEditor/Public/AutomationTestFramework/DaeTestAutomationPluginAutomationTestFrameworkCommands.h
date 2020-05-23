@@ -1,8 +1,8 @@
 #pragma once
 
 #include "DaeTestAutomationPluginAutomationTestFrameworkTestContext.h"
-#include <AutomationTest.h>
 #include <CoreMinimal.h>
+#include <Misc/AutomationTest.h>
 
 class ADaeTestSuiteActor;
 

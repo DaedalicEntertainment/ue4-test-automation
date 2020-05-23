@@ -2,6 +2,7 @@
 
 #include <CoreMinimal.h>
 #include <LatentActions.h>
+#include <Engine/LatentActionManager.h>
 
 class ADaeTestTriggerBox;
 
