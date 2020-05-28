@@ -150,20 +150,6 @@ void UDaeGauntletTestController::LoadNextTestMap()
         UE_LOG(LogDaeTest, Display,
                TEXT("UDaeGauntletTestController::LoadNextTestMap - All tests finished."));
 
-        // Write final test report.
-        FDaeJUnitReportWriter JUnitReportWriter;
-        FString TestReport =
-            JUnitReportWriter.CreateReport(TEXT("DaeGauntletTestController"), Results);
-        UE_LOG(LogDaeTest, Log, TEXT("Test report:\r\n%s"), *TestReport);
-
-        FString JUnitReportPath = ParseCommandLineOption(TEXT("JUnitReportPath"));
-
-        if (!JUnitReportPath.IsEmpty())
-        {
-            UE_LOG(LogDaeTest, Display, TEXT("Writing test report to: %s"), *JUnitReportPath);
-            FFileHelper::SaveStringToFile(TestReport, *JUnitReportPath);
-        }
-
         // Finish Gauntlet.
         GetGauntlet()->BroadcastStateChange(FDaeGauntletStates::Finished);
 
@@ -182,7 +168,24 @@ void UDaeGauntletTestController::LoadNextTestMap()
 
 void UDaeGauntletTestController::OnTestSuiteFinished(ADaeTestSuiteActor* TestSuite)
 {
+    // Store result.
     Results.Add(TestSuite->GetResult());
+
+    // Update test report on disk.
+    FString JUnitReportPath = ParseCommandLineOption(TEXT("JUnitReportPath"));
+
+    if (!JUnitReportPath.IsEmpty())
+    {
+        FDaeJUnitReportWriter JUnitReportWriter;
+        FString TestReport =
+            JUnitReportWriter.CreateReport(TEXT("DaeGauntletTestController"), Results);
+        UE_LOG(LogDaeTest, Verbose, TEXT("Test report:\r\n%s"), *TestReport);
+
+        UE_LOG(LogDaeTest, Display, TEXT("Writing test report to: %s"), *JUnitReportPath);
+        FFileHelper::SaveStringToFile(TestReport, *JUnitReportPath);
+    }
+
+    // Proceed with next test.
     LoadNextTestMap();
 }
 
