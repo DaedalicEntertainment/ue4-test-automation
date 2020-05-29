@@ -4,7 +4,6 @@
 #include "DaeTestTriggerBox.h"
 #include <Blueprint/UserWidget.h>
 #include <Components/Image.h>
-#include <Components/PanelWidget.h>
 #include <Components/RichTextBlock.h>
 #include <Components/TextBlock.h>
 #include <Kismet/KismetMathLibrary.h>
@@ -138,278 +137,12 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, ui
     AssertNotEqual(Context, What, Actual, Unexpected);
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualByte(uint8 Actual, uint8 Expected,
-                                                             const FString& What,
-                                                             UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualByte(uint8 Actual, uint8 Unexpected,
-                                                                const FString& What,
-                                                                UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
 void UDaeTestAssertBlueprintFunctionLibrary::AssertCompareByte(uint8 First,
                                                                EDaeTestComparisonMethod ShouldBe,
                                                                uint8 Second, const FString& What,
                                                                UObject* Context /*= nullptr*/)
 {
     AssertCompare(Context, What, First, ShouldBe, Second);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualInt32(int32 Actual, int32 Expected,
-                                                              const FString& What,
-                                                              UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualInt32(int32 Actual, int32 Unexpected,
-                                                                 const FString& What,
-                                                                 UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualInt32(int32 Actual, int32 Expected,
-                                                              const FString& What,
-                                                              UObject* Context /*= nullptr*/)
-{
-    AssertEqual(Context, What, Actual, Expected);
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualInt32(int32 Actual, int32 Unexpected,
-                                                                 const FString& What,
-                                                                 UObject* Context /*= nullptr*/)
-{
-    AssertNotEqual(Context, What, Actual, Unexpected);
 }
 
 void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualInt32(int32 Actual, int32 Expected,
@@ -434,6 +167,20 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertCompareInt32(int32 First,
     AssertCompare(Context, What, First, ShouldBe, Second);
 }
 
+void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualInt64(int64 Actual, int64 Expected,
+                                                              const FString& What,
+                                                              UObject* Context /*= nullptr*/)
+{
+    AssertEqual(Context, What, Actual, Expected);
+}
+
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualInt64(int64 Actual, int64 Unexpected,
+                                                                 const FString& What,
+                                                                 UObject* Context /*= nullptr*/)
+{
+    AssertNotEqual(Context, What, Actual, Unexpected);
+}
+
 void UDaeTestAssertBlueprintFunctionLibrary::AssertCompareInt64(int64 First,
                                                                 EDaeTestComparisonMethod ShouldBe,
                                                                 int64 Second, const FString& What,
@@ -442,66 +189,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertCompareInt64(int64 First,
     AssertCompare(Context, What, First, ShouldBe, Second);
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::GenericAssertEqual(
-    void* Actual, const FProperty* ActualProp, void* Expected, const FProperty* ExpectedProp,
-    const FString& What, UObject* Context)
-{
-    bool bIsIdentical = false;
-    if (Actual && Expected)
-    {
-        if (ActualProp->SameType(ExpectedProp))
-        {
-            if (ActualProp->Identical(Actual, Expected))
-            {
-                bIsIdentical = true;
-            }
-        }
-    }
-
-    if (!bIsIdentical)
-    {
-        FString ActualPropValue;
-        ActualProp->ExportTextItem(ActualPropValue, Actual, nullptr, nullptr, PPF_None);
-        FString ExpectedPropValue;
-        ExpectedProp->ExportTextItem(ExpectedPropValue, Expected, nullptr, nullptr, PPF_None);
-
-        const FString Message =
-            FString::Format(*ErrorMessageFormatEqual, {What, ExpectedPropValue, ActualPropValue});
-        OnTestFailed(Context, Message);
-    }
-}
-
-void UDaeTestAssertBlueprintFunctionLibrary::GenericAssertNotEqual(
-    void* Actual, const FProperty* ActualProp, void* Unexpected, const FProperty* UnexpectedProp,
-    const FString& What, UObject* Context)
-{
-    bool bIsIdentical = false;
-    if (Actual && Unexpected)
-    {
-        if (ActualProp->SameType(UnexpectedProp))
-        {
-            if (ActualProp->Identical(Actual, Unexpected))
-            {
-                bIsIdentical = true;
-            }
-        }
-    }
-
-    if (bIsIdentical)
-    {
-        FString UnexpectedPropValue;
-        UnexpectedProp->ExportTextItem(UnexpectedPropValue, Unexpected, nullptr, nullptr, PPF_None);
-
-        const FString Message =
-            FString::Format(*ErrorMessageFormatNotEqual, {What, UnexpectedPropValue});
-        OnTestFailed(Context, Message);
-    }
-}
-
 void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualFloat(float Actual, float Expected,
                                                               const FString& What,
-                                                              const float Tolerance,
-                                                              UObject* Context /*= nullptr*/)
+                                                              UObject* Context /*= nullptr*/,
+                                                              const float Tolerance /*= 0.0001f*/)
 {
     if (!FMath::IsNearlyEqual(Actual, Expected, Tolerance))
     {
@@ -510,10 +201,9 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualFloat(float Actual, floa
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualFloat(float Actual, float Unexpected,
-                                                                 const FString& What,
-                                                                 const float Tolerance,
-                                                                 UObject* Context /*= nullptr*/)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualFloat(
+    float Actual, float Unexpected, const FString& What, UObject* Context /*= nullptr*/,
+    const float Tolerance /*= 0.0001f*/)
 {
     if (FMath::IsNearlyEqual(Actual, Unexpected, Tolerance))
     {
@@ -629,8 +319,8 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualText(const FText& Act
 void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualVector(const FVector& Actual,
                                                                const FVector& Expected,
                                                                const FString& What,
-                                                               const float Tolerance,
-                                                               UObject* Context /*= nullptr*/)
+                                                               UObject* Context /*= nullptr*/,
+                                                               const float Tolerance /*= 0.0001f*/)
 {
     if (!Actual.Equals(Expected, Tolerance))
     {
@@ -640,13 +330,11 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualVector(const FVector& Ac
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualVector(const FVector& Actual,
-                                                                  const FVector& Unexpected,
-                                                                  const FString& What,
-                                                                  const float Tolerance,
-                                                                  UObject* Context /*= nullptr*/)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualVector(
+    const FVector& Actual, const FVector& Unexpected, const FString& What,
+    UObject* Context /*= nullptr*/, const float Tolerance /*= 0.0001f*/)
 {
-    if (Actual.Equals(Unexpected, Tolerance))
+    if (Actual.Equals(Unexpected))
     {
         FString Message =
             FString::Format(*ErrorMessageFormatNotEqual, {What, Unexpected.ToString()});
@@ -657,8 +345,8 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualVector(const FVector&
 void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualRotator(const FRotator& Actual,
                                                                 const FRotator& Expected,
                                                                 const FString& What,
-                                                                const float Tolerance,
-                                                                UObject* Context /*= nullptr*/)
+                                                                UObject* Context /*= nullptr*/,
+                                                                const float Tolerance /*= 0.0001f*/)
 {
     if (!Actual.Equals(Expected, Tolerance))
     {
@@ -668,11 +356,9 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualRotator(const FRotator& 
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualRotator(const FRotator& Actual,
-                                                                   const FRotator& Unexpected,
-                                                                   const FString& What,
-                                                                   const float Tolerance,
-                                                                   UObject* Context /*= nullptr*/)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualRotator(
+    const FRotator& Actual, const FRotator& Unexpected, const FString& What,
+    UObject* Context /*= nullptr*/, const float Tolerance /*= 0.0001f*/)
 {
     if (Actual.Equals(Unexpected, Tolerance))
     {
@@ -682,11 +368,9 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualRotator(const FRotato
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualTransform(const FTransform& Actual,
-                                                                  const FTransform& Expected,
-                                                                  const FString& What,
-                                                                  const float Tolerance,
-                                                                  UObject* Context /*= nullptr*/)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualTransform(
+    const FTransform& Actual, const FTransform& Expected, const FString& What,
+    UObject* Context /*= nullptr*/, const float Tolerance /*= 0.0001f*/)
 {
     if (!Actual.Equals(Expected, Tolerance))
     {
@@ -696,11 +380,9 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualTransform(const FTransfo
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualTransform(const FTransform& Actual,
-                                                                     const FTransform& Unexpected,
-                                                                     const FString& What,
-                                                                     const float Tolerance,
-                                                                     UObject* Context /*= nullptr*/)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualTransform(
+    const FTransform& Actual, const FTransform& Unexpected, const FString& What,
+    UObject* Context /*= nullptr*/, const float Tolerance /*= 0.0001f*/)
 {
     if (Actual.Equals(Unexpected, Tolerance))
     {

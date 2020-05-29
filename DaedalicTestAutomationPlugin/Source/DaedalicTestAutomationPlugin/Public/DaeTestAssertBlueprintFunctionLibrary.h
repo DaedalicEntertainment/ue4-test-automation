@@ -3,7 +3,6 @@
 #include "DaeTestComparisonMethod.h"
 #include <CoreMinimal.h>
 #include <Kismet/BlueprintFunctionLibrary.h>
-#include <UObject/TextProperty.h>
 #include "DaeTestAssertBlueprintFunctionLibrary.generated.h"
 
 class UImage;
@@ -50,19 +49,17 @@ public:
     static void AssertWasNotTriggered(ADaeTestTriggerBox* TestTriggerBox,
                                       UObject* Context = nullptr);
 
-    /** Expects the specified values to be equal. */
-    UFUNCTION(BlueprintCallable, CustomThunk,
-              meta = (CustomStructureParam = "Actual,Expected", HidePin = "WorldContext",
-                      DefaultToSelf = "WorldContext", DisplayName = "Assert Equal"))
-    static void AssertEqual(const int32 Actual, const int32 Expected, const FString& What,
-                            UObject* WorldContext = nullptr);
+    /** Expects the specified bytes to be equal. */
+    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
+                                         DisplayName = "Assert Equal (Byte)"))
+    static void AssertEqualByte(uint8 Actual, uint8 Expected, const FString& What,
+                                UObject* Context = nullptr);
 
-    /** Expects the specified values not to be equal. */
-    UFUNCTION(BlueprintCallable, CustomThunk,
-              meta = (CustomStructureParam = "Actual,Unexpected", HidePin = "WorldContext",
-                      DefaultToSelf = "WorldContext", DisplayName = "Assert Not Equal"))
-    static void AssertNotEqual(const int32 Actual, const int32 Unexpected, const FString& What,
-                               UObject* WorldContext = nullptr);
+    /** Expects the specified bytes not to be equal. */
+    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
+                                         DisplayName = "Assert Not Equal (Byte)"))
+    static void AssertNotEqualByte(uint8 Actual, uint8 Unexpected, const FString& What,
+                                   UObject* Context = nullptr);
 
     /** Compares the specified bytes for order. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
@@ -70,11 +67,35 @@ public:
     static void AssertCompareByte(uint8 First, EDaeTestComparisonMethod ShouldBe, uint8 Second,
                                   const FString& What, UObject* Context = nullptr);
 
+    /** Expects the specified 32-bit integers to be equal. */
+    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
+                                         DisplayName = "Assert Equal (Integer)"))
+    static void AssertEqualInt32(int32 Actual, int32 Expected, const FString& What,
+                                 UObject* Context = nullptr);
+
+    /** Expects the specified 32-bit integers not to be equal. */
+    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
+                                         DisplayName = "Assert Not Equal (Integer)"))
+    static void AssertNotEqualInt32(int32 Actual, int32 Unexpected, const FString& What,
+                                    UObject* Context = nullptr);
+
     /** Compares the specified 32-bit integers for order. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
                                          DisplayName = "Assert Compare (Integer)"))
     static void AssertCompareInt32(int32 First, EDaeTestComparisonMethod ShouldBe, int32 Second,
                                    const FString& What, UObject* Context = nullptr);
+
+    /** Expects the specified 64-bit integers to be equal. */
+    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
+                                         DisplayName = "Assert Equal (Integer64)"))
+    static void AssertEqualInt64(int64 Actual, int64 Expected, const FString& What,
+                                 UObject* Context = nullptr);
+
+    /** Expects the specified 64-bit integers not to be equal. */
+    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
+                                         DisplayName = "Assert Not Equal (Integer64)"))
+    static void AssertNotEqualInt64(int64 Actual, int64 Unexpected, const FString& What,
+                                    UObject* Context = nullptr);
 
     /** Compares the specified 64-bit integers for order. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
@@ -83,18 +104,18 @@ public:
                                    const FString& What, UObject* Context = nullptr);
 
     /** Expects the specified floats to be (nearly) equal. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
-                                         DisplayName = "Assert Equal (Float)", AdvancedDisplay = "Tolerance"))
+    UFUNCTION(BlueprintCallable,
+              meta = (HidePin = "Context", DefaultToSelf = "Context",
+                      DisplayName = "Assert Equal (Float)", AdvancedDisplay = "Tolerance"))
     static void AssertEqualFloat(float Actual, float Expected, const FString& What,
-                                 const float Tolerance = 0.0001f,
-                                 UObject* Context = nullptr);
+                                 UObject* Context = nullptr, const float Tolerance = 0.0001f);
 
     /** Expects the specified floats not to be equal. */
     UFUNCTION(BlueprintCallable,
               meta = (HidePin = "Context", DefaultToSelf = "Context",
                       DisplayName = "Assert Not Equal (Float)", AdvancedDisplay = "Tolerance"))
     static void AssertNotEqualFloat(float Actual, float Unexpected, const FString& What,
-                                    const float Tolerance = 0.0001f, UObject* Context = nullptr);
+                                    UObject* Context = nullptr, const float Tolerance = 0.0001f);
 
     /** Compares the specified floats for order. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
@@ -140,46 +161,52 @@ public:
                                    const FString& What, UObject* Context = nullptr);
 
     /** Expects the specified vectors to be (nearly) equal. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
+    UFUNCTION(BlueprintCallable,
+              meta = (HidePin = "Context", DefaultToSelf = "Context",
                       DisplayName = "Assert Equal (Vector)", AdvancedDisplay = "Tolerance"))
     static void AssertEqualVector(const FVector& Actual, const FVector& Expected,
-                                  const FString& What, const float Tolerance = 0.0001f,
-                                  UObject* Context = nullptr);
+                                  const FString& What, UObject* Context = nullptr,
+                                  const float Tolerance = 0.0001f);
 
     /** Expects the specified vectors not to be equal. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
+    UFUNCTION(BlueprintCallable,
+              meta = (HidePin = "Context", DefaultToSelf = "Context",
                       DisplayName = "Assert Not Equal (Vector)", AdvancedDisplay = "Tolerance"))
     static void AssertNotEqualVector(const FVector& Actual, const FVector& Unexpected,
-                                     const FString& What, const float Tolerance = 0.0001f,
-                                     UObject* Context = nullptr);
+                                     const FString& What, UObject* Context = nullptr,
+                                     const float Tolerance = 0.0001f);
 
     /** Expects the specified rotators to be (nearly) equal. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
+    UFUNCTION(BlueprintCallable,
+              meta = (HidePin = "Context", DefaultToSelf = "Context",
                       DisplayName = "Assert Equal (Rotator)", AdvancedDisplay = "Tolerance"))
     static void AssertEqualRotator(const FRotator& Actual, const FRotator& Expected,
-                                   const FString& What, const float Tolerance = 0.0001f,
-                                   UObject* Context = nullptr);
+                                   const FString& What, UObject* Context = nullptr,
+                                   const float Tolerance = 0.0001f);
 
     /** Expects the specified rotators not to be equal. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
+    UFUNCTION(BlueprintCallable,
+              meta = (HidePin = "Context", DefaultToSelf = "Context",
                       DisplayName = "Assert Not Equal (Rotator)", AdvancedDisplay = "Tolerance"))
     static void AssertNotEqualRotator(const FRotator& Actual, const FRotator& Unexpected,
-                                      const FString& What, const float Tolerance = 0.0001f,
-                                      UObject* Context = nullptr);
+                                      const FString& What, UObject* Context = nullptr,
+                                      const float Tolerance = 0.0001f);
 
     /** Expects the specified transforms to be (nearly) equal. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
+    UFUNCTION(BlueprintCallable,
+              meta = (HidePin = "Context", DefaultToSelf = "Context",
                       DisplayName = "Assert Equal (Transform)", AdvancedDisplay = "Tolerance"))
     static void AssertEqualTransform(const FTransform& Actual, const FTransform& Expected,
-                                     const FString& What, const float Tolerance = 0.0001f,
-                                     UObject* Context = nullptr);
+                                     const FString& What, UObject* Context = nullptr,
+                                     const float Tolerance = 0.0001f);
 
     /** Expects the specified transforms not to be equal. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
+    UFUNCTION(BlueprintCallable,
+              meta = (HidePin = "Context", DefaultToSelf = "Context",
                       DisplayName = "Assert Not Equal (Transform)", AdvancedDisplay = "Tolerance"))
     static void AssertNotEqualTransform(const FTransform& Actual, const FTransform& Unexpected,
-                                        const FString& What, const float Tolerance = 0.0001f,
-                                        UObject* Context = nullptr);
+                                        const FString& What, UObject* Context = nullptr,
+                                        const float Tolerance = 0.0001f);
 
     /** Expects Value to be between MinInclusive and MaxInclusive. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
@@ -260,56 +287,24 @@ private:
 
     static void OnTestFailed(UObject* Context, const FString& Message);
 
-    static void GenericAssertEqual(void* Actual, const FProperty* ActualProp, void* Expected,
-                                   const FProperty* ExpectedProp, const FString& What,
-                                   UObject* Context = nullptr);
-    DECLARE_FUNCTION(execAssertEqual)
+    template<typename T>
+    static void AssertEqual(UObject* Context, const FString& What, T Actual, T Expected)
     {
-        // Retrieve the first value
-        Stack.MostRecentProperty = nullptr;
-        Stack.StepCompiledIn<FProperty>(NULL);
-        void* ActualAddr = Stack.MostRecentPropertyAddress;
-        FProperty* ActualProperty = Stack.MostRecentProperty;
-        // Retrieve the second value
-        Stack.MostRecentProperty = nullptr;
-        Stack.StepCompiledIn<FProperty>(NULL);
-        void* ExpectedAddr = Stack.MostRecentPropertyAddress;
-        FProperty* ExpectedProperty = Stack.MostRecentProperty;
-
-        P_GET_PROPERTY(FStrProperty, What);
-        P_GET_PROPERTY(FObjectProperty, WorldContext);
-
-        P_FINISH;
-        P_NATIVE_BEGIN;
-        GenericAssertEqual(ActualAddr, ActualProperty, ExpectedAddr, ExpectedProperty, What,
-                           WorldContext);
-        P_NATIVE_END;
+        if (Actual != Expected)
+        {
+            FString Message = FString::Format(*ErrorMessageFormatEqual, {What, Expected, Actual});
+            OnTestFailed(Context, Message);
+        }
     }
 
-    static void GenericAssertNotEqual(void* Actual, const FProperty* ActualProp, void* Unexpected,
-                                      const FProperty* UnexpectedProp, const FString& What,
-                                      UObject* Context = nullptr);
-    DECLARE_FUNCTION(execAssertNotEqual)
+    template<typename T>
+    static void AssertNotEqual(UObject* Context, const FString& What, T Actual, T Unexpected)
     {
-        // Retrieve the first value
-        Stack.MostRecentProperty = nullptr;
-        Stack.StepCompiledIn<FProperty>(NULL);
-        void* ActualAddr = Stack.MostRecentPropertyAddress;
-        FProperty* ActualProperty = Stack.MostRecentProperty;
-        // Retrieve the second value
-        Stack.MostRecentProperty = nullptr;
-        Stack.StepCompiledIn<FProperty>(NULL);
-        void* UnexpectedAddr = Stack.MostRecentPropertyAddress;
-        FProperty* UnexpectedProperty = Stack.MostRecentProperty;
-
-        P_GET_PROPERTY(FStrProperty, What);
-        P_GET_PROPERTY(FObjectProperty, WorldContext);
-
-        P_FINISH;
-        P_NATIVE_BEGIN;
-        GenericAssertNotEqual(ActualAddr, ActualProperty, UnexpectedAddr, UnexpectedProperty, What,
-                              WorldContext);
-        P_NATIVE_END;
+        if (Actual == Unexpected)
+        {
+            FString Message = FString::Format(*ErrorMessageFormatNotEqual, {What, Unexpected});
+            OnTestFailed(Context, Message);
+        }
     }
 
     template<typename T>
