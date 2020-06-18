@@ -41,7 +41,7 @@ FString FDaeJUnitReportWriter::CreateReport(const FString& Name,
             else if (TestResult.WasSkipped())
             {
                 XmlString +=
-                    FString::Printf(TEXT("        <skipped>%s</failure>"), *TestResult.SkipReason)
+                    FString::Printf(TEXT("        <skipped>%s</skipped>"), *TestResult.SkipReason)
                     + LINE_TERMINATOR;
             }
 
