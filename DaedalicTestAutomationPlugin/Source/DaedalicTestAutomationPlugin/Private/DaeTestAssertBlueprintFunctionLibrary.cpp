@@ -4,6 +4,7 @@
 #include "DaeTestTriggerBox.h"
 #include <Blueprint/UserWidget.h>
 #include <Components/Image.h>
+#include <Components/PanelWidget.h>
 #include <Components/RichTextBlock.h>
 #include <Components/TextBlock.h>
 #include <Kismet/KismetMathLibrary.h>
