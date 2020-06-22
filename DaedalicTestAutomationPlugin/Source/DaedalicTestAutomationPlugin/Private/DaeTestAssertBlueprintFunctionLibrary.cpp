@@ -4,7 +4,6 @@
 #include "DaeTestTriggerBox.h"
 #include <Blueprint/UserWidget.h>
 #include <Components/Image.h>
-#include <Components/PanelWidget.h>
 #include <Components/RichTextBlock.h>
 #include <Components/TextBlock.h>
 #include <Kismet/KismetMathLibrary.h>
@@ -192,20 +191,21 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertCompareInt64(int64 First,
 
 void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualFloat(float Actual, float Expected,
                                                               const FString& What,
-                                                              UObject* Context /*= nullptr*/)
+                                                              UObject* Context /*= nullptr*/,
+                                                              const float Tolerance /*= 0.0001f*/)
 {
-    if (!FMath::IsNearlyEqual(Actual, Expected))
+    if (!FMath::IsNearlyEqual(Actual, Expected, Tolerance))
     {
         FString Message = FString::Format(*ErrorMessageFormatEqual, {What, Expected, Actual});
         OnTestFailed(Context, Message);
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualFloat(float Actual, float Unexpected,
-                                                                 const FString& What,
-                                                                 UObject* Context /*= nullptr*/)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualFloat(
+    float Actual, float Unexpected, const FString& What, UObject* Context /*= nullptr*/,
+    const float Tolerance /*= 0.0001f*/)
 {
-    if (FMath::IsNearlyEqual(Actual, Unexpected))
+    if (FMath::IsNearlyEqual(Actual, Unexpected, Tolerance))
     {
         FString Message = FString::Format(*ErrorMessageFormatNotEqual, {What, Unexpected});
         OnTestFailed(Context, Message);
@@ -319,9 +319,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualText(const FText& Act
 void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualVector(const FVector& Actual,
                                                                const FVector& Expected,
                                                                const FString& What,
-                                                               UObject* Context /*= nullptr*/)
+                                                               UObject* Context /*= nullptr*/,
+                                                               const float Tolerance /*= 0.0001f*/)
 {
-    if (!Actual.Equals(Expected))
+    if (!Actual.Equals(Expected, Tolerance))
     {
         FString Message = FString::Format(*ErrorMessageFormatEqual,
                                           {What, Expected.ToString(), Actual.ToString()});
@@ -329,10 +330,9 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualVector(const FVector& Ac
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualVector(const FVector& Actual,
-                                                                  const FVector& Unexpected,
-                                                                  const FString& What,
-                                                                  UObject* Context /*= nullptr*/)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualVector(
+    const FVector& Actual, const FVector& Unexpected, const FString& What,
+    UObject* Context /*= nullptr*/, const float Tolerance /*= 0.0001f*/)
 {
     if (Actual.Equals(Unexpected))
     {
@@ -345,9 +345,10 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualVector(const FVector&
 void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualRotator(const FRotator& Actual,
                                                                 const FRotator& Expected,
                                                                 const FString& What,
-                                                                UObject* Context /*= nullptr*/)
+                                                                UObject* Context /*= nullptr*/,
+                                                                const float Tolerance /*= 0.0001f*/)
 {
-    if (!Actual.Equals(Expected))
+    if (!Actual.Equals(Expected, Tolerance))
     {
         FString Message = FString::Format(*ErrorMessageFormatEqual,
                                           {What, Expected.ToString(), Actual.ToString()});
@@ -355,12 +356,11 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualRotator(const FRotator& 
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualRotator(const FRotator& Actual,
-                                                                   const FRotator& Unexpected,
-                                                                   const FString& What,
-                                                                   UObject* Context /*= nullptr*/)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualRotator(
+    const FRotator& Actual, const FRotator& Unexpected, const FString& What,
+    UObject* Context /*= nullptr*/, const float Tolerance /*= 0.0001f*/)
 {
-    if (Actual.Equals(Unexpected))
+    if (Actual.Equals(Unexpected, Tolerance))
     {
         FString Message =
             FString::Format(*ErrorMessageFormatNotEqual, {What, Unexpected.ToString()});
@@ -368,12 +368,11 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualRotator(const FRotato
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualTransform(const FTransform& Actual,
-                                                                  const FTransform& Expected,
-                                                                  const FString& What,
-                                                                  UObject* Context /*= nullptr*/)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualTransform(
+    const FTransform& Actual, const FTransform& Expected, const FString& What,
+    UObject* Context /*= nullptr*/, const float Tolerance /*= 0.0001f*/)
 {
-    if (!Actual.Equals(Expected))
+    if (!Actual.Equals(Expected, Tolerance))
     {
         FString Message = FString::Format(*ErrorMessageFormatEqual,
                                           {What, Expected.ToString(), Actual.ToString()});
@@ -381,12 +380,11 @@ void UDaeTestAssertBlueprintFunctionLibrary::AssertEqualTransform(const FTransfo
     }
 }
 
-void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualTransform(const FTransform& Actual,
-                                                                     const FTransform& Unexpected,
-                                                                     const FString& What,
-                                                                     UObject* Context /*= nullptr*/)
+void UDaeTestAssertBlueprintFunctionLibrary::AssertNotEqualTransform(
+    const FTransform& Actual, const FTransform& Unexpected, const FString& What,
+    UObject* Context /*= nullptr*/, const float Tolerance /*= 0.0001f*/)
 {
-    if (Actual.Equals(Unexpected))
+    if (Actual.Equals(Unexpected, Tolerance))
     {
         FString Message =
             FString::Format(*ErrorMessageFormatNotEqual, {What, Unexpected.ToString()});
