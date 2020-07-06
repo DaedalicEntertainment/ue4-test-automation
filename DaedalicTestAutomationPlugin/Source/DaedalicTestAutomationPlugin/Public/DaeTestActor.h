@@ -90,11 +90,12 @@ public:
     /** Event when this test has been skipped. */
     FDaeTestActorTestSkippedSignature OnTestSkipped;
 
-private:
+protected:
     /** How long this test is allowed to run before it fails automatically, in seconds. */
     UPROPERTY(EditAnywhere)
     float TimeoutInSeconds;
 
+private:
     /** Reason for skipping this test. Test will be skipped if this is not empty. Useful for temporarily disabling unstable tests. */
     UPROPERTY(EditAnywhere)
     FString SkipReason;
