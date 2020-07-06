@@ -37,6 +37,7 @@ private:
                                  TSharedRef<IAssetTypeActions> Action);
 
     void OnTestMapPathChanged(const FString& NewTestMapPath);
+    void OnAdditionalTestMapsChanged(const TArray<FName>& AdditionalTestMaps);
 };
 
 IMPLEMENT_MODULE(FDaedalicTestAutomationPluginEditor, DaedalicTestAutomationPluginEditor)
@@ -82,6 +83,8 @@ void FDaedalicTestAutomationPluginEditor::StartupModule()
 
         TestAutomationPluginSettings->OnTestMapPathChanged.AddRaw(
             this, &FDaedalicTestAutomationPluginEditor::OnTestMapPathChanged);
+        TestAutomationPluginSettings->OnAdditionalTestMapsChanged.AddRaw(
+            this, &FDaedalicTestAutomationPluginEditor::OnAdditionalTestMapsChanged);
 
         OnTestMapPathChanged(TestAutomationPluginSettings->TestMapPath);
     }
@@ -121,8 +124,13 @@ void FDaedalicTestAutomationPluginEditor::RegisterAssetTypeAction(
 
 void FDaedalicTestAutomationPluginEditor::OnTestMapPathChanged(const FString& NewTestMapPath)
 {
-    // Discover tests.
-    AutomationTestFrameworkIntegration.SetTestMapPath(NewTestMapPath);
+    AutomationTestFrameworkIntegration.DiscoverTests();
+}
+
+void FDaedalicTestAutomationPluginEditor::OnAdditionalTestMapsChanged(
+    const TArray<FName>& AdditionalTestMaps)
+{
+    AutomationTestFrameworkIntegration.DiscoverTests();
 }
 
 #undef LOCTEXT_NAMESPACE

@@ -6,6 +6,8 @@
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FDaeTestAutomationPluginSettingsTestMapPathChangedSignature,
                                     const FString&);
+DECLARE_MULTICAST_DELEGATE_OneParam(
+    FDaeTestAutomationPluginSettingsAdditionalTestMapsChangedSignature, const TArray<FName>&);
 
 /** Custom settings for this plugin. */
 UCLASS(config = Game, defaultconfig)
@@ -18,6 +20,10 @@ public:
     UPROPERTY(config, EditAnywhere)
     FString TestMapPath;
 
+    /** Names of additional maps to test. */
+    UPROPERTY(config, EditAnywhere)
+    TArray<FName> AdditionalTestMaps;
+
     UDaeTestAutomationPluginSettings();
 
 #if WITH_EDITOR
@@ -26,4 +32,7 @@ public:
 
     /** Event when the path to look for test maps in has changed. */
     FDaeTestAutomationPluginSettingsTestMapPathChangedSignature OnTestMapPathChanged;
+
+    /** Event when the names of additional maps to test have changed. */
+    FDaeTestAutomationPluginSettingsAdditionalTestMapsChangedSignature OnAdditionalTestMapsChanged;
 };

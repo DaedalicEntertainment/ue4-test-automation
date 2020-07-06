@@ -12,6 +12,13 @@ void UDaeTestAutomationPluginSettings::PostEditChangeProperty(
     if (PropertyChangedEvent.GetPropertyName() == TEXT("TestMapPath"))
     {
         OnTestMapPathChanged.Broadcast(TestMapPath);
+        return;
+    }
+
+    if (PropertyChangedEvent.GetPropertyName() == TEXT("AdditionalTestMaps"))
+    {
+        OnAdditionalTestMapsChanged.Broadcast(AdditionalTestMaps);
+        return;
     }
 }
 #endif

@@ -37,10 +37,13 @@ void UDaeGauntletTestController::OnInit()
         const FAssetData& AssetData = *ObjIter;
 
         FString Filename = FPackageName::LongPackageNameToFilename(AssetData.ObjectPath.ToString());
+        FName MapName = AssetData.AssetName;
 
-        if (Filename.Contains(*PatternToCheck))
+        bool bIsTestMap = Filename.Contains(*PatternToCheck)
+                          || TestAutomationPluginSettings->AdditionalTestMaps.Contains(MapName);
+
+        if (bIsTestMap)
         {
-            FName MapName = AssetData.AssetName;
             MapNames.Add(MapName);
 
             UE_LOG(LogDaeTest, Display, TEXT("Discovered test: %s"), *MapName.ToString());
