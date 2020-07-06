@@ -9,6 +9,7 @@ class FDaeTestAutomationPluginAutomationTestFrameworkTestContext
 {
 public:
     ADaeTestSuiteActor* CurrentTestSuite;
+    TMap<FString, FString> OldConsoleVariables;
 
     FDaeTestAutomationPluginAutomationTestFrameworkTestContext();
 };

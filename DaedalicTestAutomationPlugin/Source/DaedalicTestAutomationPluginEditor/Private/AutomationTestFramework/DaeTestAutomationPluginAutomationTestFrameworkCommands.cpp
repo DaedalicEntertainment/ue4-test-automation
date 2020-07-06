@@ -1,4 +1,6 @@
 #include "AutomationTestFramework/DaeTestAutomationPluginAutomationTestFrameworkCommands.h"
+#include "DaeTestAutomationPluginSettings.h"
+#include "DaeTestEditorLogCategory.h"
 #include "DaeTestSuiteActor.h"
 #include <Editor.h>
 #include <EngineUtils.h>
@@ -30,4 +32,48 @@ bool FDaeTestAutomationPluginWaitForEndOfTestSuite::Update()
     }
 
     return false;
+}
+
+bool FDaeTestAutomationPluginApplyConsoleVariables::Update()
+{
+    Context.OldConsoleVariables.Empty();
+
+    const UDaeTestAutomationPluginSettings* Settings =
+        GetDefault<UDaeTestAutomationPluginSettings>();
+
+    for (auto& ConsoleVariable : Settings->ConsoleVariables)
+    {
+        IConsoleVariable* CVar = IConsoleManager::Get().FindConsoleVariable(*ConsoleVariable.Key);
+
+        if (CVar)
+        {
+            FString OldValue = CVar->GetString();
+            CVar->Set(*ConsoleVariable.Value);
+
+            Context.OldConsoleVariables.Add(ConsoleVariable.Key, OldValue);
+
+            UE_LOG(LogDaeTestEditor, Log, TEXT("Setting console variable %s = %s"),
+                   *ConsoleVariable.Key, *ConsoleVariable.Value);
+        }
+    }
+
+    return true;
+}
+
+bool FDaeTestAutomationPluginRevertConsoleVariables::Update()
+{
+    for (auto& ConsoleVariable : Context.OldConsoleVariables)
+    {
+        IConsoleVariable* CVar = IConsoleManager::Get().FindConsoleVariable(*ConsoleVariable.Key);
+
+        if (CVar)
+        {
+            CVar->Set(*ConsoleVariable.Value);
+
+            UE_LOG(LogDaeTestEditor, Log, TEXT("Restoring console variable %s = %s"),
+                   *ConsoleVariable.Key, *ConsoleVariable.Value);
+        }
+    }
+
+    return true;
 }

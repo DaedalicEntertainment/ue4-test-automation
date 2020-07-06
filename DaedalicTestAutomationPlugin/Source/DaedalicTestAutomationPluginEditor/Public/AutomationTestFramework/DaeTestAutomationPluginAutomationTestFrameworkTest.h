@@ -1,5 +1,6 @@
 #pragma once
 
+#include "AutomationTestFramework/DaeTestAutomationPluginAutomationTestFrameworkTestContext.h"
 #include <CoreMinimal.h>
 #include <Misc/AutomationTest.h>
 
@@ -24,4 +25,5 @@ protected:
 
 private:
     FString MapName;
+    FDaeTestAutomationPluginAutomationTestFrameworkTestContext Context;
 };

@@ -50,6 +50,20 @@ void UDaeGauntletTestController::OnInit()
         }
     }
 
+    // Set console variables.
+    for (auto& ConsoleVariable : TestAutomationPluginSettings->ConsoleVariables)
+    {
+        IConsoleVariable* CVar = IConsoleManager::Get().FindConsoleVariable(*ConsoleVariable.Key);
+
+        if (CVar)
+        {
+            CVar->Set(*ConsoleVariable.Value);
+
+            UE_LOG(LogDaeTest, Log, TEXT("Setting console variable %s = %s"), *ConsoleVariable.Key,
+                   *ConsoleVariable.Value);
+        }
+    }
+
     GetGauntlet()->BroadcastStateChange(FDaeGauntletStates::Initialized);
 }
 

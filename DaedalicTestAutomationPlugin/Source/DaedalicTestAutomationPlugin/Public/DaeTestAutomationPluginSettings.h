@@ -24,6 +24,10 @@ public:
     UPROPERTY(config, EditAnywhere)
     TArray<FName> AdditionalTestMaps;
 
+    /** Console variables to set before running batches of tests (e.g. Automation Window, Gauntlet). */
+    UPROPERTY(config, EditAnywhere)
+    TMap<FString, FString> ConsoleVariables;
+
     UDaeTestAutomationPluginSettings();
 
 #if WITH_EDITOR
