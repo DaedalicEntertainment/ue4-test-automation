@@ -29,7 +29,8 @@ namespace UnrealBuildTool.Rules
                     "InputCore",
                     "Gauntlet",
                     "UMG",
-                    "SlateCore"
+                    "SlateCore",
+                    "RenderCore"
                 }
 				);
 
