@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DaeTestReportWriterSet.h"
 #include <CoreMinimal.h>
 #include <GameFramework/Actor.h>
 #include "DaeTestActor.generated.h"
@@ -14,6 +15,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FDaeTestActorTestSkippedSignature
                                                SkipReason);
 
 class ADaeTestParameterProviderActor;
+class FDaeTestResultData;
 
 /** Single automated test to be run as part of a test suite. */
 UCLASS()
@@ -43,6 +45,12 @@ public:
     /** Gets the parameter for the current test run. */
     UFUNCTION(BlueprintPure)
     UObject* GetCurrentParameter() const;
+
+    /** Collects additional result data for this test after it has finished. */
+    virtual TSharedPtr<FDaeTestResultData> CollectResults() const;
+
+    /** Returns writers for writing reports for tests of this type, e.g. for publishing with CI/CD pipelines. */
+    virtual FDaeTestReportWriterSet GetReportWriters() const;
 
     /** Event when this test has finished successfully. */
     virtual void NotifyOnTestSuccessful();

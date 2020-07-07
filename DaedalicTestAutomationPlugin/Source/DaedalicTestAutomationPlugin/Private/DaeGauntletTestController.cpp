@@ -1,9 +1,10 @@
 #include "DaeGauntletTestController.h"
 #include "Kismet/GameplayStatics.h"
 #include "DaeGauntletStates.h"
-#include "DaeJUnitReportWriter.h"
 #include "DaeTestAutomationPluginSettings.h"
 #include "DaeTestLogCategory.h"
+#include "DaeTestReportWriter.h"
+#include "DaeTestReportWriterSet.h"
 #include "DaeTestSuiteActor.h"
 #include <AssetRegistryModule.h>
 #include <EngineUtils.h>
@@ -188,18 +189,14 @@ void UDaeGauntletTestController::OnTestSuiteFinished(ADaeTestSuiteActor* TestSui
     // Store result.
     Results.Add(TestSuite->GetResult());
 
-    // Update test report on disk.
-    FString JUnitReportPath = ParseCommandLineOption(TEXT("JUnitReportPath"));
+    // Update test reports on disk.
+    FString ReportPath = ParseCommandLineOption(TEXT("ReportPath"));
 
-    if (!JUnitReportPath.IsEmpty())
+    FDaeTestReportWriterSet ReportWriters = TestSuite->GetReportWriters();
+
+    for (TSharedPtr<FDaeTestReportWriter> ReportWriter : ReportWriters.GetReportWriters())
     {
-        FDaeJUnitReportWriter JUnitReportWriter;
-        FString TestReport =
-            JUnitReportWriter.CreateReport(TEXT("DaeGauntletTestController"), Results);
-        UE_LOG(LogDaeTest, Verbose, TEXT("Test report:\r\n%s"), *TestReport);
-
-        UE_LOG(LogDaeTest, Display, TEXT("Writing test report to: %s"), *JUnitReportPath);
-        FFileHelper::SaveStringToFile(TestReport, *JUnitReportPath);
+        ReportWriter->WriteReport(Results, ReportPath);
     }
 
     // Proceed with next test.

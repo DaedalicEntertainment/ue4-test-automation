@@ -1,6 +1,8 @@
 #include "DaeTestActor.h"
 #include "DaeTestLogCategory.h"
 #include "DaeTestParameterProviderActor.h"
+#include "DaeTestReportWriterJUnit.h"
+#include "DaeTestResult.h"
 
 ADaeTestActor::ADaeTestActor(
     const FObjectInitializer& ObjectInitializer /*= FObjectInitializer::Get()*/)
@@ -90,6 +92,18 @@ TArray<TSoftObjectPtr<UObject>> ADaeTestActor::GetParameters() const
 UObject* ADaeTestActor::GetCurrentParameter() const
 {
     return CurrentParameter;
+}
+
+TSharedPtr<FDaeTestResultData> ADaeTestActor::CollectResults() const
+{
+    return MakeShareable(new FDaeTestResultData());
+}
+
+FDaeTestReportWriterSet ADaeTestActor::GetReportWriters() const
+{
+    FDaeTestReportWriterSet ReportWriters;
+    ReportWriters.Add(MakeShareable(new FDaeTestReportWriterJUnit()));
+    return ReportWriters;
 }
 
 void ADaeTestActor::NotifyOnTestSuccessful()

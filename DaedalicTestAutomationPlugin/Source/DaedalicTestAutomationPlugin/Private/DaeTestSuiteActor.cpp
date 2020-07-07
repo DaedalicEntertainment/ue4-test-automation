@@ -1,6 +1,7 @@
 #include "DaeTestSuiteActor.h"
 #include "DaeTestActor.h"
 #include "DaeTestLogCategory.h"
+#include "DaeTestReportWriter.h"
 #include <Engine/World.h>
 
 ADaeTestSuiteActor::ADaeTestSuiteActor(
@@ -130,6 +131,18 @@ FDaeTestSuiteResult ADaeTestSuiteActor::GetResult() const
     return Result;
 }
 
+FDaeTestReportWriterSet ADaeTestSuiteActor::GetReportWriters() const
+{
+    FDaeTestReportWriterSet ReportWriters;
+
+    for (ADaeTestActor* Test : Tests)
+    {
+        ReportWriters.Add(Test->GetReportWriters());
+    }
+
+    return ReportWriters;
+}
+
 void ADaeTestSuiteActor::NotifyOnBeforeAll()
 {
     ReceiveOnBeforeAll();
@@ -248,6 +261,8 @@ void ADaeTestSuiteActor::OnTestSuccessful(ADaeTestActor* Test, UObject* Paramete
 
     // Store result.
     FDaeTestResult TestResult(CurrentTestName, TestTimeSeconds);
+    TestResult.Data = Test->CollectResults();
+
     Result.TestResults.Add(TestResult);
 
     // Run next test.
@@ -274,6 +289,8 @@ void ADaeTestSuiteActor::OnTestFailed(ADaeTestActor* Test, UObject* Parameter,
     // Store result.
     FDaeTestResult TestResult(CurrentTestName, TestTimeSeconds);
     TestResult.FailureMessage = FailureMessage;
+    TestResult.Data = Test->CollectResults();
+
     Result.TestResults.Add(TestResult);
 
     // Run next test.
@@ -300,6 +317,8 @@ void ADaeTestSuiteActor::OnTestSkipped(ADaeTestActor* Test, UObject* Parameter,
     // Store result.
     FDaeTestResult TestResult(CurrentTestName, TestTimeSeconds);
     TestResult.SkipReason = SkipReason;
+    TestResult.Data = Test->CollectResults();
+
     Result.TestResults.Add(TestResult);
 
     // Run next test.

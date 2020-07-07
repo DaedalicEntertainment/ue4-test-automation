@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DaeTestReportWriterSet.h"
 #include "DaeTestSuiteResult.h"
 #include <CoreMinimal.h>
 #include <GameFramework/Actor.h>
@@ -41,6 +42,9 @@ public:
 
     /** Results of the whole test suite. */
     FDaeTestSuiteResult GetResult() const;
+
+    /** Gets report writers for all tests of this suite. */
+    FDaeTestReportWriterSet GetReportWriters() const;
 
     /** Event when this test suite should set up. */
     virtual void NotifyOnBeforeAll();
