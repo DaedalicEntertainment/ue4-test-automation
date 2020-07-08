@@ -3,7 +3,6 @@
 
 UDaeTestAutomationPluginSettings::UDaeTestAutomationPluginSettings()
 {
-    TestMapFolders.Add(TEXT("Maps/AutomatedTests"));
 }
 
 void UDaeTestAutomationPluginSettings::PostInitProperties()

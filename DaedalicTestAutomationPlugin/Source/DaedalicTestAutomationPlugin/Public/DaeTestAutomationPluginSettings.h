@@ -17,7 +17,7 @@ public:
     UPROPERTY(config)
     FString TestMapPath;
 
-    /** Paths to look for test maps in. */
+    /** Paths to look for test maps in, relative to the Content root of your project (e.g. Maps/AutomatedTests). */
     UPROPERTY(config, EditAnywhere)
     TArray<FString> TestMapFolders;
 
