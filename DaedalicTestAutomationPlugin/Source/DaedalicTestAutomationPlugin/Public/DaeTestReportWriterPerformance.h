@@ -15,4 +15,7 @@ public:
 private:
     /** Formats the specified time using a fixed number of fractional digits. */
     FString FormatTime(float Time) const;
+
+    /** Formats the specified location using a fixed number of fractional digits. */
+    FString FormatLocation(const FVector& Location) const;
 };

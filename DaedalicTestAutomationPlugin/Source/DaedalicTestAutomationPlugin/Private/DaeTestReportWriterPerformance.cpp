@@ -65,8 +65,9 @@ void FDaeTestReportWriterPerformance::WriteReport(const TArray<FDaeTestSuiteResu
                     // Write budget violation.
                     TMap<FString, FString> BudgetViolationTemplateReplacements;
 
-                    BudgetViolationTemplateReplacements.Add(
-                        TEXT("{LOCATION}"), BudgetViolation.CurrentLocation.ToString());
+                    BudgetViolationTemplateReplacements.Add(TEXT("{LOCATION}"),
+                                                            FormatLocation(
+                                                                BudgetViolation.CurrentLocation));
                     BudgetViolationTemplateReplacements.Add(
                         TEXT("{PREVIOUS}"), BudgetViolation.PreviousTargetPointName);
                     BudgetViolationTemplateReplacements.Add(TEXT("{NEXT}"),
@@ -137,4 +138,10 @@ FString FDaeTestReportWriterPerformance::FormatTime(float Time) const
     return UKismetTextLibrary::Conv_FloatToText(Time, ERoundingMode::HalfToEven, false, false, 1,
                                                 324, 2, 2)
         .ToString();
+}
+
+FString FDaeTestReportWriterPerformance::FormatLocation(const FVector& Location) const
+{
+    return FString::Printf(TEXT("X=%d Y=%d Z=%d"), FMath::FloorToInt(Location.X),
+                           FMath::FloorToInt(Location.Y), FMath::FloorToInt(Location.Z));
 }
