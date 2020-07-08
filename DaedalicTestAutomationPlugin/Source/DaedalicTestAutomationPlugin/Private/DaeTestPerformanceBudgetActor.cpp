@@ -128,10 +128,15 @@ void ADaeTestPerformanceBudgetActor::Tick(float DeltaSeconds)
     }
 
     // Check if we should start recording (again).
+    bool bJustBeganRecording = false;
+
     if (!bIsRecording
         && (BudgetViolations.Num() == 0 || Time > LastBudgetViolationTime + BudgetViolationTimeout))
     {
         BeginRecording();
+
+        // Need to wait one frame before we got actual data.
+        bJustBeganRecording = true;
     }
 
     if (FlightPath.IsValidIndex(CurrentTargetPointIndex))
@@ -170,7 +175,7 @@ void ADaeTestPerformanceBudgetActor::Tick(float DeltaSeconds)
         }
 
         // Check performance.
-        if (bIsRecording)
+        if (bIsRecording && !bJustBeganRecording)
         {
             const FStatUnitData* StatUnitData = World->GetGameViewport()->GetStatUnitData();
 
