@@ -53,3 +53,17 @@ FString FDaeTestReportWriter::GetTimestamp(const TArray<FDaeTestSuiteResult>& Te
     FDateTime Timestamp = TestSuites.Num() > 0 ? TestSuites[0].Timestamp : FDateTime::UtcNow();
     return Timestamp.ToIso8601();
 }
+
+FString FDaeTestReportWriter::ApplyTemplateFile(const FString& TemplateFilePath,
+                                                const TMap<FString, FString>& Replacements) const
+{
+    FString ResultString;
+    FFileHelper::LoadFileToString(ResultString, *TemplateFilePath);
+
+    for (auto& Replacement : Replacements)
+    {
+        ResultString = ResultString.Replace(*Replacement.Key, *Replacement.Value);
+    }
+
+    return ResultString;
+}

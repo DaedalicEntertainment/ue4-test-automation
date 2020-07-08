@@ -29,4 +29,8 @@ protected:
 
     /** Gets the time the first of the passed test suites has run. */
     FString GetTimestamp(const TArray<FDaeTestSuiteResult>& TestSuites) const;
+
+    /** Applies all passed replacements to the contents of the file at the specified path, and returns the result. */
+    FString ApplyTemplateFile(const FString& TemplateFilePath,
+                              const TMap<FString, FString>& Replacements) const;
 };
