@@ -15,6 +15,16 @@ void FDaeTestReportWriterPerformance::WriteReport(const TArray<FDaeTestSuiteResu
     // Build report path.
     FString HtmlReportPath = FPaths::Combine(ReportPath, TEXT("performance-report.html"));
 
+    // Ensure report path exists.
+    IPlatformFile& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+
+    if (!PlatformFile.DirectoryExists(*ReportPath))
+    {
+        UE_LOG(LogDaeTest, Display, TEXT("Creating directory: %s"), *ReportPath);
+
+        PlatformFile.CreateDirectoryTree(*ReportPath);
+    }
+
     // Write report header.
     FString HtmlString;
 
@@ -109,8 +119,6 @@ void FDaeTestReportWriterPerformance::WriteReport(const TArray<FDaeTestSuiteResu
                      Data->BudgetViolations)
                 {
                     // Copy screenshot.
-                    IPlatformFile& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
-
                     FString OldScreenshotPath = BudgetViolation.ScreenshotPath;
                     FString ScreenshotFilename = FPaths::GetCleanFilename(OldScreenshotPath);
                     FString NewScreenshotPath = FPaths::Combine(ReportPath, ScreenshotFilename);

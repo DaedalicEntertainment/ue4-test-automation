@@ -25,6 +25,17 @@ void FDaeTestReportWriterJUnit::WriteReport(const TArray<FDaeTestSuiteResult>& T
         JUnitReportPath = FPaths::Combine(ReportPath, TEXT("junit-report.xml"));
     }
 
+    // Ensure report path exists.
+    IPlatformFile& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+    FString ReportDirectory = FPaths::GetPath(JUnitReportPath);
+
+    if (!PlatformFile.DirectoryExists(*ReportDirectory))
+    {
+        UE_LOG(LogDaeTest, Display, TEXT("Creating directory: %s"), *ReportDirectory);
+
+        PlatformFile.CreateDirectoryTree(*ReportDirectory);
+    }
+
     // Write a JUnit XML report based on FXmlFile::WriteNodeHierarchy.
     // Unfortunately, FXmlNode::Tag is private, so we have to do the hard work here ourselves...
     FString XmlString;
