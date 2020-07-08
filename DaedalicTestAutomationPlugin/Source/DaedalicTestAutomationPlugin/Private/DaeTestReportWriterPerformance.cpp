@@ -71,6 +71,8 @@ void FDaeTestReportWriterPerformance::WriteReport(const TArray<FDaeTestSuiteResu
                         TEXT("{PREVIOUS}"), BudgetViolation.PreviousTargetPointName);
                     BudgetViolationTemplateReplacements.Add(TEXT("{NEXT}"),
                                                             BudgetViolation.NextTargetPointName);
+                    BudgetViolationTemplateReplacements.Add(TEXT("{FPS}"),
+                                                            FormatTime(BudgetViolation.FPS));
                     BudgetViolationTemplateReplacements.Add(TEXT("{GAME_TIME}"),
                                                             FormatTime(
                                                                 BudgetViolation.GameThreadTime));

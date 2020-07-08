@@ -172,6 +172,8 @@ void ADaeTestPerformanceBudgetActor::Tick(float DeltaSeconds)
         // Check performance.
         if (bIsRecording)
         {
+            const FStatUnitData* StatUnitData = World->GetGameViewport()->GetStatUnitData();
+
             float GameThreadTime = FPlatformTime::ToMilliseconds(GGameThreadTime);
             float RenderThreadTime = FPlatformTime::ToMilliseconds(GRenderThreadTime);
             float GPUTime = FPlatformTime::ToMilliseconds(GGPUFrameTime);
@@ -217,6 +219,7 @@ void ADaeTestPerformanceBudgetActor::Tick(float DeltaSeconds)
                 }
 
                 BudgetViolation.CurrentLocation = Pawn->GetActorLocation();
+                BudgetViolation.FPS = 1.0f / (StatUnitData->FrameTime / 1000.0f);
                 BudgetViolation.GameThreadTime = GameThreadTime;
                 BudgetViolation.RenderThreadTime = RenderThreadTime;
                 BudgetViolation.GPUTime = GPUTime;
@@ -260,6 +263,7 @@ void ADaeTestPerformanceBudgetActor::BeginRecording()
     UWorld* World = GetWorld();
 
     // Ensure we're recording engine stats.
+    GEngine->SetEngineStat(World, World->GetGameViewport(), TEXT("FPS"), true);
     GEngine->SetEngineStat(World, World->GetGameViewport(), TEXT("Unit"), true);
 
     bIsRecording = true;

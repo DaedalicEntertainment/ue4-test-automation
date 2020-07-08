@@ -15,6 +15,9 @@ public:
     /** World location where the budget violation occurred. */
     FVector CurrentLocation;
 
+    /** Frames per second at the time of the budget violation. */
+    float FPS;
+
     /** Time spent on the game thread during the last frame (in milliseconds). */
     float GameThreadTime;
 
