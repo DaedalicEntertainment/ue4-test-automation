@@ -41,6 +41,8 @@ ADaeTestPerformanceBudgetActor::ADaeTestPerformanceBudgetActor(
     GameThreadBudget = 20.0f;
     RenderThreadBudget = 20.0f;
     GPUBudget = 20.0f;
+
+    bIncludeInDefaultTestReport = true;
 }
 
 void ADaeTestPerformanceBudgetActor::BeginPlay()
@@ -266,7 +268,14 @@ TSharedPtr<FDaeTestResultData> ADaeTestPerformanceBudgetActor::CollectResults() 
 
 FDaeTestReportWriterSet ADaeTestPerformanceBudgetActor::GetReportWriters() const
 {
-    FDaeTestReportWriterSet ReportWriters = Super::GetReportWriters();
+    FDaeTestReportWriterSet ReportWriters;
+
+    if (bIncludeInDefaultTestReport)
+    {
+        FDaeTestReportWriterSet DefaultReportWriters = Super::GetReportWriters();
+        ReportWriters.Add(DefaultReportWriters);
+    }
+
     ReportWriters.Add(MakeShareable(new FDaeTestReportWriterPerformance()));
     return ReportWriters;
 }

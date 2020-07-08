@@ -67,6 +67,10 @@ private:
     UPROPERTY(EditAnywhere)
     float GPUBudget;
 
+    /** Whether performance budget violations should cause a failure item in default test reports. */
+    UPROPERTY(EditAnywhere)
+    bool bIncludeInDefaultTestReport;
+
     bool bIsRunning;
     bool bIsRecording;
 
