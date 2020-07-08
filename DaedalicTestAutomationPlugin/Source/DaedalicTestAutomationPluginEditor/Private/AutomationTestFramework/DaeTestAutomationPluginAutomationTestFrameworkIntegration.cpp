@@ -10,8 +10,10 @@ void FDaeTestAutomationPluginAutomationTestFrameworkIntegration::DiscoverTests()
     const UDaeTestAutomationPluginSettings* TestAutomationPluginSettings =
         GetDefault<UDaeTestAutomationPluginSettings>();
 
-    UE_LOG(LogDaeTestEditor, Log, TEXT("Discovering tests from: %s"),
-           *TestAutomationPluginSettings->TestMapPath);
+    for (const FString& TestMapFolder : TestAutomationPluginSettings->TestMapFolders)
+    {
+        UE_LOG(LogDaeTestEditor, Log, TEXT("Discovering tests from: %s"), *TestMapFolder);
+    }
 
     // Unregister existing tests.
     Tests.Empty();
@@ -21,21 +23,16 @@ void FDaeTestAutomationPluginAutomationTestFrameworkIntegration::DiscoverTests()
     FEditorFileUtils::FindAllPackageFiles(PackageFiles);
 
     // Iterate over all files, adding the ones with the map extension.
-    const FString PatternToCheck =
-        FString::Printf(TEXT("/%s/"), *TestAutomationPluginSettings->TestMapPath);
-
-    for (const FString& Filename : PackageFiles)
+    for (const FString& FileName : PackageFiles)
     {
-        bool bIsMap = FPaths::GetExtension(Filename, true)
+        bool bIsMap = FPaths::GetExtension(FileName, true)
                       == FPackageName::GetMapPackageExtension();
-        FName AssetName = FName(*FPaths::GetBaseFilename(Filename));
+        FName MapName = FName(*FPaths::GetBaseFilename(FileName));
 
-        if (bIsMap
-            && (Filename.Contains(*PatternToCheck)
-                || TestAutomationPluginSettings->AdditionalTestMaps.Contains(AssetName)))
+        if (bIsMap && TestAutomationPluginSettings->IsTestMap(FileName, MapName))
         {
             TSharedPtr<FDaeTestAutomationPluginAutomationTestFrameworkTest> NewTest =
-                MakeShareable(new FDaeTestAutomationPluginAutomationTestFrameworkTest(Filename));
+                MakeShareable(new FDaeTestAutomationPluginAutomationTestFrameworkTest(FileName));
             Tests.Add(NewTest);
 
             UE_LOG(LogDaeTestEditor, Log, TEXT("Discovered test: %s"), *NewTest->GetMapName());

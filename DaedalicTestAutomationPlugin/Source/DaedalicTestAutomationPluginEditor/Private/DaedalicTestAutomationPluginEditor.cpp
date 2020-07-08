@@ -36,8 +36,7 @@ private:
     void RegisterAssetTypeAction(class IAssetTools& AssetTools,
                                  TSharedRef<IAssetTypeActions> Action);
 
-    void OnTestMapPathChanged(const FString& NewTestMapPath);
-    void OnAdditionalTestMapsChanged(const TArray<FName>& AdditionalTestMaps);
+    void OnTestMapsChanged();
 };
 
 IMPLEMENT_MODULE(FDaedalicTestAutomationPluginEditor, DaedalicTestAutomationPluginEditor)
@@ -81,12 +80,10 @@ void FDaedalicTestAutomationPluginEditor::StartupModule()
                       "Configure the discovery of automated tests."),
             TestAutomationPluginSettings);
 
-        TestAutomationPluginSettings->OnTestMapPathChanged.AddRaw(
-            this, &FDaedalicTestAutomationPluginEditor::OnTestMapPathChanged);
-        TestAutomationPluginSettings->OnAdditionalTestMapsChanged.AddRaw(
-            this, &FDaedalicTestAutomationPluginEditor::OnAdditionalTestMapsChanged);
+        TestAutomationPluginSettings->OnTestMapsChanged.AddRaw(
+            this, &FDaedalicTestAutomationPluginEditor::OnTestMapsChanged);
 
-        OnTestMapPathChanged(TestAutomationPluginSettings->TestMapPath);
+        OnTestMapsChanged();
     }
 }
 
@@ -122,13 +119,7 @@ void FDaedalicTestAutomationPluginEditor::RegisterAssetTypeAction(
     AssetTypeActions.Add(Action);
 }
 
-void FDaedalicTestAutomationPluginEditor::OnTestMapPathChanged(const FString& NewTestMapPath)
-{
-    AutomationTestFrameworkIntegration.DiscoverTests();
-}
-
-void FDaedalicTestAutomationPluginEditor::OnAdditionalTestMapsChanged(
-    const TArray<FName>& AdditionalTestMaps)
+void FDaedalicTestAutomationPluginEditor::OnTestMapsChanged()
 {
     AutomationTestFrameworkIntegration.DiscoverTests();
 }

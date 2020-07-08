@@ -19,8 +19,10 @@ void UDaeGauntletTestController::OnInit()
     const UDaeTestAutomationPluginSettings* TestAutomationPluginSettings =
         GetDefault<UDaeTestAutomationPluginSettings>();
 
-    UE_LOG(LogDaeTest, Display, TEXT("Discovering tests from: %s"),
-           *TestAutomationPluginSettings->TestMapPath);
+    for (const FString& TestMapFolder : TestAutomationPluginSettings->TestMapFolders)
+    {
+        UE_LOG(LogDaeTest, Display, TEXT("Discovering tests from: %s"), *TestMapFolder);
+    }
 
     // Build list of tests (based on FAutomationEditorCommonUtils::CollectTestsByClass).
     FAssetRegistryModule& AssetRegistryModule =
@@ -30,18 +32,14 @@ void UDaeGauntletTestController::OnInit()
     AssetRegistryModule.Get().SearchAllAssets(true);
     AssetRegistryModule.Get().GetAssetsByClass(UWorld::StaticClass()->GetFName(), AssetDataArray);
 
-    const FString PatternToCheck =
-        FString::Printf(TEXT("/%s/"), *TestAutomationPluginSettings->TestMapPath);
-
     for (auto ObjIter = AssetDataArray.CreateConstIterator(); ObjIter; ++ObjIter)
     {
         const FAssetData& AssetData = *ObjIter;
 
-        FString Filename = FPackageName::LongPackageNameToFilename(AssetData.ObjectPath.ToString());
+        FString FileName = FPackageName::LongPackageNameToFilename(AssetData.ObjectPath.ToString());
         FName MapName = AssetData.AssetName;
 
-        bool bIsTestMap = Filename.Contains(*PatternToCheck)
-                          || TestAutomationPluginSettings->AdditionalTestMaps.Contains(MapName);
+        bool bIsTestMap = TestAutomationPluginSettings->IsTestMap(FileName, MapName);
 
         if (bIsTestMap)
         {

@@ -4,10 +4,7 @@
 #include <UObject/Object.h>
 #include "DaeTestAutomationPluginSettings.generated.h"
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FDaeTestAutomationPluginSettingsTestMapPathChangedSignature,
-                                    const FString&);
-DECLARE_MULTICAST_DELEGATE_OneParam(
-    FDaeTestAutomationPluginSettingsAdditionalTestMapsChangedSignature, const TArray<FName>&);
+DECLARE_MULTICAST_DELEGATE(FDaeTestAutomationPluginSettingsTestMapsChangedSignature);
 
 /** Custom settings for this plugin. */
 UCLASS(config = Game, defaultconfig)
@@ -16,13 +13,21 @@ class DAEDALICTESTAUTOMATIONPLUGIN_API UDaeTestAutomationPluginSettings : public
     GENERATED_BODY()
 
 public:
-    /** Path to look for test maps in. */
-    UPROPERTY(config, EditAnywhere)
+    /** DEPRECATED: Use TestMapFolders instead. */
+    UPROPERTY(config)
     FString TestMapPath;
+
+    /** Paths to look for test maps in. */
+    UPROPERTY(config, EditAnywhere)
+    TArray<FString> TestMapFolders;
 
     /** Names of additional maps to test. */
     UPROPERTY(config, EditAnywhere)
     TArray<FName> AdditionalTestMaps;
+
+    /** Names of maps to ignore when found in test map folders. */
+    UPROPERTY(config, EditAnywhere)
+    TArray<FName> IgnoredMaps;
 
     /** Console variables to set before running batches of tests (e.g. Automation Window, Gauntlet). */
     UPROPERTY(config, EditAnywhere)
@@ -30,13 +35,15 @@ public:
 
     UDaeTestAutomationPluginSettings();
 
+    virtual void PostInitProperties() override;
+
 #if WITH_EDITOR
     virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif
 
-    /** Event when the path to look for test maps in has changed. */
-    FDaeTestAutomationPluginSettingsTestMapPathChangedSignature OnTestMapPathChanged;
+    /** Event when the set of test maps has changed. */
+    FDaeTestAutomationPluginSettingsTestMapsChangedSignature OnTestMapsChanged;
 
-    /** Event when the names of additional maps to test have changed. */
-    FDaeTestAutomationPluginSettingsAdditionalTestMapsChangedSignature OnAdditionalTestMapsChanged;
+    /** Checks whether the specified map contains automated tests to run. */
+    bool IsTestMap(const FString& FileName, const FName& MapName) const;
 };
