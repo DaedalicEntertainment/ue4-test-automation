@@ -15,6 +15,13 @@
 #include <GameFramework/PlayerController.h>
 #include <Kismet/GameplayStatics.h>
 
+#if WITH_ENGINE
+// Imported from UnrealClient.cpp.
+extern ENGINE_API float GAverageFPS;
+#else
+float GAverageFPS = 0.0f;
+#endif // WITH_ENGINE
+
 ADaeTestPerformanceBudgetActor::ADaeTestPerformanceBudgetActor(
     const FObjectInitializer& ObjectInitializer /*= FObjectInitializer::Get()*/)
 {
@@ -179,9 +186,9 @@ void ADaeTestPerformanceBudgetActor::Tick(float DeltaSeconds)
         {
             const FStatUnitData* StatUnitData = World->GetGameViewport()->GetStatUnitData();
 
-            float GameThreadTime = FPlatformTime::ToMilliseconds(GGameThreadTime);
-            float RenderThreadTime = FPlatformTime::ToMilliseconds(GRenderThreadTime);
-            float GPUTime = FPlatformTime::ToMilliseconds(GGPUFrameTime);
+            float GameThreadTime = StatUnitData->GameThreadTime;
+            float RenderThreadTime = StatUnitData->RenderThreadTime;
+            float GPUTime = StatUnitData->GPUFrameTime;
 
             bool bGameThreadTimeOK =
                 ValidatePerformanceCounter(GameThreadTime, GameThreadBudget, TEXT("Game"));
@@ -224,7 +231,8 @@ void ADaeTestPerformanceBudgetActor::Tick(float DeltaSeconds)
                 }
 
                 BudgetViolation.CurrentLocation = Pawn->GetActorLocation();
-                BudgetViolation.FPS = 1.0f / (StatUnitData->FrameTime / 1000.0f);
+                BudgetViolation.FPS =
+                    GAverageFPS > 0.0f ? GAverageFPS : (1.0f / (StatUnitData->FrameTime / 1000.0f));
                 BudgetViolation.GameThreadTime = GameThreadTime;
                 BudgetViolation.RenderThreadTime = RenderThreadTime;
                 BudgetViolation.GPUTime = GPUTime;
