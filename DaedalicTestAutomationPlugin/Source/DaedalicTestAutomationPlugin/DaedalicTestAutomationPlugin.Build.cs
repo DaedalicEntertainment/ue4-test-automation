@@ -30,7 +30,8 @@ namespace UnrealBuildTool.Rules
                     "Gauntlet",
                     "UMG",
                     "SlateCore",
-                    "RenderCore"
+                    "RenderCore",
+                    "Projects"
                 }
 				);
 

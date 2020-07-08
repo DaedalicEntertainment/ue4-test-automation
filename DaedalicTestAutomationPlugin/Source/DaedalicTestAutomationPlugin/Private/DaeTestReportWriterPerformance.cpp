@@ -2,6 +2,7 @@
 #include "DaeTestPerformanceBudgetResultData.h"
 #include "DaeTestPerformanceBudgetViolation.h"
 #include <HAL/PlatformFilemanager.h>
+#include <Interfaces/IPluginManager.h>
 #include <Kismet/KismetTextLibrary.h>
 
 FName FDaeTestReportWriterPerformance::GetReportType() const
@@ -26,6 +27,8 @@ void FDaeTestReportWriterPerformance::WriteReport(const TArray<FDaeTestSuiteResu
     }
 
     // Write report header.
+    const FString& StyleFileName = TEXT("bootstrap.min.css");
+
     FString HtmlString;
 
     HtmlString += TEXT("<!doctype html>") LINE_TERMINATOR;
@@ -34,11 +37,9 @@ void FDaeTestReportWriterPerformance::WriteReport(const TArray<FDaeTestSuiteResu
     HtmlString += TEXT("    <meta charset=\"utf-8\">") LINE_TERMINATOR;
     HtmlString += TEXT("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, "
                        "shrink-to-fit=no\">") LINE_TERMINATOR;
-    HtmlString +=
-        TEXT("    <link rel=\"stylesheet\" "
-             "href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css\" "
-             "integrity=\"sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+"
-             "NcPb1dKGj7Sk\" crossorigin=\"anonymous\">") LINE_TERMINATOR;
+    HtmlString += FString::Printf(TEXT("    <link rel=\"stylesheet\" href=\"%s\">"), *StyleFileName)
+                  + LINE_TERMINATOR;
+
     HtmlString += TEXT("    <title>Performance Report</title>") LINE_TERMINATOR;
     HtmlString += TEXT("  </head>") LINE_TERMINATOR;
 
@@ -172,6 +173,19 @@ void FDaeTestReportWriterPerformance::WriteReport(const TArray<FDaeTestSuiteResu
     UE_LOG(LogDaeTest, Display, TEXT("Writing test report to: %s"), *HtmlReportPath);
 
     FFileHelper::SaveStringToFile(HtmlString, *HtmlReportPath);
+
+    // Copy style file.
+    FString ContentDir =
+        IPluginManager::Get().FindPlugin(TEXT("DaedalicTestAutomationPlugin"))->GetContentDir();
+
+    FString PluginStyleFilePath =
+        FPaths::Combine(ContentDir, TEXT("ReportTemplates"), StyleFileName);
+    FString ReportStyleFilePath = FPaths::Combine(ReportPath, StyleFileName);
+
+    UE_LOG(LogDaeTest, Display, TEXT("Copying %s to %s."), *PluginStyleFilePath,
+           *ReportStyleFilePath);
+
+    PlatformFile.CopyFile(*ReportStyleFilePath, *PluginStyleFilePath);
 }
 
 FString FDaeTestReportWriterPerformance::FormatTime(float Time) const
