@@ -77,7 +77,7 @@ If you want to use [Gauntlet](#gauntlet) for running your tests, you'll need a s
 
 Daedalic Test Automation Plugin is fully exposed to blueprints in order to allow everyone to easily create tests. Each level represents a _test suite_, which in turn can consist of multiple _tests_.
 
-You'll be using Gauntlet to run one or more test suits, or the Unreal Editor to run a single test suite.
+You'll be using Gauntlet to run one or more test suites, or the Unreal Editor to run a single test suite.
 
 ![Creating Tests](Documentation/CreatingTests.png)
 
