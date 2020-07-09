@@ -36,7 +36,7 @@ private:
     void RegisterAssetTypeAction(class IAssetTools& AssetTools,
                                  TSharedRef<IAssetTypeActions> Action);
 
-    void OnTestMapPathChanged(const FString& NewTestMapPath);
+    void OnTestMapsChanged();
 };
 
 IMPLEMENT_MODULE(FDaedalicTestAutomationPluginEditor, DaedalicTestAutomationPluginEditor)
@@ -80,10 +80,10 @@ void FDaedalicTestAutomationPluginEditor::StartupModule()
                       "Configure the discovery of automated tests."),
             TestAutomationPluginSettings);
 
-        TestAutomationPluginSettings->OnTestMapPathChanged.AddRaw(
-            this, &FDaedalicTestAutomationPluginEditor::OnTestMapPathChanged);
+        TestAutomationPluginSettings->OnTestMapsChanged.AddRaw(
+            this, &FDaedalicTestAutomationPluginEditor::OnTestMapsChanged);
 
-        OnTestMapPathChanged(TestAutomationPluginSettings->TestMapPath);
+        OnTestMapsChanged();
     }
 }
 
@@ -119,10 +119,9 @@ void FDaedalicTestAutomationPluginEditor::RegisterAssetTypeAction(
     AssetTypeActions.Add(Action);
 }
 
-void FDaedalicTestAutomationPluginEditor::OnTestMapPathChanged(const FString& NewTestMapPath)
+void FDaedalicTestAutomationPluginEditor::OnTestMapsChanged()
 {
-    // Discover tests.
-    AutomationTestFrameworkIntegration.SetTestMapPath(NewTestMapPath);
+    AutomationTestFrameworkIntegration.DiscoverTests();
 }
 
 #undef LOCTEXT_NAMESPACE

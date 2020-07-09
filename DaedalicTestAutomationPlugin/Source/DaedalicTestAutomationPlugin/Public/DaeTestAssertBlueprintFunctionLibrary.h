@@ -104,16 +104,18 @@ public:
                                    const FString& What, UObject* Context = nullptr);
 
     /** Expects the specified floats to be (nearly) equal. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
-                                         DisplayName = "Assert Equal (Float)"))
+    UFUNCTION(BlueprintCallable,
+              meta = (HidePin = "Context", DefaultToSelf = "Context",
+                      DisplayName = "Assert Equal (Float)", AdvancedDisplay = "Tolerance"))
     static void AssertEqualFloat(float Actual, float Expected, const FString& What,
-                                 UObject* Context = nullptr);
+                                 UObject* Context = nullptr, const float Tolerance = 0.0001f);
 
     /** Expects the specified floats not to be equal. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
-                                         DisplayName = "Assert Not Equal (Float)"))
+    UFUNCTION(BlueprintCallable,
+              meta = (HidePin = "Context", DefaultToSelf = "Context",
+                      DisplayName = "Assert Not Equal (Float)", AdvancedDisplay = "Tolerance"))
     static void AssertNotEqualFloat(float Actual, float Unexpected, const FString& What,
-                                    UObject* Context = nullptr);
+                                    UObject* Context = nullptr, const float Tolerance = 0.0001f);
 
     /** Compares the specified floats for order. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
@@ -159,40 +161,52 @@ public:
                                    const FString& What, UObject* Context = nullptr);
 
     /** Expects the specified vectors to be (nearly) equal. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
-                                         DisplayName = "Assert Equal (Vector)"))
+    UFUNCTION(BlueprintCallable,
+              meta = (HidePin = "Context", DefaultToSelf = "Context",
+                      DisplayName = "Assert Equal (Vector)", AdvancedDisplay = "Tolerance"))
     static void AssertEqualVector(const FVector& Actual, const FVector& Expected,
-                                  const FString& What, UObject* Context = nullptr);
+                                  const FString& What, UObject* Context = nullptr,
+                                  const float Tolerance = 0.0001f);
 
     /** Expects the specified vectors not to be equal. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
-                                         DisplayName = "Assert Not Equal (Vector)"))
+    UFUNCTION(BlueprintCallable,
+              meta = (HidePin = "Context", DefaultToSelf = "Context",
+                      DisplayName = "Assert Not Equal (Vector)", AdvancedDisplay = "Tolerance"))
     static void AssertNotEqualVector(const FVector& Actual, const FVector& Unexpected,
-                                     const FString& What, UObject* Context = nullptr);
+                                     const FString& What, UObject* Context = nullptr,
+                                     const float Tolerance = 0.0001f);
 
     /** Expects the specified rotators to be (nearly) equal. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
-                                         DisplayName = "Assert Equal (Rotator)"))
+    UFUNCTION(BlueprintCallable,
+              meta = (HidePin = "Context", DefaultToSelf = "Context",
+                      DisplayName = "Assert Equal (Rotator)", AdvancedDisplay = "Tolerance"))
     static void AssertEqualRotator(const FRotator& Actual, const FRotator& Expected,
-                                   const FString& What, UObject* Context = nullptr);
+                                   const FString& What, UObject* Context = nullptr,
+                                   const float Tolerance = 0.0001f);
 
     /** Expects the specified rotators not to be equal. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
-                                         DisplayName = "Assert Not Equal (Rotator)"))
+    UFUNCTION(BlueprintCallable,
+              meta = (HidePin = "Context", DefaultToSelf = "Context",
+                      DisplayName = "Assert Not Equal (Rotator)", AdvancedDisplay = "Tolerance"))
     static void AssertNotEqualRotator(const FRotator& Actual, const FRotator& Unexpected,
-                                      const FString& What, UObject* Context = nullptr);
+                                      const FString& What, UObject* Context = nullptr,
+                                      const float Tolerance = 0.0001f);
 
     /** Expects the specified transforms to be (nearly) equal. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
-                                         DisplayName = "Assert Equal (Transform)"))
+    UFUNCTION(BlueprintCallable,
+              meta = (HidePin = "Context", DefaultToSelf = "Context",
+                      DisplayName = "Assert Equal (Transform)", AdvancedDisplay = "Tolerance"))
     static void AssertEqualTransform(const FTransform& Actual, const FTransform& Expected,
-                                     const FString& What, UObject* Context = nullptr);
+                                     const FString& What, UObject* Context = nullptr,
+                                     const float Tolerance = 0.0001f);
 
     /** Expects the specified transforms not to be equal. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",
-                                         DisplayName = "Assert Not Equal (Transform)"))
+    UFUNCTION(BlueprintCallable,
+              meta = (HidePin = "Context", DefaultToSelf = "Context",
+                      DisplayName = "Assert Not Equal (Transform)", AdvancedDisplay = "Tolerance"))
     static void AssertNotEqualTransform(const FTransform& Actual, const FTransform& Unexpected,
-                                        const FString& What, UObject* Context = nullptr);
+                                        const FString& What, UObject* Context = nullptr,
+                                        const float Tolerance = 0.0001f);
 
     /** Expects Value to be between MinInclusive and MaxInclusive. */
     UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context",

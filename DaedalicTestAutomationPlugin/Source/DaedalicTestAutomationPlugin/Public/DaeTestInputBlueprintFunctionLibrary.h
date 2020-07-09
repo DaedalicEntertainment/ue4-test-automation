@@ -1,6 +1,7 @@
 #pragma once
 
 #include <CoreMinimal.h>
+#include <Engine/EngineBaseTypes.h>
 #include <Kismet/BlueprintFunctionLibrary.h>
 #include "DaeTestInputBlueprintFunctionLibrary.generated.h"
 

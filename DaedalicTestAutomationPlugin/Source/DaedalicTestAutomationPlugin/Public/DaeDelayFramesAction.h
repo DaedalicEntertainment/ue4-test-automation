@@ -2,6 +2,7 @@
 
 #include <CoreMinimal.h>
 #include <LatentActions.h>
+#include <Engine/LatentActionManager.h>
 
 /** Triggers the output link after the specified number of frames. */
 class DAEDALICTESTAUTOMATIONPLUGIN_API FDaeDelayFramesAction : public FPendingLatentAction

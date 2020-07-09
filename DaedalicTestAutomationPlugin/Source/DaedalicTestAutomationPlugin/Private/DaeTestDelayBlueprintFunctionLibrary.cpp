@@ -1,6 +1,7 @@
 #include "DaeTestDelayBlueprintFunctionLibrary.h"
 #include "DaeDelayFramesAction.h"
 #include "DaeDelayUntilTriggeredAction.h"
+#include <Engine/Engine.h>
 #include <Engine/LatentActionManager.h>
 #include <Engine/World.h>
 

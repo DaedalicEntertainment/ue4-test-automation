@@ -7,13 +7,10 @@
 class FDaeTestAutomationPluginAutomationTestFrameworkIntegration
 {
 public:
-    /** Sets the path to look for test maps in, re-discovering tests afterwards. */
-    void SetTestMapPath(const FString& InTestMapPath);
+    /** Discovers all maps containing automated tests. */
+    void DiscoverTests();
 
 private:
-    /** Path to look for test maps in. */
-    FString TestMapPath;
-
     /** Currently registered automation tests. */
     TArray<TSharedPtr<FDaeTestAutomationPluginAutomationTestFrameworkTest>> Tests;
 };

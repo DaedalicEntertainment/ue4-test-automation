@@ -1,9 +1,10 @@
 #include "DaeGauntletTestController.h"
 #include "Kismet/GameplayStatics.h"
 #include "DaeGauntletStates.h"
-#include "DaeJUnitReportWriter.h"
 #include "DaeTestAutomationPluginSettings.h"
 #include "DaeTestLogCategory.h"
+#include "DaeTestReportWriter.h"
+#include "DaeTestReportWriterSet.h"
 #include "DaeTestSuiteActor.h"
 #include <AssetRegistryModule.h>
 #include <EngineUtils.h>
@@ -18,8 +19,10 @@ void UDaeGauntletTestController::OnInit()
     const UDaeTestAutomationPluginSettings* TestAutomationPluginSettings =
         GetDefault<UDaeTestAutomationPluginSettings>();
 
-    UE_LOG(LogDaeTest, Display, TEXT("Discovering tests from: %s"),
-           *TestAutomationPluginSettings->TestMapPath);
+    for (const FString& TestMapFolder : TestAutomationPluginSettings->TestMapFolders)
+    {
+        UE_LOG(LogDaeTest, Display, TEXT("Discovering tests from: %s"), *TestMapFolder);
+    }
 
     // Build list of tests (based on FAutomationEditorCommonUtils::CollectTestsByClass).
     FAssetRegistryModule& AssetRegistryModule =
@@ -29,21 +32,34 @@ void UDaeGauntletTestController::OnInit()
     AssetRegistryModule.Get().SearchAllAssets(true);
     AssetRegistryModule.Get().GetAssetsByClass(UWorld::StaticClass()->GetFName(), AssetDataArray);
 
-    const FString PatternToCheck =
-        FString::Printf(TEXT("/%s/"), *TestAutomationPluginSettings->TestMapPath);
-
     for (auto ObjIter = AssetDataArray.CreateConstIterator(); ObjIter; ++ObjIter)
     {
         const FAssetData& AssetData = *ObjIter;
 
-        FString Filename = FPackageName::LongPackageNameToFilename(AssetData.ObjectPath.ToString());
+        FString FileName = FPackageName::LongPackageNameToFilename(AssetData.ObjectPath.ToString());
+        FName MapName = AssetData.AssetName;
 
-        if (Filename.Contains(*PatternToCheck))
+        bool bIsTestMap = TestAutomationPluginSettings->IsTestMap(FileName, MapName);
+
+        if (bIsTestMap)
         {
-            FName MapName = AssetData.AssetName;
             MapNames.Add(MapName);
 
             UE_LOG(LogDaeTest, Display, TEXT("Discovered test: %s"), *MapName.ToString());
+        }
+    }
+
+    // Set console variables.
+    for (auto& ConsoleVariable : TestAutomationPluginSettings->ConsoleVariables)
+    {
+        IConsoleVariable* CVar = IConsoleManager::Get().FindConsoleVariable(*ConsoleVariable.Key);
+
+        if (CVar)
+        {
+            CVar->Set(*ConsoleVariable.Value);
+
+            UE_LOG(LogDaeTest, Log, TEXT("Setting console variable %s = %s"), *ConsoleVariable.Key,
+                   *ConsoleVariable.Value);
         }
     }
 
@@ -150,20 +166,6 @@ void UDaeGauntletTestController::LoadNextTestMap()
         UE_LOG(LogDaeTest, Display,
                TEXT("UDaeGauntletTestController::LoadNextTestMap - All tests finished."));
 
-        // Write final test report.
-        FDaeJUnitReportWriter JUnitReportWriter;
-        FString TestReport =
-            JUnitReportWriter.CreateReport(TEXT("DaeGauntletTestController"), Results);
-        UE_LOG(LogDaeTest, Log, TEXT("Test report:\r\n%s"), *TestReport);
-
-        FString JUnitReportPath = ParseCommandLineOption(TEXT("JUnitReportPath"));
-
-        if (!JUnitReportPath.IsEmpty())
-        {
-            UE_LOG(LogDaeTest, Display, TEXT("Writing test report to: %s"), *JUnitReportPath);
-            FFileHelper::SaveStringToFile(TestReport, *JUnitReportPath);
-        }
-
         // Finish Gauntlet.
         GetGauntlet()->BroadcastStateChange(FDaeGauntletStates::Finished);
 
@@ -182,7 +184,20 @@ void UDaeGauntletTestController::LoadNextTestMap()
 
 void UDaeGauntletTestController::OnTestSuiteFinished(ADaeTestSuiteActor* TestSuite)
 {
+    // Store result.
     Results.Add(TestSuite->GetResult());
+
+    // Update test reports on disk.
+    FString ReportPath = ParseCommandLineOption(TEXT("ReportPath"));
+
+    FDaeTestReportWriterSet ReportWriters = TestSuite->GetReportWriters();
+
+    for (TSharedPtr<FDaeTestReportWriter> ReportWriter : ReportWriters.GetReportWriters())
+    {
+        ReportWriter->WriteReport(Results, ReportPath);
+    }
+
+    // Proceed with next test.
     LoadNextTestMap();
 }
 

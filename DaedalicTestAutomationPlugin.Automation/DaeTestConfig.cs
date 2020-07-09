@@ -12,6 +12,12 @@ namespace DaedalicTestAutomationPlugin.Automation
         public string JUnitReportPath;
 
         /// <summary>
+        /// Where to write test reports to.
+        /// </summary>
+        [AutoParam]
+        public string ReportPath;
+
+        /// <summary>
         /// Which single test to run, instead of all available tests.
         /// </summary>
         [AutoParam]
@@ -24,6 +30,11 @@ namespace DaedalicTestAutomationPlugin.Automation
             if (!string.IsNullOrEmpty(JUnitReportPath))
             {
                 AppConfig.CommandLine += string.Format(" JUnitReportPath=\"{0}\"", JUnitReportPath);
+            }
+
+            if (!string.IsNullOrEmpty(ReportPath))
+            {
+                AppConfig.CommandLine += string.Format(" ReportPath=\"{0}\"", ReportPath);
             }
 
             if (!string.IsNullOrEmpty(TestName))

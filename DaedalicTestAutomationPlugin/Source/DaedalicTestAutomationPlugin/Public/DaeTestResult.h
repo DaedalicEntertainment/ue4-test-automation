@@ -1,5 +1,8 @@
 #pragma once
 
+#include <CoreMinimal.h>
+#include <DaeTestResultData.h>
+
 /** Result set of a single test. */
 class DAEDALICTESTAUTOMATIONPLUGIN_API FDaeTestResult
 {
@@ -15,6 +18,9 @@ public:
 
     /** Time the test ran, in seconds. */
     float TimeSeconds;
+
+    /** Additional result data of the test. */
+    TSharedPtr<FDaeTestResultData> Data;
 
     FDaeTestResult();
     FDaeTestResult(FString InTestName, float InTimeSeconds);

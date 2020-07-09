@@ -29,10 +29,16 @@ After using the plugin for automating tests of _The Lord of the Rings™: Gollum
     1. [Parameterized Tests](#parameterized-tests)
     1. [Skipping Tests](#skipping-tests)
     1. [Assumptions](#assumptions)
+    1. [Performance Tests](#performance-tests)
 1. [Running Tests](#running-tests)
     1. [Play In Editor](#play-in-editor)
     1. [Automation Window](#automation-window)
     1. [Gauntlet](#gauntlet)
+1. [Configuring Tests](#configuring-tests)
+    1. [Console Variables](#console-variables)
+1. [Reporting Results](#reporting-results)
+    1. [JUnit Test Reports](#junit-test-reports)
+    1. [Custom Test Reports](#custom-test-reports)
 1. [Best Practices](#best-practices)
 1. [Bugs, Questions & Feature Requests](#bugs-questions--feature-requests)
 1. [Development Cycle](#development-cycle)
@@ -56,7 +62,7 @@ If you want to use [Gauntlet](#gauntlet) for running your tests, you'll need a s
 
 ### Adding The Plugin
 
-1. Clone the repository.
+1. [Clone](https://github.com/DaedalicEntertainment/ue4-test-automation) the repository or [download](https://github.com/DaedalicEntertainment/ue4-test-automation/releases) a release.
 1. Close the Unreal Editor.
 1. Copy the `DaedalicTestAutomationPlugin` folder to the `Plugins` folder next to your `.uproject` file.
 1. Copy the `DaedalicTestAutomationPlugin.Automation` folder to the `Build/Scripts` folder next to your ```.uproject``` file.
@@ -71,7 +77,7 @@ If you want to use [Gauntlet](#gauntlet) for running your tests, you'll need a s
 
 Daedalic Test Automation Plugin is fully exposed to blueprints in order to allow everyone to easily create tests. Each level represents a _test suite_, which in turn can consist of multiple _tests_.
 
-You'll be using Gauntlet to run one or more test suits, or the Unreal Editor to run a single test suite.
+You'll be using Gauntlet to run one or more test suites, or the Unreal Editor to run a single test suite.
 
 ![Creating Tests](Documentation/CreatingTests.png)
 
@@ -226,6 +232,24 @@ LogDaeTest: Display: ADaeTestSuiteActor::OnTestSkipped - Test: BP_TestAssume_2, 
 LogDaeTest: Display: ADaeTestSuiteActor::RunNextTest - All tests finished.
 ```
 
+### Performance Tests
+
+Daedalic Test Automation Plugin provides built-in performance testing. You can add an instance of an `ADaeTestPerformanceBudgetActor` to any of your test suites (even without the need to create a blueprint for that test). For that actor, you'll need to specify at least two parameters:
+
+First, place a few _target points_ in your level, and add them to the _Flight Path_ of your performance budget actor. Second, specify the _Pawn Class_ to follow that flight path (e.g. a default pawn with camera and without collision).
+
+![Performance Test](Documentation/PerformanceTest.png)
+
+When running your test, your pawn will be spawned and possessed. After an initial delay, that pawn will follow your specified flight path, keeping track of your game performance. Whenever any of your performance budgets is violated, it will write a screenshot and store data about the violation, including the location where the violation occurred and the actual performance at that location. Then, it will ignore any further violations for a few seconds to avoid excessive result sets.
+
+From plugin perspective, the performance test will behave like any other test: It will finish as soon as your pawn reaches the last point in your flight path. Then, it will assert that no budget violations have occurred.
+
+When running through Gauntlet, it will also use a [custom report writer](#custom-test-reports) to write a performance report to disk:
+
+![Performance Report](Documentation/PerformanceReport.png)
+
+The performance report is based on HTML, and can be published by your CI/CD pipeline as well (e.g. using [HTML Publisher for Jenkins](https://plugins.jenkins.io/htmlpublisher/)).
+
 
 ## Running Tests
 
@@ -235,11 +259,13 @@ You can run each test suite by just entering _Play In Editor_, if "Run in PIE" i
 
 ### Automation Window
 
-In order to run multiple tests, you can use the _Automation window_ of the session frontend of the Unreal Editor (Window > Test Automation). There, your tests will be shown under the category DaedalicTestAutomationPlugin. 
+In order for the plugin to pick up your tests, specify your test map folders in Edit > Project Settings > Plugins > Daedalic Test Automation Plugin.
+
+![Test Map Folders Settings](Documentation/SettingsTestMaps.png)
+
+Then, you can use the _Automation window_ of the session frontend of the Unreal Editor (Window > Test Automation) to run multiple tests. Your tests will be shown under the category DaedalicTestAutomationPlugin:
 
 ![Automation Window](Documentation/AutomationWindow.png)
-
-By default, the plugin will look in your `Maps/AutomatedTests` content folder for tests, but you can change that from Edit > Project Settings > Plugins > Daedalic Test Automation Plugin.
 
 ### Gauntlet
 
@@ -287,7 +313,8 @@ Because documentation on Gauntlet is still sparse, you occasionally might want t
 
 You can also specify additional parameters along with the `test` parameter for the test run:
 
-* `JUnitReportPath`: Generates a JUnit XML report to publish with your CI/CD pipeline.
+* `JUnitReportPath`: Generates a [JUnit XML report](#junit-test-reports) to publish with your CI/CD pipeline.
+* `ReportPath`: Folder to write custom reports to.
 * `TestName`: Runs the specified test, only, instead of all tests.
 
 Example:
@@ -300,12 +327,106 @@ RunUnreal
 -platform=Win64
 -configuration=Development
 -build=editor
--test="DaedalicTestAutomationPlugin.Automation.DaeGauntletTest(JUnitReportPath=C:\Projects\UnrealGame\Saved\junit-report.xml)"
+-test="DaedalicTestAutomationPlugin.Automation.DaeGauntletTest(JUnitReportPath=C:\Projects\UnrealGame\Saved\Reports\junit-report.xml,ReportPath=C:\Projects\UnrealGame\Saved\Reports)"
 ```
 
-When generating JUnit reports, the plugin uses a standardized format (based on `org.junit.platform.reporting.legacy.xml.XmlReportWriter.writeTestsuite`), allowing you to publish the report just as you would when using JUnit. Here's an example of how the results look like when published with Jenkins:
+
+## Configuring Tests
+
+### Console Variables
+
+Sometimes, you'll want to use a special configuration for running your tests. For instance, for Gollum, we needed to disable playing the intro sequences of levels to test the performance of.
+
+In Edit > Project Settings > Plugins > Daedalic Test Automation Plugin, you can specify console variables to be set before running batches of tests (e.g. through the automation window or Gauntlet). When using the automation window, the original values of these console variables will be stored before and restored after each test has run. For Gauntlet, this isn't necessary, as console variables have session scope.
+
+![Console Variables Settings](Documentation/SettingsConsoleVariables.png)
+
+Note that these console variables won't be applied when running tests directly in PIE.
+
+
+## Reporting Results
+
+### JUnit Test Reports
+
+When running tests through Gauntlet, Daedalic Test Automation Plugin can generate test reports to publish with your CI/CD pipeline.
+
+When generating _JUnit reports_ (by specifying the `JUnitReportPath` for [Gauntlet](#gauntlet)), the plugin uses a standardized format based on `org.junit.platform.reporting.legacy.xml.XmlReportWriter.writeTestsuite`, allowing you to publish the report just as you would when using JUnit. Here's an example of how the results look like when published with [Jenkins](https://www.jenkins.io/):
 
 ![Jenkins JUnit Report](Documentation/JUnitReport.png)
+
+Test reports will be (over-)written after each individual test, to ensure to be able to publish at least partial results in case of a crash.
+
+### Custom Test Reports
+
+When building your own tests, you can also have the plugin write _custom reports_. This isn't exposed to blueprints, so you'll have to extend `ADaeTestActor` in C++. 
+
+In addition to implementing `NotifyOnArrange`, `ReceiveOnAct_Implementation` and `NotifyOnAssert` as you like, you'll have to implement two methods for generating your custom reports:
+
+First, `CollectResults` should return a shared pointer to custom test result data you want to publish in your reports. This data will be stored along with the default result data the plugin collects for all tests. Here's an example from our performance test implementation:
+
+```
+TSharedPtr<FDaeTestResultData> ADaeTestPerformanceBudgetActor::CollectResults() const
+{
+    TSharedPtr<FDaeTestPerformanceBudgetResultData> Results =
+        MakeShareable(new FDaeTestPerformanceBudgetResultData());
+
+    Results->BudgetViolations = BudgetViolations;
+
+    return Results;
+}
+```
+
+Your custom result data class needs to extend `FDaeTestResultData` and implement `GetDataType`. As test results are no `UObject`s, the plugin uses this method for allowing you to safely type-cast your result data in your custom report writers:
+
+```
+FName FDaeTestPerformanceBudgetResultData::GetDataType() const
+{
+    return TEXT("FDaeTestPerformanceBudgetResultData");
+}
+```
+
+Second, `GetReportWriters` should return a set of report writers that are supposed to write reports for your test. The plugin will call that method for each individual test and merge the results, avoiding duplicate report writers. In the example of our performance testing, we're allowing the user to specify whether they want to include the test in the default JUnit report as well:
+
+```
+FDaeTestReportWriterSet ADaeTestPerformanceBudgetActor::GetReportWriters() const
+{
+    FDaeTestReportWriterSet ReportWriters;
+
+    if (bIncludeInDefaultTestReport)
+    {
+        FDaeTestReportWriterSet DefaultReportWriters = Super::GetReportWriters();
+        ReportWriters.Add(DefaultReportWriters);
+    }
+
+    ReportWriters.Add(MakeShareable(new FDaeTestReportWriterPerformance()));
+    return ReportWriters;
+}
+```
+
+Your own report writer needs to extend `FDaeTestReportWriter` and implement two methods again: `GetReportType` is used for comparing the types of report writers, as we aren't using `UObjects` here again. `WriteReport` is supposed to actually write your report data to disk. Basically, you're allowed to do anything you want here, but usually, this includes the following steps:
+
+1. Use `IPlatformFile` to ensure that the path to write your reports to exists.
+1. Iterate over all test suites and their respective results to collect your report data.
+1. Use `FFileHelper` to write your results to disk.
+
+Again, here's an example from our performance report writer for collecting report data:
+
+```
+for (const FDaeTestSuiteResult& TestSuiteResult : TestSuites)
+{
+    for (const FDaeTestResult& TestResult : TestSuiteResult.TestResults)
+    {
+        if (TestResult.Data != nullptr
+            && TestResult.Data->GetDataType() == TEXT("FDaeTestPerformanceBudgetResultData"))
+        {
+            TSharedPtr<FDaeTestPerformanceBudgetResultData> Data =
+                StaticCastSharedPtr<FDaeTestPerformanceBudgetResultData>(TestResult.Data);
+
+            // ...
+        }
+    }
+}
+```
 
 
 ## Best Practices

@@ -1,10 +1,9 @@
-#include "DaeTestAutomationPluginAutomationTestFrameworkTest.h"
-#include "DaeTestAutomationPluginAutomationTestFrameworkCommands.h"
-#include "DaeTestAutomationPluginAutomationTestFrameworkTestContext.h"
+#include "AutomationTestFramework/DaeTestAutomationPluginAutomationTestFrameworkTest.h"
+#include "AutomationTestFramework/DaeTestAutomationPluginAutomationTestFrameworkCommands.h"
 #include "DaeTestEditorLogCategory.h"
-#include <AutomationCommon.h>
-#include <AutomationEditorCommon.h>
 #include <Misc/Paths.h>
+#include <Tests/AutomationCommon.h>
+#include <Tests/AutomationEditorCommon.h>
 
 FDaeTestAutomationPluginAutomationTestFrameworkTest::
     FDaeTestAutomationPluginAutomationTestFrameworkTest(const FString& InMapName)
@@ -50,12 +49,12 @@ bool FDaeTestAutomationPluginAutomationTestFrameworkTest::RunTest(const FString&
 {
     UE_LOG(LogDaeTestEditor, Log, TEXT("Running test for map: %s"), *MapName);
 
-    FDaeTestAutomationPluginAutomationTestFrameworkTestContext Context;
-
+    ADD_LATENT_AUTOMATION_COMMAND(FDaeTestAutomationPluginApplyConsoleVariables(Context));
     ADD_LATENT_AUTOMATION_COMMAND(FEditorLoadMap(MapName));
     ADD_LATENT_AUTOMATION_COMMAND(FStartPIECommand(false));
     ADD_LATENT_AUTOMATION_COMMAND(FDaeTestAutomationPluginWaitForEndOfTestSuite(Context));
     ADD_LATENT_AUTOMATION_COMMAND(FEndPlayMapCommand());
+    ADD_LATENT_AUTOMATION_COMMAND(FDaeTestAutomationPluginRevertConsoleVariables(Context));
 
     return true;
 }
