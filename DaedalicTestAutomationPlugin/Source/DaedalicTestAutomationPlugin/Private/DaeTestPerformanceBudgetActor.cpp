@@ -14,6 +14,7 @@
 #include <GameFramework/GameModeBase.h>
 #include <GameFramework/PlayerController.h>
 #include <Kismet/GameplayStatics.h>
+#include <Kismet/KismetMathLibrary.h>
 
 #if WITH_ENGINE
 // Imported from UnrealClient.cpp.
@@ -173,14 +174,35 @@ void ADaeTestPerformanceBudgetActor::Tick(float DeltaSeconds)
 
             Pawn->AddMovementInput(Direction, Scale);
 
-            // Smoothly rotate in movement direction.
-            FRotator CurrentRotation = Pawn->GetActorRotation();
-            FRotator TargetRotation = Direction.ToOrientationRotator();
+            if(bUseTargetRotation && CurrentTargetPointIndex > 0)
+            {
+                // Rotate between point a and b rotation angles based on the percentage of path traversed
+                const ATargetPoint* PointA = FlightPath[CurrentTargetPointIndex - 1];
+                const ATargetPoint* PointB = FlightPath[CurrentTargetPointIndex];
 
-            FRotator NewRotation =
-                FMath::RInterpTo(CurrentRotation, TargetRotation, DeltaSeconds, 1.0f);
+                // Subtract AcceptanceRadius from all size calculations to make rotation a little smoother at the end points
+                const float CurrentPathLength = (PointB->GetActorLocation() - PointA->GetActorLocation()).Size() - AcceptanceRadius;
+                const float PathCompletionAlpha = FMath::Clamp(1.f - ((Distance - AcceptanceRadius) / CurrentPathLength), 0.f, 1.f);
 
-            Pawn->SetActorRotation(NewRotation);
+                const FRotator NewRotation = UKismetMathLibrary::RLerp(
+                    PointA->GetActorRotation(),
+                    PointB->GetActorRotation(),
+                    PathCompletionAlpha,
+                    true);
+
+                Pawn->SetActorRotation(NewRotation);
+            }
+            else if(!bUseTargetRotation)
+            {
+                // Smoothly rotate in movement direction.
+                FRotator CurrentRotation = Pawn->GetActorRotation();
+                FRotator TargetRotation = Direction.ToOrientationRotator();
+
+                FRotator NewRotation =
+                    FMath::RInterpTo(CurrentRotation, TargetRotation, DeltaSeconds, 1.0f);
+
+                Pawn->SetActorRotation(NewRotation);
+            }
         }
 
         // Check performance.

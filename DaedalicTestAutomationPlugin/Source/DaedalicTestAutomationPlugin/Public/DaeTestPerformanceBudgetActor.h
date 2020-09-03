@@ -39,6 +39,11 @@ private:
     UPROPERTY(EditAnywhere)
     TSubclassOf<APawn> PawnClass;
 
+    /** Interpolates pawn rotation between current/next target point rotation when true
+        otherwise pawn faces the direction of movement */
+    UPROPERTY(EditAnywhere)
+    bool bUseTargetRotation;
+
     /** How long to wait before starting to fly, in seconds. */
     UPROPERTY(EditAnywhere)
     float InitialDelay;
