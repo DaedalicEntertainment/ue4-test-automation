@@ -78,7 +78,7 @@ void ADaeTestPerformanceBudgetActor::NotifyOnArrange(UObject* Parameter)
     FTransform SpawnTransform = FTransform(SpawnRotation, SpawnLocation);
 
     FActorSpawnParameters SpawnInfo;
-    SpawnInfo.Instigator = Instigator;
+    SpawnInfo.Instigator = GetInstigator();
     SpawnInfo.ObjectFlags |= RF_Transient; // We never want to save default player pawns into a map
 
     APawn* Pawn = GetWorld()->SpawnActor<APawn>(PawnClass, SpawnTransform, SpawnInfo);
@@ -190,7 +190,7 @@ void ADaeTestPerformanceBudgetActor::Tick(float DeltaSeconds)
 
             float GameThreadTime = StatUnitData->GameThreadTime;
             float RenderThreadTime = StatUnitData->RenderThreadTime;
-            float GPUTime = StatUnitData->GPUFrameTime;
+            float GPUTime = StatUnitData->GPUFrameTime[0];
 
             bool bGameThreadTimeOK =
                 ValidatePerformanceCounter(GameThreadTime, GameThreadBudget, TEXT("Game"));
