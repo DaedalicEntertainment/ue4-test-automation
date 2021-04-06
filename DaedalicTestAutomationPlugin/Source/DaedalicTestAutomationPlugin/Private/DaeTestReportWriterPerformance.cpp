@@ -1,9 +1,11 @@
 #include "DaeTestReportWriterPerformance.h"
+#include "DaeTestLogCategory.h"
 #include "DaeTestPerformanceBudgetResultData.h"
 #include "DaeTestPerformanceBudgetViolation.h"
 #include <HAL/PlatformFilemanager.h>
 #include <Interfaces/IPluginManager.h>
 #include <Kismet/KismetTextLibrary.h>
+
 
 FName FDaeTestReportWriterPerformance::GetReportType() const
 {
