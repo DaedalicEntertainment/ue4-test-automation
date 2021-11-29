@@ -14,6 +14,9 @@ public:
     virtual void WriteReport(const TArray<FDaeTestSuiteResult>& TestSuites,
                              const FString& ReportPath) const = 0;
 
+    /** virtual destructor, required for Linux/Android builds */
+    virtual ~FDaeTestReportWriter() {}
+
 protected:
     /** Gets the total number of tests among the passed test suites. */
     int32 NumTotalTests(const TArray<FDaeTestSuiteResult>& TestSuites) const;
