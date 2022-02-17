@@ -75,3 +75,4 @@ DerivedDataCache/*
 DaedalicTestAutomationPlugin.Automation/obj/
 DaedalicTestAutomationPlugin/Binaries/
 DaedalicTestAutomationPlugin/Intermediate/
+DaedalicTestAutomationPlugin.Automation/DaedalicTestAutomationPlugin.Automation.csproj.props
