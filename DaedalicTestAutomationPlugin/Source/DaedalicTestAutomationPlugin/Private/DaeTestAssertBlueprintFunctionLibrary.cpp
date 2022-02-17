@@ -17,16 +17,16 @@ const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatNotEqual
     TEXT("Assertion failed - {0} - Was {1}, but should not be.");
 
 const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatLessThan =
-    TEXT("Assertion failed - {0} - Expected: {1} < {2}, but was not.");
+    TEXT("Assertion failed - {0} - Expected: {1} less then {2}, but was not.");
 
 const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatLessThanOrEqualTo =
-    TEXT("Assertion failed - {0} - Expected: {1} <= {2}, but was not.");
+    TEXT("Assertion failed - {0} - Expected: {1} less or equal to {2}, but was not.");
 
 const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatGreaterThan =
-    TEXT("Assertion failed - {0} - Expected: {1} > {2}, but was not.");
+    TEXT("Assertion failed - {0} - Expected: {1} greater then {2}, but was not.");
 
 const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatGreaterThanOrEqualTo =
-    TEXT("Assertion failed - {0} - Expected: {1} >= {2}, but was not.");
+    TEXT("Assertion failed - {0} - Expected: {1} greater or equal to = {2}, but was not.");
 
 const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatInRange =
     TEXT("Assertion failed - {0} - Expected: between {1} and {2}, but was: {3}");

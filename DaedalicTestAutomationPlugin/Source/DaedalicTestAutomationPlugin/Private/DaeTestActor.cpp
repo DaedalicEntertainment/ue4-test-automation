@@ -71,9 +71,11 @@ void ADaeTestActor::FinishAct()
         return;
     }
 
+    auto* ActiveParam = CurrentParameter;
+
     NotifyOnAssert(CurrentParameter);
 
-    if (!bHasResult)
+    if (!bHasResult && (ActiveParam == CurrentParameter))
     {
         NotifyOnTestSuccessful();
     }

@@ -14,6 +14,7 @@ namespace DaedalicTestAutomationPlugin.Automation
 
             // Start a single instance of the game.
             UnrealTestRole ClientRole = Config.RequireRole(UnrealTargetRole.Client);
+            Config.MaxDuration = 1800;
             ClientRole.Controllers.Add("DaeGauntletTestController");
 
             // Ignore user account management.

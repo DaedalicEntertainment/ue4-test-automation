@@ -17,6 +17,9 @@ public:
     UFUNCTION(BlueprintPure)
     bool WasTriggered() const;
 
+    UFUNCTION(BlueprintCallable)
+    void ResetTriggerState();
+
 private:
     /** Whether this trigger box has been triggered at least once. */
     bool bWasTriggered;
