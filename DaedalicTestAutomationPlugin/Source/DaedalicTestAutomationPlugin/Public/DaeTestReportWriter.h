@@ -7,15 +7,14 @@
 class DAEDALICTESTAUTOMATIONPLUGIN_API FDaeTestReportWriter
 {
 public:
+    /** Virtual destructor, required for Linux/Android builds. */
+    virtual ~FDaeTestReportWriter() = default;
     /** Gets the type of the reports created by this writer. Only one writer per type will be executed. */
     virtual FName GetReportType() const = 0;
 
     /** Write the test report for the specified results. */
     virtual void WriteReport(const TArray<FDaeTestSuiteResult>& TestSuites,
                              const FString& ReportPath) const = 0;
-
-    /** virtual destructor, required for Linux/Android builds */
-    virtual ~FDaeTestReportWriter() {}
 
 protected:
     /** Gets the total number of tests among the passed test suites. */

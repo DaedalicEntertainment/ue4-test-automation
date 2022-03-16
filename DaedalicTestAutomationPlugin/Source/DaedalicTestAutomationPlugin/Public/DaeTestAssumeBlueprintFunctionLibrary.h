@@ -5,7 +5,7 @@
 #include "DaeTestAssumeBlueprintFunctionLibrary.generated.h"
 
 /** Utility functions for assuming state before acting in automated tests. */
-UCLASS()
+UCLASS(meta = (RestrictedToClasses = "DaeTestActor"))
 class DAEDALICTESTAUTOMATIONPLUGIN_API UDaeTestAssumeBlueprintFunctionLibrary
     : public UBlueprintFunctionLibrary
 {
@@ -13,11 +13,13 @@ class DAEDALICTESTAUTOMATIONPLUGIN_API UDaeTestAssumeBlueprintFunctionLibrary
 
 public:
     /** Expects the specified value to be true. Failed assumptions will cause automated tests to be skipped instead of failed. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context"))
+    UFUNCTION(BlueprintCallable, Category = "TestAutomation|Assume",
+              meta = (HidePin = "Context", DefaultToSelf = "Context"))
     static void AssumeTrue(bool bValue, const FString& What, UObject* Context = nullptr);
 
     /** Expects the specified value to be true. Failed assumptions will cause automated tests to be skipped instead of failed. */
-    UFUNCTION(BlueprintCallable, meta = (HidePin = "Context", DefaultToSelf = "Context"))
+    UFUNCTION(BlueprintCallable, Category = "TestAutomation|Assume",
+              meta = (HidePin = "Context", DefaultToSelf = "Context"))
     static void AssumeFalse(bool bValue, const FString& What, UObject* Context = nullptr);
 
 private:
