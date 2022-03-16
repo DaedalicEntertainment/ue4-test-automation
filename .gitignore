@@ -75,3 +75,8 @@ DerivedDataCache/*
 DaedalicTestAutomationPlugin.Automation/obj/
 DaedalicTestAutomationPlugin/Binaries/
 DaedalicTestAutomationPlugin/Intermediate/
+TestEnvironment/Binaries/
+TestEnvironment/Intermediate/
+TestEnvironment/Plugins/DaedalicTestAutomationPlugin/Binaries/
+TestEnvironment/Plugins/DaedalicTestAutomationPlugin/Intermediate/
+TestEnvironment/Saved/
