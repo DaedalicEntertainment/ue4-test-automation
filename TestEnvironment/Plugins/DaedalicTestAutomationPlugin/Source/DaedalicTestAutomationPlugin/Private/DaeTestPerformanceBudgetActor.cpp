@@ -78,7 +78,7 @@ void ADaeTestPerformanceBudgetActor::NotifyOnArrange(UObject* Parameter)
     FTransform SpawnTransform = FTransform(SpawnRotation, SpawnLocation);
 
     FActorSpawnParameters SpawnInfo;
-    SpawnInfo.Instigator = Instigator;
+    SpawnInfo.Instigator = GetInstigator();
     SpawnInfo.ObjectFlags |= RF_Transient; // We never want to save default player pawns into a map
 
     APawn* Pawn = GetWorld()->SpawnActor<APawn>(PawnClass, SpawnTransform, SpawnInfo);
@@ -188,15 +188,21 @@ void ADaeTestPerformanceBudgetActor::Tick(float DeltaSeconds)
         {
             const FStatUnitData* StatUnitData = World->GetGameViewport()->GetStatUnitData();
 
-            float GameThreadTime = StatUnitData->GameThreadTime;
-            float RenderThreadTime = StatUnitData->RenderThreadTime;
-            float GPUTime = StatUnitData->GPUFrameTime;
+            const float GameThreadTime = StatUnitData->GameThreadTime;
+            const float RenderThreadTime = StatUnitData->RenderThreadTime;
 
-            bool bGameThreadTimeOK =
+#if (ENGINE_MINOR_VERSION >= 26)
+            const float GPUTime = StatUnitData->GPUFrameTime[0];
+#else
+            const float GPUTime = StatUnitData->GPUFrameTime;
+#endif
+
+            const bool bGameThreadTimeOK =
                 ValidatePerformanceCounter(GameThreadTime, GameThreadBudget, TEXT("Game"));
-            bool bRenderThreadTimeOK =
+            const bool bRenderThreadTimeOK =
                 ValidatePerformanceCounter(RenderThreadTime, RenderThreadBudget, TEXT("Draw"));
-            bool bGPUThreadTimeOK = ValidatePerformanceCounter(GPUTime, GPUBudget, TEXT("GPU"));
+            const bool bGPUThreadTimeOK =
+                ValidatePerformanceCounter(GPUTime, GPUBudget, TEXT("GPU"));
 
             if (!bGameThreadTimeOK || !bRenderThreadTimeOK || !bGPUThreadTimeOK)
             {
