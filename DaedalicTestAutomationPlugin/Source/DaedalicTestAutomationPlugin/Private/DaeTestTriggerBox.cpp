@@ -15,6 +15,11 @@ bool ADaeTestTriggerBox::WasTriggered() const
     return bWasTriggered;
 }
 
+void ADaeTestTriggerBox::ResetTriggerState()
+{
+    bWasTriggered = false;
+}
+
 void ADaeTestTriggerBox::OnActorBeginOverlapBroadcast(AActor* OverlappedActor, AActor* OtherActor)
 {
     bWasTriggered = true;

@@ -8,7 +8,7 @@
 class ADaeTestTriggerBox;
 
 /** Utility functions for sequencing actions in automated tests. */
-UCLASS()
+UCLASS(meta = (RestrictedToClasses = "DaeTestActor"))
 class DAEDALICTESTAUTOMATIONPLUGIN_API UDaeTestDelayBlueprintFunctionLibrary
     : public UBlueprintFunctionLibrary
 {
@@ -16,13 +16,13 @@ class DAEDALICTESTAUTOMATIONPLUGIN_API UDaeTestDelayBlueprintFunctionLibrary
 
 public:
     /** Triggers the output link after the specified number of frames. */
-    UFUNCTION(BlueprintCallable,
+    UFUNCTION(BlueprintCallable, Category = "TestAutomation|Delay",
               meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void DelayFrames(UObject* WorldContextObject, struct FLatentActionInfo LatentInfo,
                             int32 NumFrames = 1);
 
     /** Triggers the output link after the specified trigger box has been triggered. */
-    UFUNCTION(BlueprintCallable,
+    UFUNCTION(BlueprintCallable, Category = "TestAutomation|Delay",
               meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void DelayUntilTriggered(UObject* WorldContextObject,
                                     struct FLatentActionInfo LatentInfo,

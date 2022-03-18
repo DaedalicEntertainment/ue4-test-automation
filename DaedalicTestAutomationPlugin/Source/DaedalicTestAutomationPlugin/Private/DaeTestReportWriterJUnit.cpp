@@ -1,4 +1,5 @@
 #include "DaeTestReportWriterJUnit.h"
+#include "DaeTestLogCategory.h"
 
 FName FDaeTestReportWriterJUnit::GetReportType() const
 {

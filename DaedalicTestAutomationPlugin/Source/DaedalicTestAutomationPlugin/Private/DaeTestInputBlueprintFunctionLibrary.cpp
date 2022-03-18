@@ -32,6 +32,11 @@ void UDaeTestInputBlueprintFunctionLibrary::ApplyInputAxis(UObject* Context, con
 {
     APlayerController* PlayerController = UGameplayStatics::GetPlayerController(Context, 0);
 
+    if (!IsValid(PlayerController))
+    {
+        return;
+    }
+
     const UInputSettings* InputSettings = GetDefault<UInputSettings>();
 
     for (const FInputAxisKeyMapping& Mapping : InputSettings->GetAxisMappings())
