@@ -1,6 +1,5 @@
 #include "DaeTestInputBlueprintFunctionLibrary.h"
 #include "DaeTestLogCategory.h"
-#include <InputCoreTypes.h>
 #include <GameFramework/InputSettings.h>
 #include <GameFramework/PlayerController.h>
 #include <GameFramework/PlayerInput.h>
@@ -18,7 +17,8 @@ void UDaeTestInputBlueprintFunctionLibrary::ApplyInputAction(
     {
         if (Mapping.ActionName == ActionName)
         {
-            PlayerController->InputKey(Mapping.Key, InputEventType, 0.0f, false);
+            const FInputKeyParams InputKeyParams(Mapping.Key, InputEventType, 0.0f);
+            PlayerController->InputKey(InputKeyParams);
             return;
         }
     }
@@ -43,7 +43,8 @@ void UDaeTestInputBlueprintFunctionLibrary::ApplyInputAxis(UObject* Context, con
     {
         if (Mapping.AxisName == AxisName)
         {
-            PlayerController->InputAxis(Mapping.Key, AxisValue, 0.0f, 1, false);
+            const FInputKeyParams InputKeyParams(Mapping.Key, AxisValue, 0.0f, 1, false);
+            PlayerController->InputKey(InputKeyParams);
             return;
         }
     }
