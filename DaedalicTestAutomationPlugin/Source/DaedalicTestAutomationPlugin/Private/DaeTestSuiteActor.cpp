@@ -34,7 +34,8 @@ void ADaeTestSuiteActor::Tick(float DeltaSeconds)
     {
         // Check if we should run all tests immediately.
         // Happening in first Tick to make sure all actors have begun play.
-        if (bRunInPIE && GetWorld()->IsPlayInEditor() && TestIndex < 0)
+        // When launching multiple clients in 1 map, world type for non-editor client is IsPlayInPreview()
+        if (bRunInPIE && (GetWorld()->IsPlayInEditor() || GetWorld()->IsPlayInPreview()) && TestIndex < 0)
         {
             RunAllTests();
         }
