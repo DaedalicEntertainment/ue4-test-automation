@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>$(UNREAL_ENGINE_4_PATH)\Engine\Binaries\DotNET\AutomationScripts\</OutputPath>
+    <OutputPath>$(UNREAL_PATH)\Engine\Binaries\DotNET\AutomationScripts\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Development|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>$(UNREAL_ENGINE_4_PATH)\Engine\Binaries\DotNET\AutomationScripts\</OutputPath>
+    <OutputPath>$(UNREAL_PATH)\Engine\Binaries\DotNET\AutomationScripts\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -46,8 +46,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="$(UNREAL_ENGINE_4_PATH)\Engine\Source\Programs\AutomationTool\Gauntlet\Gauntlet.Automation.csproj">
-      <Project>{767B4F85-AB56-4B00-A033-04C7600ACC3D}</Project>
+    <ProjectReference Include="..\..\..\..\..\..\Epic Games\UE_Custom\Engine\Source\Programs\AutomationTool\Gauntlet\Gauntlet.Automation.csproj">
+      <Project>{767b4f85-ab56-4b00-a033-04c7600acc3d}</Project>
       <Name>Gauntlet.Automation</Name>
     </ProjectReference>
   </ItemGroup>

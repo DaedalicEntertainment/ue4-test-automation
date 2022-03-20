@@ -26,7 +26,7 @@ const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatGreaterT
     TEXT("Assertion failed - {0} - Expected: {1} greater then {2}, but was not.");
 
 const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatGreaterThanOrEqualTo =
-    TEXT("Assertion failed - {0} - Expected: {1} greater or equal to {2}, but was not.");
+    TEXT("Assertion failed - {0} - Expected: {1} greater or equal to = {2}, but was not.");
 
 const FString UDaeTestAssertBlueprintFunctionLibrary::ErrorMessageFormatInRange =
     TEXT("Assertion failed - {0} - Expected: between {1} and {2}, but was: {3}");
