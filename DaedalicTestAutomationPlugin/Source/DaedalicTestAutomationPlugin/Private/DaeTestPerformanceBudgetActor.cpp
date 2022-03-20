@@ -213,7 +213,7 @@ void ADaeTestPerformanceBudgetActor::Tick(float DeltaSeconds)
             const float GameThreadTime = StatUnitData->GameThreadTime;
             const float RenderThreadTime = StatUnitData->RenderThreadTime;
 
-#if (ENGINE_MINOR_VERSION >= 26)
+#if (ENGINE_MINOR_VERSION >= 26 || ENGINE_MAJOR_VERSION > 4)
             const float GPUTime = StatUnitData->GPUFrameTime[0];
 #else
             const float GPUTime = StatUnitData->GPUFrameTime;
