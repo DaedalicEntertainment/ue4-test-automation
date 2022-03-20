@@ -3,7 +3,7 @@
   "Version": 1,
   "VersionName": "1.1.0",
   "FriendlyName": "Daedalic Test Automation Plugin",
-  "Description": "Facilitates setting up integration test suits with Gauntlet.",
+  "Description": "Facilitates setting up integration test suites with Gauntlet.",
   "Category": "Daedalic Entertainment",
   "CreatedBy": "Daedalic Entertainment GmbH",
   "CreatedByURL": "https://www.daedalic.com/",
