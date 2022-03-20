@@ -188,21 +188,20 @@ void ADaeTestPerformanceBudgetActor::Tick(float DeltaSeconds)
         {
             const FStatUnitData* StatUnitData = World->GetGameViewport()->GetStatUnitData();
 
-            const float GameThreadTime = StatUnitData->GameThreadTime;
-            const float RenderThreadTime = StatUnitData->RenderThreadTime;
+            float GameThreadTime = StatUnitData->GameThreadTime;
+            float RenderThreadTime = StatUnitData->RenderThreadTime;
 
 #if (ENGINE_MINOR_VERSION >= 26)
-            const float GPUTime = StatUnitData->GPUFrameTime[0];
+            float GPUTime = StatUnitData->GPUFrameTime[0];
 #else
-            const float GPUTime = StatUnitData->GPUFrameTime;
+            float GPUTime = StatUnitData->GPUFrameTime;
 #endif
 
-            const bool bGameThreadTimeOK =
+            bool bGameThreadTimeOK =
                 ValidatePerformanceCounter(GameThreadTime, GameThreadBudget, TEXT("Game"));
-            const bool bRenderThreadTimeOK =
+            bool bRenderThreadTimeOK =
                 ValidatePerformanceCounter(RenderThreadTime, RenderThreadBudget, TEXT("Draw"));
-            const bool bGPUThreadTimeOK =
-                ValidatePerformanceCounter(GPUTime, GPUBudget, TEXT("GPU"));
+            bool bGPUThreadTimeOK = ValidatePerformanceCounter(GPUTime, GPUBudget, TEXT("GPU"));
 
             if (!bGameThreadTimeOK || !bRenderThreadTimeOK || !bGPUThreadTimeOK)
             {
