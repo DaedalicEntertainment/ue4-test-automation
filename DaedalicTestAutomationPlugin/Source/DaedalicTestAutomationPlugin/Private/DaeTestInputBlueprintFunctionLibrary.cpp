@@ -18,6 +18,23 @@ void UDaeTestInputBlueprintFunctionLibrary::ApplyInputAction(
     {
         if (Mapping.ActionName == ActionName)
         {
+            if (Mapping.bCtrl)
+            {
+                PlayerController->InputKey(EKeys::LeftControl, InputEventType, 0.0f, false);
+            }
+            if (Mapping.bAlt)
+            {
+                PlayerController->InputKey(EKeys::LeftAlt, InputEventType, 0.0f, false);
+            }
+            if (Mapping.bShift)
+            {
+                PlayerController->InputKey(EKeys::LeftShift, InputEventType, 0.0f, false);
+            }
+            if (Mapping.bCmd)
+            {
+                PlayerController->InputKey(EKeys::LeftCommand, InputEventType, 0.0f, false);
+            }
+
             PlayerController->InputKey(Mapping.Key, InputEventType, 0.0f, false);
             return;
         }
