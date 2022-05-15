@@ -55,6 +55,10 @@ After using the plugin for automating tests of _The Lord of the Rings™: Gollum
 Daedalic Test Automation Plugin currently supports the following Unreal Engine Versions:
 
 * 4.23
+* 4.24
+* 4.25
+* 4.26
+* 4.27
 
 Note that you currently have to compile the plugin yourself, and thus need a C++ Unreal project.
 

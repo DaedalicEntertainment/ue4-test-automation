@@ -80,3 +80,6 @@ TestEnvironment/Intermediate/
 TestEnvironment/Plugins/DaedalicTestAutomationPlugin/Binaries/
 TestEnvironment/Plugins/DaedalicTestAutomationPlugin/Intermediate/
 TestEnvironment/Saved/
+TestEnvironment/DerivedDataCache/
+TestEnvironment/Build/Scripts/DaedalicTestAutomationPlugin.Automation/obj/
+TestEnvironment/Build/Scripts/DaedalicTestAutomationPlugin.Automation/DaedalicTestAutomationPlugin.Automation.csproj.props
