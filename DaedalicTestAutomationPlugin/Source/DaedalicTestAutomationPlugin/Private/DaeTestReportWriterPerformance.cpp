@@ -2,7 +2,7 @@
 #include "DaeTestPerformanceBudgetResultData.h"
 #include "DaeTestPerformanceBudgetViolation.h"
 #include "DaeTestLogCategory.h"
-#include <HAL/PlatformFilemanager.h>
+#include <HAL/PlatformFileManager.h>
 #include <Interfaces/IPluginManager.h>
 #include <Kismet/KismetTextLibrary.h>
 
